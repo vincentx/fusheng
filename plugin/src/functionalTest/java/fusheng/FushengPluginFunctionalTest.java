@@ -5,13 +5,14 @@ import java.io.IOException;
 import java.io.Writer;
 import java.io.FileWriter;
 import java.nio.file.Files;
+import org.gradle.internal.impldep.org.junit.Ignore;
 import org.gradle.testkit.runner.GradleRunner;
 import org.gradle.testkit.runner.BuildResult;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class FushengPluginFunctionalTest {
-    @Test
+    @Ignore
     public void canRunTask() throws IOException {
         File projectDir = new File("build/functionalTest");
         Files.createDirectories(projectDir.toPath());
