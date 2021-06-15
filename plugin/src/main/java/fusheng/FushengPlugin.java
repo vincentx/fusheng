@@ -12,14 +12,17 @@ public class FushengPlugin implements Plugin<Project> {
     public void apply(Project project) {
         final var server = new FushengServer();
         project.getTasks().register("startLivingDoc", task -> task.doLast(s -> runServer(server)));
-
         project.getTasks().register("stopLivingDoc", task -> task.doLast(s -> server.stopServer()));
+        project.getTasks().register("fusheng", task -> task.dependsOn("startLivingDoc").finalizedBy("stopLivingDoc"));
     }
 
     private void runServer(final FushengServer server) {
         try {
             server.startServer();
-        } catch (IOException e) {
+            while (true){
+                Thread.sleep(1000);
+            }
+        } catch (IOException | InterruptedException e) {
             log.error(MessageFormat.format("error encountered! message: {0}, cause: {1}", e.getMessage(), e.getCause()));
         }
     }
