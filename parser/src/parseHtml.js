@@ -24,6 +24,7 @@ export default (data) => {
     })
   })
 
+  addStyle($)
   console.log($.html())
 }
 
@@ -37,4 +38,26 @@ const enhanceAssertionTag = ($, index, assertion) => {
   $(assertion).text('')
   $(assertion).append(`<span class="assert-expect">${text}</span>`)
   $(assertion).append(`<span class='assert-actual'></span>`)
+}
+
+const addStyle = ($) => {
+  $.root().append(`
+    <style>
+      .success {
+          background-color: #afa;
+      }
+      .success .assert-actual {
+          display: none;
+      }
+      .error {
+          background-color: #ffb0b0;
+          padding: 1px;
+      }
+      .error .assert-expect {
+          text-decoration: line-through;
+          color: #bb5050;
+          margin-right: 5px;
+      }
+    </style>
+  `)
 }
