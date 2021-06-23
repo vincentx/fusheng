@@ -66,7 +66,7 @@ const convertCodeForFunction = ($, func) => {
 }
 
 const convertCodeForAssertion = ($, index, assertion) => {
-  let code = []
+  let code = [`context["${index}"] = {};`]
   const expectType = $(assertion).attr('data-expect')
   if (expectType === 'equal') {
     const expectValue = $(assertion).text()
