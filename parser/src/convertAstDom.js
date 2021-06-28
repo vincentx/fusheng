@@ -1,8 +1,8 @@
 import converter from 'html-parse-stringify'
 
 export default {
-    toJsonDom(html, component) {
-        return converter.parse(html, component)
+    toJsonDom(html) {
+        return converter.parse(html)
     },
 
     toHtml(jsonDom) {
