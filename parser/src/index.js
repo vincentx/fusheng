@@ -1,6 +1,6 @@
 import fs from 'fs'
-import parseHtml from './parseHtml'
-import enhanceHtml from "./enhanceHtml";
+import enhanceHtml from './enhanceHtml'
+import parseHtmlCode from './parseHtmlCode'
 import convertHtml from './convertAstDom'
 
 fs.readFile('public/demo.html', 'utf-8', (err, data) => {
@@ -8,15 +8,15 @@ fs.readFile('public/demo.html', 'utf-8', (err, data) => {
     console.error(err)
     return
   }
-  let code = parseHtml(data)
   let enhancedHtml = enhanceHtml(data)
+  let code = parseHtmlCode(data)
   let jsonDom = convertHtml.toJsonDom(enhancedHtml)
 
   // fs.writeFileSync('public/enhanced-demo.html', enhancedHtml)
-  console.log(code)
-  console.log("------------------")
   console.log(enhancedHtml)
-  console.log("------------------")
+  console.log('------------------')
+  console.log(code)
+  console.log('------------------')
   console.log(jsonDom)
 
 })

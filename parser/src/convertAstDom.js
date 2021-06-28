@@ -5,7 +5,7 @@ export default {
         return converter.parse(html, component)
     },
 
-    toHtml(jsonDom, component) {
+    toHtml(jsonDom) {
         return converter.stringify(jsonDom)
     }
 }

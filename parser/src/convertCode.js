@@ -1,4 +1,4 @@
-import {findIndex} from "lodash"
+import {findIndex} from 'lodash'
 
 export const convertCodeForVariable = ($, variable, variables) => {
     let code

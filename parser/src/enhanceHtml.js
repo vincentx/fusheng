@@ -1,9 +1,9 @@
-import {ASSERTION, EMPTY, EXAMPLE} from "./constant";
-import cheerio from "cheerio";
-import {addStyle} from "./style";
+import {ASSERTION, EMPTY, EXAMPLE} from './constant'
+import cheerio from 'cheerio'
+import {addStyle} from './style'
 
 export default (html) => {
-    const $ = cheerio.load(html);
+    const $ = cheerio.load(html)
     $('.example').each(function (exampleIndex, example) {
         enhance($(example), exampleIndex, EXAMPLE)
         $(example).find('span.assertion').each(function (index, el) {
@@ -11,7 +11,7 @@ export default (html) => {
         })
     })
     addStyle($)
-    return $.html();
+    return $.html()
 }
 
 const enhance = (el, uuid, type) => {
@@ -21,8 +21,8 @@ const enhance = (el, uuid, type) => {
     if (type === ASSERTION) {
         el.attr('data-id', uuid.toString())
         const text = el.text()
-        el.text(EMPTY);
+        el.text(EMPTY)
         el.append(`<span class="assert-expect">${text}</span>`)
-        el.append(`<span class='assert-actual'></span>`)
+        el.append('<span class=\'assert-actual\'></span>')
     }
 }
