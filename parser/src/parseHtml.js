@@ -6,7 +6,7 @@ export default (data) => {
 
     let executable_codes = {}
     $('.example').each(function (exampleIndex, example) {
-        let codes = [`var context = {};`]
+        let codes = [`var context = {}`]
         let exampleVariables = []
         $(example).find('span').each(function (index, el) {
             if ($(el).hasClass('variable') && !$(el).parent().hasClass('function')) {
@@ -17,7 +17,7 @@ export default (data) => {
                 codes = codes.concat(convertCodeForAssertion($, index, el))
             }
         })
-        executable_codes[exampleIndex] = codes
+        executable_codes[exampleIndex] = `${codes.join(';')};`
     })
     return executable_codes;
 }

@@ -10,9 +10,9 @@ fs.readFile('public/demo.html', 'utf-8', (err, data) => {
   }
   let code = parseHtml(data)
   let enhancedHtml = enhanceHtml(data)
-  fs.writeFileSync('public/enhanced-demo.html', enhancedHtml)
   let jsonDom = convertHtml.toJsonDom(enhancedHtml)
 
+  // fs.writeFileSync('public/enhanced-demo.html', enhancedHtml)
   console.log(code)
   console.log("------------------")
   console.log(enhancedHtml)

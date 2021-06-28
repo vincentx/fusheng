@@ -1,14 +1,14 @@
-import {findIndex} from "lodash";
+import {findIndex} from "lodash"
 
 export const convertCodeForVariable = ($, variable, variables) => {
     let code
     const variableName = $(variable).attr('data-name')
     const variableValue = $(variable).text()
     if (variables.includes(variableName)) {
-        code = `${ variableName } = "${ variableValue }";`
+        code = `${ variableName } = "${ variableValue }"`
     } else {
         variables.push(variableName)
-        code = `var ${ variableName } = "${ variableValue }";`
+        code = `var ${ variableName } = "${ variableValue }"`
     }
     return code
 }
@@ -27,29 +27,29 @@ export const convertCodeForFunction = ($, func) => {
                 paramArray[paramIndex] = `"${variableValue}"`
             }
         })
-        code = `${functionName}(${paramArray.join(', ')});`
+        code = `Fixture.${functionName}(${paramArray.join(', ')})`
     } else {
-        code = `${functionName}();`
+        code = `Fixture.${functionName}()`
     }
     return code
 }
 
 export const convertCodeForAssertion = ($, index, assertion) => {
-    let code = [`context["${index}"] = {};`]
+    let code = [`context["${index}"] = {}`]
     const expectType = $(assertion).attr('data-expect')
     if (expectType === 'equal') {
         const expectValue = $(assertion).text()
-        code.push(`context["${index}"].expect = "${expectValue}";`)
+        code.push(`context["${index}"].expect = "${expectValue}"`)
     } else if (expectType === 'true') {
-        code.push(`context["${index}"].expect = true;`)
+        code.push(`context["${index}"].expect = true`)
     } else if (expectType === 'false') {
-        code.push(`context["${index}"].expect = false;`)
+        code.push(`context["${index}"].expect = false`)
     } else {
         console.error('目前仅支持assert-equal，assert-true，assert-false')
     }
 
     const codeForFunction = convertCodeForFunction($, assertion)
     code.push(`context["${index}"].actual = ${codeForFunction}`)
-    code.push(`context["${index}"].result = context["${index}"].actual === context["${index}"].expect;`)
+    code.push(`context["${index}"].result = context["${index}"].actual === context["${index}"].expect`)
     return code
 }
