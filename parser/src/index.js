@@ -11,12 +11,15 @@ fs.readFile('public/demo.html', 'utf-8', (err, data) => {
   let enhancedHtml = enhanceHtml(data)
   let code = parseHtmlCode(data)
   let jsonDom = convertHtml.toJsonDom(enhancedHtml)
+  let html = convertHtml.toHtml(jsonDom)
 
-  // fs.writeFileSync('public/enhanced-demo.html', enhancedHtml)
+
+    // fs.writeFileSync('public/enhanced-demo.html', enhancedHtml)
   console.log(enhancedHtml)
   console.log('------------------')
   console.log(code)
   console.log('------------------')
   console.log(jsonDom)
+  console.log(html)
 
 })
