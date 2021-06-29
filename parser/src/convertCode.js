@@ -1,4 +1,3 @@
-import {findIndex} from 'lodash'
 import {
     DATA_ACTION,
     DATA_EXPECT,
@@ -32,7 +31,7 @@ export const convertCodeForFunction = ($, func) => {
         $(func).find(CODE_TAG_SELECTOR.VARIABLE).each(function (index, variable) {
             const variableName = $(variable).attr(DATA_NAME)
             const variableValue = $(variable).text()
-            const paramIndex = findIndex(paramArray, (paramName) => paramName === variableName)
+            const paramIndex = paramArray.findIndex(paramName => paramName === variableName)
             if (paramIndex >= 0) {
                 paramArray[paramIndex] = `"${variableValue}"`
             }
