@@ -3,7 +3,9 @@ import {convertCodeForAssertion, convertCodeForFunction, convertCodeForVariable}
 import {
     CODE_TAG,
     CODE_TAG_SELECTOR,
-    CODE_JOINER
+    CODE_JOINER,
+    ASSERTION_ID,
+    EXAMPLE_ID
 } from './constant'
 
 export const convertCode = (data) => {
@@ -11,6 +13,7 @@ export const convertCode = (data) => {
 
     let executable_codes = {}
     $(CODE_TAG_SELECTOR.EXAMPLE).each(function (exampleIndex, example) {
+        const exampleId = $(example).attr(EXAMPLE_ID)
         let codes = []
         let exampleVariables = []
         $(example).find('span').each(function (index, el) {
@@ -19,11 +22,11 @@ export const convertCode = (data) => {
             } else if ($(el).hasClass(CODE_TAG.FUNCTION)) {
                 codes.push(convertCodeForFunction($, el))
             } else if ($(el).hasClass(CODE_TAG.ASSERTION)) {
-                let uuid = $(el).attr('assertion-id')
-                codes = codes.concat(convertCodeForAssertion($, uuid, el))
+                const assertionId = $(el).attr(ASSERTION_ID)
+                codes = codes.concat(convertCodeForAssertion($, assertionId, el))
             }
         })
-        executable_codes[exampleIndex] = `${codes.join(CODE_JOINER)}${CODE_JOINER}`
+        executable_codes[exampleId] = `${codes.join(CODE_JOINER)}${CODE_JOINER}`
     })
     return executable_codes
 }

@@ -1,7 +1,7 @@
 import converter from 'html-parse-stringify'
 
 export default {
-    toJsonDom(html) {
+    toDomJSON(html) {
         return converter.parse(html)
     },
 

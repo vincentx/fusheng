@@ -1,4 +1,4 @@
-import { CODE_TAG, CODE_TAG_SELECTOR, EXAMPLE_ID, ASSERTION_ID, EMPTY } from './constant'
+import { CODE_TAG, CODE_TAG_SELECTOR, EXAMPLE_ID, ASSERTION_ID } from './constant'
 import cheerio from 'cheerio'
 import {addStyle} from './style'
 import { v4 as uuidv4 } from 'uuid'
@@ -21,8 +21,8 @@ const enhance = (el, type) => {
     }
     if (type === CODE_TAG.ASSERTION) {
         el.attr(ASSERTION_ID, uuidv4())
-        const text = el.text()
-        el.text(EMPTY)
+        const text = el.text().trim()
+        el.empty()
         el.append(`<span class="assert-expect">${text}</span>`)
         el.append('<span class="assert-actual"></span>')
     }

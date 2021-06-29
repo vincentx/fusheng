@@ -27,9 +27,9 @@ export const EXPECT_TYPE = {
 
 export const FUNCTION_PREFIX = 'Fixture.'
 
-export const EMPTY = ''
 export const CODE_JOINER = ';'
 export const PARAM_JOINER = ', '
+export const PARAM_SPLITTER = ' '
 
 
 
