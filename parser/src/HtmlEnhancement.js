@@ -3,7 +3,7 @@ import cheerio from 'cheerio'
 import {addStyle} from './style'
 import { v4 as uuidv4 } from 'uuid'
 
-export default (html) => {
+export const enhanceHtml = (html) => {
     const $ = cheerio.load(html)
     $(CODE_TAG_SELECTOR.EXAMPLE).each(function (exampleIndex, example) {
         enhance($(example), CODE_TAG.EXAMPLE)
