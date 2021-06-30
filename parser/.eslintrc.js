@@ -9,6 +9,7 @@ module.exports = {
   rules: {
     'semi': ['warn', 'never'],
     'quotes': ['warn', 'single'],
+    'indent': ['error', 2],
   },
   parserOptions: {
     "ecmaVersion": 2015,

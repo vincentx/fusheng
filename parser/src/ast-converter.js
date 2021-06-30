@@ -1,11 +1,11 @@
 import converter from 'html-parse-stringify'
 
 export default {
-    toDomJSON(html) {
-        return converter.parse(html)
-    },
+  toDomJSON(html) {
+    return converter.parse(html)
+  },
 
-    toHtml(jsonDom) {
-        return converter.stringify(jsonDom)
-    }
+  toHtml(jsonDom) {
+    return converter.stringify(jsonDom)
+  }
 }
