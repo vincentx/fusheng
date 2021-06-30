@@ -25,7 +25,7 @@ export const EXPECT_TYPE = {
   FALSE: 'false'
 }
 
-export const FUNCTION_PREFIX = 'Fixture.'
+export const FUNCTION_PREFIX = 'fixture.'
 
 export const CODE_JOINER = ';'
 export const PARAM_JOINER = ', '
