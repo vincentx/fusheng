@@ -10,14 +10,13 @@ export default {
     file: 'build/bundle.min.cjs.js',
     format: 'cjs',
   },
-  context: 'this',
   plugins: [
     resolve({
       exportConditions: ['node']
     }),
-    babel(),
     commonjs(),
     json(),
+    babel(),
     // terser()
   ],
 }
