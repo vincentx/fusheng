@@ -18,7 +18,7 @@ test('convert code for a old variable', () => {
 test('convert code for call function without params', () => {
   const $ = cheerio.load('<span class="function" data-action="bet">下注</span>')
   const func = $('span.function')
-  expect(convertCodeForFunction($, func)).toEqual('Fixture.bet()')
+  expect(convertCodeForFunction($, func)).toEqual('fixture.bet()')
 })
 
 test('convert code for call function with one param', () => {
@@ -29,7 +29,7 @@ test('convert code for call function with one param', () => {
     </span>
   `)
   const func = $('span.function')
-  expect(convertCodeForFunction($, func)).toEqual('Fixture.setMinWager("3")')
+  expect(convertCodeForFunction($, func)).toEqual('fixture.setMinWager("3")')
 })
 
 test('convert code for call function with multiple params', () => {
@@ -40,7 +40,7 @@ test('convert code for call function with multiple params', () => {
     </span>
   `)
   const func = $('span.function')
-  expect(convertCodeForFunction($, func)).toEqual('Fixture.raise(minWager, "2")')
+  expect(convertCodeForFunction($, func)).toEqual('fixture.raise(minWager, "2")')
 })
 
 test('convert code for assert equal', () => {
@@ -55,7 +55,7 @@ test('convert code for assert equal', () => {
   const expectResult = [
     'context["0"] = {}',
     'context["0"].expect = "0"',
-    'context["0"].actual = Fixture.getPot()',
+    'context["0"].actual = fixture.getPot()',
     'context["0"].result = context["0"].actual === context["0"].expect',
   ]
   expect(convertCodeForAssertion($, '0', assertion)).toEqual(expectResult)
@@ -72,7 +72,7 @@ test('convert code for assert true', () => {
   const expectResult = [
     'context["0"] = {}',
     'context["0"].expect = true',
-    'context["0"].actual = Fixture.isCurrentRoundEnd()',
+    'context["0"].actual = fixture.isCurrentRoundEnd()',
     'context["0"].result = context["0"].actual === context["0"].expect',
   ]
   expect(convertCodeForAssertion($, '0', assertion)).toEqual(expectResult)
@@ -89,7 +89,7 @@ test('convert code for assert false', () => {
   const expectResult = [
     'context["0"] = {}',
     'context["0"].expect = false',
-    'context["0"].actual = Fixture.isCurrentRoundEnd()',
+    'context["0"].actual = fixture.isCurrentRoundEnd()',
     'context["0"].result = context["0"].actual === context["0"].expect',
   ]
   expect(convertCodeForAssertion($, '0', assertion)).toEqual(expectResult)
