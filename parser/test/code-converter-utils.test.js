@@ -1,4 +1,4 @@
-import { convertCodeForAssertion, convertCodeForFunction, convertCodeForVariable } from '../src/utils';
+import { convertCodeForAssertion, convertCodeForFunction, convertCodeForVariable } from '../src/code-converter-utils';
 import cheerio from 'cheerio'
 
 test('convert code for a new variable', () => {

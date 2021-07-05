@@ -1,5 +1,5 @@
 export const addStyle = ($) => {
-  $.root().append(`
+  $('html').append(`
     <style>
       .success {
           background-color: #afa;

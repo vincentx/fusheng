@@ -7,13 +7,11 @@ import json from '@rollup/plugin-json'
 export default {
   input: 'src/index.js',
   output: {
-    file: 'build/bundle.min.cjs.js',
+    file: 'build/parser.min.cjs.js',
     format: 'cjs',
   },
   plugins: [
-    resolve({
-      exportConditions: ['node']
-    }),
+    resolve(),
     commonjs(),
     json(),
     babel(),

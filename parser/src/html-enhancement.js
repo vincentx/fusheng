@@ -1,7 +1,8 @@
 import { CODE_TAG, CODE_TAG_SELECTOR, EXAMPLE_ID, ASSERTION_ID } from './constant'
 import cheerio from 'cheerio'
-import {addStyle} from './style'
+import { addStyle } from './add-style'
 import { v4 as uuidv4 } from 'uuid'
+import { rng } from './rng-polyfill'
 
 export const enhanceHtml = (html) => {
   const $ = cheerio.load(html)
@@ -17,10 +18,10 @@ export const enhanceHtml = (html) => {
 
 const enhance = (el, type) => {
   if (type === CODE_TAG.EXAMPLE) {
-    el.attr(EXAMPLE_ID, uuidv4())
+    el.attr(EXAMPLE_ID, uuidv4({ rng }))
   }
   if (type === CODE_TAG.ASSERTION) {
-    el.attr(ASSERTION_ID, uuidv4())
+    el.attr(ASSERTION_ID, uuidv4({ rng }))
     const text = el.text().trim()
     el.empty()
     el.append(`<span class="assert-expect">${text}</span>`)

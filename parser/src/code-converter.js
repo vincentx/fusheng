@@ -1,5 +1,5 @@
 import cheerio from 'cheerio'
-import {convertCodeForAssertion, convertCodeForFunction, convertCodeForVariable} from './utils'
+import {convertCodeForAssertion, convertCodeForFunction, convertCodeForVariable} from './code-converter-utils'
 import {
   CODE_TAG,
   CODE_TAG_SELECTOR,
