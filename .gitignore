@@ -30,6 +30,7 @@ hs_err_pid*
 
 # Ignore Gradle build output directory
 build
+dist
 
 # node modules
 node_modules/
