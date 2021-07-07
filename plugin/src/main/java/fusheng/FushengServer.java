@@ -10,7 +10,7 @@ public class FushengServer {
     private static final Logger log = Logger.getLogger(FushengServer.class);
     private HttpServer currentActiveServer;
 
-    public void startServer() throws IOException {
+    public HttpServer startServer() throws IOException {
         final var requestQueue = 0;
         final var port = 26868;
         final var httpServer = HttpServer.create(new InetSocketAddress("localhost", port), requestQueue);
@@ -19,6 +19,7 @@ public class FushengServer {
         httpServer.start();
         setCurrentActiveServer(httpServer);
         log.info("living doc started at port: {}" + port);
+        return httpServer;
     }
 
     public void stopServer() {

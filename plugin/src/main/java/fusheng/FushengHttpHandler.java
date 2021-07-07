@@ -40,7 +40,7 @@ public class FushengHttpHandler implements HttpHandler {
     }
 
     private String handleGetRequest(final HttpExchange httpExchange) {
-        if (httpExchange.getRequestURI().toString().contains("spec")) {
+        if (httpExchange.getRequestURI().toString().equals("spec")) {
             return "new generated spec";
         } else {
             return "all resources, contain css and javascript";
