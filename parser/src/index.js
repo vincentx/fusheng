@@ -3,8 +3,8 @@ import 'regenerator-runtime/runtime'
 import {enhanceHtml} from './html-enhancement'
 import {convertCode} from './code-converter'
 import astConverter from './ast-converter'
+import fs from 'fs'
 
-// import fs from 'fs'
 // fs.readFile('public/demo.html', 'utf-8', (err, data) => {
 //   if (err) {
 //     console.error(err)
@@ -14,13 +14,8 @@ import astConverter from './ast-converter'
 //   let code = convertCode(enhancedHtml)
 //   let domJSON = astConverter.toDomJSON(enhancedHtml)
 //   let html = astConverter.toHtml(domJSON)
-//
 //   console.log(enhancedHtml)
-//   console.log('------------------')
 //   console.log(code)
-//   console.log('------------------')
-//   console.log(domJSON)
-//   console.log(html)
 // })
 
 export const getJSCodeAndDomJSON = (html) => {
