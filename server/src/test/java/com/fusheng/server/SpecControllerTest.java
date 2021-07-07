@@ -28,9 +28,9 @@ class SpecControllerTest {
     private MockMvc mvc;
 
     @Test
-    void should_return_spec_content_if_spec_exist() throws Exception {
+    void test() throws Exception {
 
-        mvc.perform(MockMvcRequestBuilders.get("/spec/reports").contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/test").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -38,4 +38,17 @@ class SpecControllerTest {
                 .andExpect(jsonPath("$[0].description", is("first spec")))
                 .andExpect(jsonPath("$[1].description", is("second spec")));
     }
+
+    @Test
+    void should_return_spec_content_if_spec_exist() throws Exception {
+
+        final var specPath = "firstSpec";
+
+        mvc.perform(MockMvcRequestBuilders.get("/specs/" + specPath).contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.name", is(specPath)));
+    }
+
 }
