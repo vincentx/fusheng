@@ -19,10 +19,7 @@ public class FushengPlugin implements Plugin<Project> {
     private void runServer(final FushengServer server) {
         try {
             server.startServer();
-            while (true){
-                Thread.sleep(1000);
-            }
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             log.error(MessageFormat.format("error encountered! message: {0}, cause: {1}", e.getMessage(), e.getCause()));
         }
     }
