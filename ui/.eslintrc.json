@@ -1,4 +1,5 @@
 {
+  "parser": "@typescript-eslint/parser",
   "env": {
     "es6": true,
     "browser": true
@@ -7,8 +8,12 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
+  "plugins": [
+    "@typescript-eslint/eslint-plugin"
+  ],
   "extends": [
-    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint",
     "plugin:prettier/recommended"
   ],
   "globals": {
@@ -16,6 +21,17 @@
     "SharedArrayBuffer": "readonly"
   },
   "rules": {
-    "no-constant-condition": "warn"
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": false,
+        "trailingComma": "all",
+        "indent": ["error", 2]
+      }
+    ]
   }
 }
