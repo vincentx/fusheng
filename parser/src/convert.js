@@ -4,7 +4,7 @@ export const convertVariableCode = (variableName, variableValue) => {
 }
 
 export const convertFunctionCode = (actionName, actionParams, embeddedConvertedCode) => {
-  if(actionParams) {
+  if (actionParams) {
     return embeddedConvertedCode
       ? 'function ' + actionName + '(){' + embeddedConvertedCode + ';fixture.' + actionName + '(' + actionParams.split(' ') + ')}' + actionName + '()'
       : 'function ' + actionName + '(){fixture.' + actionName + '(' + actionParams.split(' ') + ')}' + actionName + '()'
@@ -14,24 +14,29 @@ export const convertFunctionCode = (actionName, actionParams, embeddedConvertedC
 }
 
 export const convertAssertionFunctionCode = (actionName, actionParams, embeddedConvertedCode) => {
-  if(actionParams) {
+  if (actionParams) {
     return embeddedConvertedCode
-      ? 'function ' + actionName + '(){' + embeddedConvertedCode + ';fixture.' + actionName + '(' + actionParams.split(' ') + ')};var actual = ' + actionName + '()'
-      : 'function ' + actionName + '(){fixture.' + actionName + '(' + actionParams.split(' ') + ')};var actual = ' + actionName + '()'
+      ? 'function ' + actionName + '(){' + embeddedConvertedCode + ';fixture.' + actionName + '(' + actionParams.split(' ') + ')};actual = ' + actionName + '()'
+      : 'function ' + actionName + '(){fixture.' + actionName + '(' + actionParams.split(' ') + ')};actual = ' + actionName + '()'
   } else {
-    return 'var actual = fixture.' + actionName + '()'
+    return 'actual = fixture.' + actionName + '()'
   }
 }
 
 export const convertAssertionCode = (expectType, expectValue) => {
   if (expectType === 'equal') {
     expectValue = isNaN(expectValue) ? '"' + expectValue + '"' : expectValue
-    return 'var expect = ' + expectValue + ';var result = actual === expect'
+    return 'expect = ' + expectValue + ';result = actual === expect'
   } else if (expectType === 'true') {
-    return 'var result = actual === true'
+    return 'result = actual === true'
   } else if (expectType === 'false') {
-    return 'var result = actual === false'
+    return 'result = actual === false'
   } else {
     console.log('Error expected type')
   }
+}
+
+export const convertAssertionResultCode = (uuid) => {
+  return '$("#' + uuid + '").find(".assert-expect").addClass(result ? "success" : "error");' +
+         '$("#' + uuid + '").find(".assert-actual").addClass(result ? "success" : "error")'
 }

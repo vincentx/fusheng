@@ -1,8 +1,11 @@
+import { v4 } from 'uuid'
+
 export const enhance = ($) => {
   $('.assertion').each(function (index, element) {
     const node = $(element)
     const expectValue = node.text().trim()
     node.empty()
+    node.attr('id', v4())
     node.append(`<span class="assert-expect">${expectValue}</span>`)
     node.append('<span class="assert-actual"></span>')
   })
