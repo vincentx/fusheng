@@ -1,4 +1,16 @@
-export const addStyle = ($) => {
+export const enhance = ($) => {
+  $('.assertion').each(function (index, element) {
+    const node = $(element)
+    const expectValue = node.text().trim()
+    node.empty()
+    node.append(`<span class="assert-expect">${expectValue}</span>`)
+    node.append('<span class="assert-actual"></span>')
+  })
+  addStyle($)
+  return $.html()
+}
+
+function addStyle($) {
   $('html').append(`
     <style>
       .success {
