@@ -30,61 +30,72 @@ test('enhance assertion add sub element', () => {
 
 test('convert', () => {
   let data = fs.readFileSync('public/example.html', 'utf-8')
-
   const $ = cheerio.load(data)
   const root = $('.example')
-  const codes = convert(root, $)
+  const codes = convert($, root)
   console.log(codes)
 })
 
-function convert(root, $) {
+function convert($, root) {
   const codes = []
   root.children().each(function(index, element) {
     if ($(element).hasClass('variable')) {
-      const variableName = $(element).attr('data-name')
-      const variableValue = $(element).text().trim()
-      codes.push('let ' + variableName + ' = ' + variableValue)
+      convertVariable($, $(element), codes)
     }
     if ($(element).hasClass('function')) {
-      const actionName = $(element).attr('data-action')
-      const actionParams = $(element).attr('data-params')
-      if(actionParams) {
-        const result = convert($(element), $)
-        let code = result
-          ? 'function ' + actionName + '(){' + result + ';fixture.' + actionName + '(' + actionParams.split(' ') + ')};' + actionName + '()'
-          : 'function ' + actionName + '(){fixture.' + actionName + '(' + actionParams.split(' ') + ')};' + actionName + '()'
-        codes.push(code)
-      } else {
-        codes.push('fixture.' + actionName + '()')
-      }
+      convertFunction($, $(element), codes)
     }
     if ($(element).hasClass('assertion')) {
-      const actionName = $(element).attr('data-action')
-      const actionParams = $(element).attr('data-params')
-      if(actionParams) {
-        const result = convert($(element), $)
-        let code = result
-          ? 'function ' + actionName + '(){' + result + ';fixture.' + actionName + '(' + actionParams.split(' ') + ')};let actual = ' + actionName + '()'
-          : 'function ' + actionName + '(){fixture.' + actionName + '(' + actionParams.split(' ') + ')};let actual = ' + actionName + '()'
-        codes.push(code)
-      } else {
-        codes.push('let actual = fixture.' + actionName + '()')
-      }
-      const expectType = $(element).attr('data-expect')
-      if (expectType === 'equal') {
-        const expectValue = $(element).text().trim()
-        codes.push('let expect = ' + expectValue)
-        codes.push('let result = actual === expect')
-      } else if (expectType === 'true') {
-        codes.push('let result = actual === true')
-      } else if (expectType === 'false') {
-        codes.push('let result = actual === false')
-      } else {
-        console.log('Error expected type')
-      }
-      // TODO add style
+      convertAssertion($, $(element), codes)
     }
     // TODO for other node as root
   })
   return codes.join(';')
+}
+
+function convertVariable($, element, codes) {
+  const variableName = element.attr('data-name')
+  const variableValue = element.text().trim()
+  codes.push('let ' + variableName + ' = ' + variableValue)
+}
+
+function convertFunction($, element, codes) {
+  const actionName = element.attr('data-action')
+  const actionParams = element.attr('data-params')
+  if(actionParams) {
+    const result = convert($, element)
+    let code = result
+      ? 'function ' + actionName + '(){' + result + ';fixture.' + actionName + '(' + actionParams.split(' ') + ')};' + actionName + '()'
+      : 'function ' + actionName + '(){fixture.' + actionName + '(' + actionParams.split(' ') + ')};' + actionName + '()'
+    codes.push(code)
+  } else {
+    codes.push('fixture.' + actionName + '()')
+  }
+}
+
+function convertAssertion($, element, codes) {
+  const actionName = element.attr('data-action')
+  const actionParams = element.attr('data-params')
+  if(actionParams) {
+    const result = convert($, element)
+    let code = result
+      ? 'function ' + actionName + '(){' + result + ';fixture.' + actionName + '(' + actionParams.split(' ') + ')};let actual = ' + actionName + '()'
+      : 'function ' + actionName + '(){fixture.' + actionName + '(' + actionParams.split(' ') + ')};let actual = ' + actionName + '()'
+    codes.push(code)
+  } else {
+    codes.push('let actual = fixture.' + actionName + '()')
+  }
+  const expectType = element.attr('data-expect')
+  if (expectType === 'equal') {
+    const expectValue = element.text().trim()
+    codes.push('let expect = ' + expectValue)
+    codes.push('let result = actual === expect')
+  } else if (expectType === 'true') {
+    codes.push('let result = actual === true')
+  } else if (expectType === 'false') {
+    codes.push('let result = actual === false')
+  } else {
+    console.log('Error expected type')
+  }
+  // TODO add style
 }
