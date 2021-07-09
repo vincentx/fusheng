@@ -6,8 +6,8 @@ export const convertVariableCode = (variableName, variableValue) => {
 export const convertFunctionCode = (actionName, actionParams, embeddedConvertedCode) => {
   if (actionParams) {
     return embeddedConvertedCode
-      ? 'function ' + actionName + '(){' + embeddedConvertedCode + ';fixture.' + actionName + '(' + actionParams.split(' ') + ')}' + actionName + '()'
-      : 'function ' + actionName + '(){fixture.' + actionName + '(' + actionParams.split(' ') + ')}' + actionName + '()'
+      ? '(function (){' + embeddedConvertedCode + ';fixture.' + actionName + '(' + actionParams.split(' ') + ')})()'
+      : '(function (){fixture.' + actionName + '(' + actionParams.split(' ') + ')})()'
   } else {
     return 'fixture.' + actionName + '()'
   }
@@ -16,8 +16,8 @@ export const convertFunctionCode = (actionName, actionParams, embeddedConvertedC
 export const convertAssertionFunctionCode = (actionName, actionParams, embeddedConvertedCode) => {
   if (actionParams) {
     return embeddedConvertedCode
-      ? 'function ' + actionName + '(){' + embeddedConvertedCode + ';fixture.' + actionName + '(' + actionParams.split(' ') + ')};actual = ' + actionName + '()'
-      : 'function ' + actionName + '(){fixture.' + actionName + '(' + actionParams.split(' ') + ')};actual = ' + actionName + '()'
+      ? 'actual = (function (){' + embeddedConvertedCode + ';fixture.' + actionName + '(' + actionParams.split(' ') + ')})()'
+      : 'actual = (function (){fixture.' + actionName + '(' + actionParams.split(' ') + ')})()'
   } else {
     return 'actual = fixture.' + actionName + '()'
   }
