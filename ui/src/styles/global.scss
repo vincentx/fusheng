@@ -1,0 +1,30 @@
+@import "variables";
+
+* {
+  font-family: 'Noto Sans SC', sans-serif;
+}
+
+body {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#app {
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  max-height: 100vh;
+}
+
+.main {
+  flex-basis: 0;
+  flex-grow: 999;
+}
+
+
+.tool-bar {
+  background-color: red;
+}
