@@ -1,16 +1,13 @@
-import { v4 } from 'uuid'
-
-export const enhance = ($) => {
+export const enhance = ($, uuid) => {
   $('.assertion').each(function (index, element) {
     const node = $(element)
     const expectValue = node.text().trim()
     node.empty()
-    node.attr('id', v4())
+    node.attr('id', uuid().split('-').join(''))
     node.append(`<span class="assert-expect">${expectValue}</span>`)
     node.append('<span class="assert-actual"></span>')
   })
   addStyle($)
-  return $.html()
 }
 
 function addStyle($) {

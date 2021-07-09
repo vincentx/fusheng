@@ -38,5 +38,6 @@ export const convertAssertionCode = (expectType, expectValue) => {
 
 export const convertAssertionResultCode = (uuid) => {
   return '$("#' + uuid + '").find(".assert-expect").addClass(result ? "success" : "error");' +
-         '$("#' + uuid + '").find(".assert-actual").addClass(result ? "success" : "error")'
+         '$("#' + uuid + '").find(".assert-actual").addClass(result ? "success" : "error");' +
+         'context.result.uuid' + uuid + ' = result'
 }

@@ -1,9 +1,10 @@
 import 'core-js'
 import 'regenerator-runtime/runtime'
-import {parse} from './parse'
 import fs from 'fs'
 import cheerio from 'cheerio'
+import {parse} from './parse'
 import {enhance} from './enhance'
+import {v4} from 'uuid'
 import {
   convertAssertionCode,
   convertAssertionFunctionCode,
@@ -17,7 +18,12 @@ fs.readFile('public/example.html', 'utf-8', (err, data) => {
     return
   }
   const $ = cheerio.load(data)
-  enhance($)
+  const script = exec($, v4)
+  console.log(script)
+})
+
+export const exec = function($, uuid) {
+  enhance($, uuid)
   const root = $('.example')
   const initCodes = ['let expect;let actual;let result']
   const converts = {
@@ -33,6 +39,5 @@ fs.readFile('public/example.html', 'utf-8', (err, data) => {
       convertVariableCode
     }
   }
-  let code = parse($, root, converts, initCodes)
-  console.log(code)
-})
+  return parse($, root, converts, initCodes)
+}

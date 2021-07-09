@@ -1,0 +1,47 @@
+let expect;
+let actual;
+let result;
+let players = "A,B,C";
+(function (){
+    fixture.newGame(players)
+})();
+(function (){
+    let minWager = 3;
+    fixture.setMinWager(minWager)
+})();
+actual = fixture.getPot();
+expect = 0;
+result = actual === expect;
+$("#3e6df3bb-0961-4c1a-b291-a5c34bf1429c").find(".assert-expect").addClass(result ? "success" : "error");
+$("#3e6df3bb-0961-4c1a-b291-a5c34bf1429c").find(".assert-actual").addClass(result ? "success" : "error");
+context.result.3e6df3bb-0961-4c1a-b291-a5c34bf1429c = result;
+actual = fixture.getActivePlayer();
+expect = "A";
+result = actual === expect;
+$("#2aa12d1e-d552-4e7a-b5cd-0588909bb3b8").find(".assert-expect").addClass(result ? "success" : "error");
+$("#2aa12d1e-d552-4e7a-b5cd-0588909bb3b8").find(".assert-actual").addClass(result ? "success" : "error");
+context.result.2aa12d1e-d552-4e7a-b5cd-0588909bb3b8 = result;
+fixture.bet();
+actual = fixture.getActivePlayer();
+expect = "B";
+result = actual === expect;
+$("#d98f96fa-f8f1-4beb-beef-9f9a80c97b6e").find(".assert-expect").addClass(result ? "success" : "error");
+$("#d98f96fa-f8f1-4beb-beef-9f9a80c97b6e").find(".assert-actual").addClass(result ? "success" : "error");
+context.result.d98f96fa-f8f1-4beb-beef-9f9a80c97b6e = result;
+fixture.bet();
+actual = fixture.getActivePlayer();
+expect = "C";
+result = actual === expect;
+$("#a985309b-7c9f-4671-ad6d-ef2e75adce9b").find(".assert-expect").addClass(result ? "success" : "error");
+$("#a985309b-7c9f-4671-ad6d-ef2e75adce9b").find(".assert-actual").addClass(result ? "success" : "error");
+context.result.a985309b-7c9f-4671-ad6d-ef2e75adce9b = result;
+(function (){
+    let wager = 5;
+    fixture.raise(wager)
+})();
+actual = fixture.getPot();
+expect = 11;
+result = actual === expect;
+$("#cd9e762c-04c3-4c47-876d-b95b886d1dce").find(".assert-expect").addClass(result ? "success" : "error");
+$("#cd9e762c-04c3-4c47-876d-b95b886d1dce").find(".assert-actual").addClass(result ? "success" : "error");
+context.result.cd9e762c-04c3-4c47-876d-b95b886d1dce = result
