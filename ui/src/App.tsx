@@ -1,20 +1,26 @@
 import * as React from "react";
 import { hot } from "react-hot-loader/root";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import Sidebar from "./components/sidebar";
+import httpClient from "./utils/httpClient";
 
 const App: FC = () => {
-  const specs = [
-    "spec1",
-    "spec2",
-    "spec3",
-    "spec11",
-    "spec22",
-    "longlonglonglonglonglonglonglongspec",
-    "spec111",
-    "spec222",
-    "spec333",
-  ];
+  console.log(process.env.SERVER_HOST);
+  const [specs, setSpecs] = useState<string[]>([]);
+  useEffect(() => {
+    retrieveSpecs();
+  }, []);
+
+  const retrieveSpecs = () => {
+    httpClient
+      .get("specs")
+      .then((res) => {
+        setSpecs(res.data.specs);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <>

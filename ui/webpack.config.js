@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 require("webpack");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require("path");
+const Dotenv = require("dotenv-webpack");
 
 const config = {
   entry: ["react-hot-loader/patch", "./src/index.tsx"],
@@ -37,6 +37,7 @@ const config = {
       template: "./src/index.html",
       filename: "./index.html",
     }),
+    new Dotenv(),
   ],
 };
 

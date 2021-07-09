@@ -12,7 +12,7 @@ const Index: FC<SidebarProps> = ({ specs }) => {
       <div className="sidebar">
         <div className="title">FUSHENG</div>
         {specs.map((spec) => (
-          <div className="sidebar-item-wrapper" id={spec}>
+          <div className="sidebar-item-wrapper" key={spec}>
             <div className="sidebar-item">
               <p>{spec}</p>
             </div>
