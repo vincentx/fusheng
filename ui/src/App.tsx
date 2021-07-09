@@ -3,10 +3,16 @@ import { hot } from "react-hot-loader/root";
 import { FC, useEffect, useState } from "react";
 import Sidebar from "./components/sidebar";
 import httpClient from "./utils/httpClient";
+import Spec from "./components/spec";
 
+export interface Spec {
+  name: string;
+  src: string;
+}
 const App: FC = () => {
-  console.log(process.env.SERVER_HOST);
-  const [specs, setSpecs] = useState<string[]>([]);
+  const [specs, setSpecs] = useState<Spec[]>([]);
+  const [activeSpec, setActiveSpec] = useState<Spec>();
+
   useEffect(() => {
     retrieveSpecs();
   }, []);
@@ -15,7 +21,11 @@ const App: FC = () => {
     httpClient
       .get("specs")
       .then((res) => {
-        setSpecs(res.data.specs);
+        const specs = res.data.specs;
+        setSpecs(specs);
+        if (specs.length) {
+          setActiveSpec(specs[0]);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -24,13 +34,8 @@ const App: FC = () => {
 
   return (
     <>
-      <Sidebar specs={specs} />
-      <div className="main">
-        <div className="tool-bar">
-          <button>Experiment</button>
-        </div>
-        <div className="content">111</div>
-      </div>
+      <Sidebar specs={specs} onClick={setActiveSpec} activeSpec={activeSpec} />
+      <div className="main">{activeSpec && <Spec src={activeSpec.src} />}</div>
     </>
   );
 };

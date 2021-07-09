@@ -24,7 +24,6 @@ body {
   flex-grow: 999;
 }
 
-
-.tool-bar {
-  background-color: red;
+.focus{
+  background-color: lighten($dark, 5%);
 }
