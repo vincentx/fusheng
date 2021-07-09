@@ -11,7 +11,7 @@
     "build": "webpack --mode production",
     "start": "webpack serve --hot --mode development",
     "test": "jest",
-    "lint": "eslint --fix"
+    "lint": "eslint \"src/*.{ts,tsx}\" --fix"
   },
   "dependencies": {
     "react": "^17.0.1",
