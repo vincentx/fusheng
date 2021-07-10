@@ -5,12 +5,13 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
+    'prettier'
   ],
-  rules: {
-    'semi': ['warn', 'never'],
-    'quotes': ['warn', 'single'],
-    'indent': ['error', 2],
-  },
+  // rules: {
+  //   'semi': ['warn', 'never'],
+  //   'quotes': ['warn', 'single'],
+  //   'indent': ['error', 2],
+  // },
   parserOptions: {
     "ecmaVersion": 2015,
     "sourceType": "module"
