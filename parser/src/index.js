@@ -24,6 +24,7 @@ fs.readFile('public/example.html', 'utf-8', (err, data) => {
 
 export const exec = function($, uuid) {
   enhance($, uuid)
+  // TODO: 考虑多个example
   const root = $('.example')
   const initCodes = ['let expect;let actual;let result']
   const converts = {

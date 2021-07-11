@@ -37,6 +37,8 @@ export const convertAssertionCode = (expectType, expectValue) => {
 }
 
 export const convertAssertionResultCode = (uuid) => {
+  // TODO: 加样式在assertion标签上即可
+  // TODO: context.result 回填使用 &&
   return '$("#' + uuid + '").find(".assert-expect").addClass(result ? "success" : "error");' +
          '$("#' + uuid + '").find(".assert-actual").addClass(result ? "success" : "error");' +
          'context.result.uuid' + uuid + ' = result'
