@@ -4,7 +4,6 @@ export const enhance = ($, uuid) => {
     const node = $(element)
     const expectValue = node.text().trim()
     node.empty()
-    // TODO: 设计id
     node.attr('id', uuid().split('-').join(''))
     node.append(`<span class="assert-expect">${expectValue}</span>`)
     node.append('<span class="assert-actual"></span>')

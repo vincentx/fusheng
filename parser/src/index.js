@@ -2,15 +2,21 @@ import 'core-js'
 import 'regenerator-runtime/runtime'
 import fs from 'fs'
 import cheerio from 'cheerio'
-import {parse} from './parse'
+import { parse } from './parse'
 import {enhance} from './enhance'
 import {v4} from 'uuid'
 import {
   convertAssertionCode,
   convertAssertionFunctionCode,
   convertAssertionResultCode,
-  convertFunctionCode, convertVariableCode
+  convertFunctionCode,
+  convertVariableCode
 } from './convert'
+import {
+  parseVariable,
+  parseFunction,
+  parseAssertion
+} from './parseUtils'
 
 fs.readFile('public/example.html', 'utf-8', (err, data) => {
   if (err) {
@@ -40,5 +46,10 @@ export const exec = function($, uuid) {
       convertVariableCode
     }
   }
-  return parse($, root, converts, initCodes)
+  const parserUtils = {
+    parseVariable: (node, codes) => parseVariable(node, codes, converts),
+    parseFunction: (node, codes, embeddedParsedCode) => parseFunction(node, codes, converts, embeddedParsedCode),
+    parseAssertion: (node, codes, embeddedParsedCode) => parseAssertion(node, codes, converts, embeddedParsedCode)
+  }
+  return parse($, root, parserUtils, initCodes)
 }

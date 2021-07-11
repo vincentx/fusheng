@@ -41,5 +41,5 @@ export const convertAssertionResultCode = (uuid) => {
   // TODO: context.result 回填使用 &&
   return '$("#' + uuid + '").find(".assert-expect").addClass(result ? "success" : "error");' +
          '$("#' + uuid + '").find(".assert-actual").addClass(result ? "success" : "error");' +
-         'context.result.uuid' + uuid + ' = result'
+         'context.result[context-id]' + ' = context.result[context-id] && result'
 }
