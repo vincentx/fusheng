@@ -1,10 +1,13 @@
 export const enhance = ($, uuid) => {
-  // TODO: example需要加context-id
+  $('.example').each(function (index, element) {
+    const node = $(element)
+    node.attr('id', uuid())
+  })
   $('.assertion').each(function (index, element) {
     const node = $(element)
     const expectValue = node.text().trim()
     node.empty()
-    node.attr('id', uuid().split('-').join(''))
+    node.attr('id', uuid())
     node.append(`<span class="assert-expect">${expectValue}</span>`)
     node.append('<span class="assert-actual"></span>')
   })
