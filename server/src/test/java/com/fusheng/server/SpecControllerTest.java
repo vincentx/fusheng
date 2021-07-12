@@ -72,4 +72,29 @@ class SpecControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(experiments)));
     }
+
+    @Test
+    void should_return_all_reports_when_call_reports_api() throws Exception {
+        String path = "/reports";
+        List<String> reports = List.of("1", "2");
+        Mockito.when(specService.findAllReports())
+                .thenReturn(reports);
+
+        mvc.perform(MockMvcRequestBuilders.get(path))
+                .andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.writeValueAsString(reports)));
+    }
+
+    @Test
+    void should_return_specific_report_when_call_report_api_given_path_name() throws Exception {
+        String pathName = "firstReport";
+        String path = "/report/" + pathName;
+        String report = "first report";
+        Mockito.when(specService.findReportByPathName(pathName))
+                .thenReturn(report);
+
+        mvc.perform(MockMvcRequestBuilders.get(path))
+                .andExpect(status().isOk())
+                .andExpect(content().string(report));
+    }
 }

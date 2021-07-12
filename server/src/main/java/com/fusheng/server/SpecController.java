@@ -38,4 +38,14 @@ public class SpecController {
     public List<String> retrieveAllExperiments(){
         return specService.findAllExperiments();
     }
+
+    @GetMapping("/reports")
+    public List<String> retrieveAllReports(){
+        return specService.findAllReports();
+    }
+
+    @GetMapping("/report/{pathName}")
+    public String retrieveReportByPathName(@PathVariable String pathName){
+        return specService.findReportByPathName(pathName);
+    }
 }
