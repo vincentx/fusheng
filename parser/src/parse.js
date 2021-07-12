@@ -11,7 +11,7 @@ export const parse = ($, root, id, parseUtils, codes) => {
       const embeddedCode = parse($, node, id, parseUtils)
       parseUtils.parseAssertion(node, id, codes, embeddedCode)
     } else {
-      parse($, node, id, parseUtils)
+      parse($, node, id, parseUtils, codes)
     }
   })
   return codes.join('')
