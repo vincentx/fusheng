@@ -5,16 +5,16 @@ export const parse = ($, root, id, parseUtils, codes) => {
     if (node.hasClass('variable')) {
       parseUtils.parseVariable(node, codes)
     } else if (node.hasClass('function')) {
-      const embeddedParsedCode = parse($, node, id, parseUtils)
-      parseUtils.parseFunction(node, codes, embeddedParsedCode)
+      const embeddedCode = parse($, node, id, parseUtils)
+      parseUtils.parseFunction(node, codes, embeddedCode)
     } else if (node.hasClass('assertion')) {
-      const embeddedConvertedCode = parse($, node, id, parseUtils)
-      parseUtils.parseAssertion(node, id, codes, embeddedConvertedCode)
+      const embeddedCode = parse($, node, id, parseUtils)
+      parseUtils.parseAssertion(node, id, codes, embeddedCode)
     } else {
       parse($, node, id, parseUtils)
     }
   })
-  return codes.join(';')
+  return codes.join('')
 }
 
 

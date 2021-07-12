@@ -4,16 +4,16 @@ const parseVariable = (node, codes) => {
   codes.push(convertVariableCode(variableName, variableValue))
 }
 
-const parseFunction = (node, codes, embeddedParsedCode) => {
+const parseFunction = (node, codes, embeddedCode) => {
   const actionName = node.attr('data-action')
   const actionParams = node.attr('data-params')
-  codes.push(convertFunctionCode(actionName, actionParams, embeddedParsedCode))
+  codes.push(convertFunctionCode(actionName, actionParams, embeddedCode))
 }
 
-const parseAssertion = (node, exampleId, codes, embeddedParsedCode) => {
+const parseAssertion = (node, exampleId, codes, embeddedCode) => {
   const actionName = node.attr('data-action')
   const actionParams = node.attr('data-params')
-  codes.push(convertAssertionFunctionCode(actionName, actionParams, embeddedParsedCode))
+  codes.push(convertAssertionFunctionCode(actionName, actionParams, embeddedCode))
   const expectType = node.attr('data-expect')
   const expectValue = node.text().trim()
   codes.push(convertAssertionCode(expectType, expectValue))
@@ -23,37 +23,37 @@ const parseAssertion = (node, exampleId, codes, embeddedParsedCode) => {
 
 const convertVariableCode  = (variableName, variableValue) => {
   variableValue = isNaN(variableValue) ? '"' + variableValue + '"' : variableValue
-  return `let ${variableName} = ${variableValue}`
+  return `let ${variableName} = ${variableValue};`
 }
 
-const convertFunctionCode = (actionName, actionParams, embeddedConvertedCode) => {
+const convertFunctionCode = (actionName, actionParams, embeddedCode) => {
   if (actionParams) {
-    return embeddedConvertedCode
-      ? `(function () { ${embeddedConvertedCode};fixture.${actionName}(${actionParams.split(' ')}) })()`
-      : `(function () { fixture.${actionName}(${actionParams.split(' ')}) })()`
+    return embeddedCode
+      ? `(function () { ${embeddedCode}fixture.${actionName}(${actionParams.split(' ')}); })();`
+      : `(function () { fixture.${actionName}(${actionParams.split(' ')}); })();`
   } else {
-    return `fixture.${actionName}()`
+    return `fixture.${actionName}();`
   }
 }
 
-const convertAssertionFunctionCode = (actionName, actionParams, embeddedConvertedCode) => {
+const convertAssertionFunctionCode = (actionName, actionParams, embeddedCode) => {
   if (actionParams) {
-    return embeddedConvertedCode
-      ? `actual = (function () { ${embeddedConvertedCode};fixture.${actionName}(${actionParams.split(' ')}) })()`
-      : `actual = (function () { fixture.${actionName}(${actionParams.split(' ')}) })()`
+    return embeddedCode
+      ? `actual = (function () { ${embeddedCode}fixture.${actionName}(${actionParams.split(' ')}); })();`
+      : `actual = (function () { fixture.${actionName}(${actionParams.split(' ')}); })();`
   } else {
-    return `actual = fixture.${actionName}()`
+    return `actual = fixture.${actionName}();`
   }
 }
 
 const convertAssertionCode = (expectType, expectValue) => {
   if (expectType === 'equal') {
     expectValue = isNaN(expectValue) ? '"' + expectValue + '"' : expectValue
-    return `expect = ${expectValue};result = actual === expect`
+    return `expect = ${expectValue};result = actual === expect;`
   } else if (expectType === 'true') {
-    return 'result = actual === true'
+    return 'result = actual === true;'
   } else if (expectType === 'false') {
-    return 'result = actual === false'
+    return 'result = actual === false;'
   } else {
     console.log('Error expected type')
   }

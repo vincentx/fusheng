@@ -18,7 +18,7 @@ export function exec($, uuid) {
   $('.example').each((index, element) => {
     const root = $(element)
     const id = root.attr('id')
-    const initCodes = [`let expect;let actual;let result;context["${id}"] = true`]
+    const initCodes = [`let expect;let actual;let result;context["${id}"] = true;`]
     script[id] = parse($, root, id, parseUtils, initCodes)
   })
   return script
