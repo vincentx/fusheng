@@ -12,11 +12,14 @@ const $ = cheerio.load(html)
 const script = exec($, v4)
 console.log(script)
 
-export function exec ($, uuid) {
+export function exec($, uuid) {
   enhance($, uuid)
-  // TODO: 考虑多个example
-  const root = $('.example')
-  const id = root.attr('id')
-  const initCodes = [`let expect;let actual;let result;context["${id}"] = true`]
-  return parse($, root, id, parseUtils, initCodes)
+  const script = {}
+  $('.example').each((index, element) => {
+    const root = $(element)
+    const id = root.attr('id')
+    const initCodes = [`let expect;let actual;let result;context["${id}"] = true`]
+    script[id] = parse($, root, id, parseUtils, initCodes)
+  })
+  return script
 }
