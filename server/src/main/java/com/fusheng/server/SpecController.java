@@ -2,17 +2,18 @@ package com.fusheng.server;
 
 import com.fusheng.server.entity.RawSpec;
 import com.fusheng.server.repository.SpecRepository;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 public class SpecController {
     private final SpecRepository specRepository;
+
+    private final SpecService specService;
 
     @GetMapping("/test")
     public List<SpecReport> retrieveAllReport() {
@@ -31,5 +32,10 @@ public class SpecController {
     @GetMapping("/specs/{pathName}")
     public RawSpec retrieveAllReport(@PathVariable String pathName) {
         return specRepository.retrieveSpec(pathName);
+    }
+
+    @GetMapping("/experiments")
+    public List<String> retrieveAllExperiments(){
+        return specService.findAllExperiments();
     }
 }
