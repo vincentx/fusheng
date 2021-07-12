@@ -60,10 +60,7 @@ const convertAssertionCode = (expectType, expectValue) => {
 }
 
 const convertAssertionResultCode = (exampleId, assertionId) => {
-  return `
-    $("#${assertionId}").addClass(result ? "success" : "error");
-    context["${exampleId}"] = context["${exampleId}"] && result;
-  `
+  return `$("#${assertionId}").addClass(result ? "success" : "error");context["${exampleId}"] = context["${exampleId}"] && result;`
 }
 
 export default {
