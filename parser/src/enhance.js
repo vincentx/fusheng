@@ -1,8 +1,11 @@
-export const enhance = ($, uuid) => {
+function enhanceContentId($, uuid) {
   $('.example').each(function (index, element) {
     const node = $(element)
     node.attr('id', uuid())
   })
+}
+
+function enhanceAssertion($, uuid) {
   $('.assertion').each(function (index, element) {
     const node = $(element)
     const expectValue = node.text().trim()
@@ -11,10 +14,9 @@ export const enhance = ($, uuid) => {
     node.append(`<span class="assert-expect">${expectValue}</span>`)
     node.append('<span class="assert-actual"></span>')
   })
-  addStyle($)
 }
 
-function addStyle($) {
+function enhanceStyle($) {
   $('html').append(`
     <style>
       .success {
@@ -34,4 +36,10 @@ function addStyle($) {
       }
     </style>
   `)
+}
+
+export const enhance = ($, uuid) => {
+  enhanceContentId($, uuid);
+  enhanceAssertion($, uuid);
+  enhanceStyle($)
 }
