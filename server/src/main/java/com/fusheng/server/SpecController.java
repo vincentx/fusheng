@@ -45,8 +45,8 @@ public class SpecController {
         return specService.findAllReports();
     }
 
-    @GetMapping("/report/{pathName}")
-    public String retrieveReportByPathName(@PathVariable String pathName){
-        return specService.findReportByPathName(pathName);
+    @GetMapping("/experiment/{pathName}")
+    public String retrieveExperimentByPathName(@PathVariable String pathName){
+        return specService.findExperimentByPathName(pathName);
     }
 }

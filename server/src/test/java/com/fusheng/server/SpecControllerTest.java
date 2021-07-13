@@ -86,11 +86,11 @@ class SpecControllerTest {
     }
 
     @Test
-    void should_return_specific_report_when_call_report_api_given_path_name() throws Exception {
+    void should_return_specific_experiment_when_call_report_api_given_path_name() throws Exception {
         String pathName = "firstReport";
-        String path = "/report/" + pathName;
+        String path = "/experiment/" + pathName;
         String report = "first report";
-        Mockito.when(specService.findReportByPathName(pathName))
+        Mockito.when(specService.findExperimentByPathName(pathName))
                 .thenReturn(report);
 
         mvc.perform(MockMvcRequestBuilders.get(path))

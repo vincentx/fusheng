@@ -25,7 +25,7 @@ public class SpecService {
         return readFilesByPath(path);
     }
 
-    public String findReportByPathName(String pathName) {
+    public String findExperimentByPathName(String pathName) {
         Path path = Paths.get(System.getProperty("user.dir"), "build", "reports", "tests", "fusheng", "result", pathName);
         try {
             return Files.readString(path, StandardCharsets.UTF_8);
