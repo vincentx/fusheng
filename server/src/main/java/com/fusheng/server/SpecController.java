@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 @RestController
@@ -40,7 +41,7 @@ public class SpecController {
     }
 
     @GetMapping("/reports")
-    public List<String> retrieveAllReports(){
+    public List<String> retrieveAllReports() {
         return specService.findAllReports();
     }
 
