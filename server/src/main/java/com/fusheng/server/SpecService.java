@@ -1,6 +1,8 @@
 package com.fusheng.server;
 
 import com.fusheng.server.exception.FilesReadingFailedException;
+import com.fusheng.server.outbound.Runner;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -14,7 +16,10 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SpecService {
+    private final Runner runner;
+
     public List<String> findAllExperiments() {
         Path path = Paths.get(System.getProperty("user.dir"), "build", "reports", "tests", "fusheng", "experiment");
         return readFilesByPath(path);
@@ -32,6 +37,11 @@ public class SpecService {
         } catch (IOException ex){
             throw new FilesReadingFailedException("File(" + pathName + ")reading failed.");
         }
+    }
+
+    public String runExperiment(String pathName, String htmlContent){
+        // TODO: 2021/7/13 integrate with Runner
+        return runner.runExperiment(pathName, htmlContent);
     }
 
     private List<String> readFilesByPath(Path path) {

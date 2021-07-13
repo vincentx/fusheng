@@ -3,9 +3,7 @@ package com.fusheng.server;
 import com.fusheng.server.entity.RawSpec;
 import com.fusheng.server.repository.SpecRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -48,5 +46,10 @@ public class SpecController {
     @GetMapping("/experiment/{pathName}")
     public String retrieveExperimentByPathName(@PathVariable String pathName){
         return specService.findExperimentByPathName(pathName);
+    }
+
+    @PostMapping("/experiment/{pathName}")
+    public String runExperiment(@PathVariable String pathName, @RequestBody String htmlContent){
+        return specService.runExperiment(pathName, htmlContent);
     }
 }
