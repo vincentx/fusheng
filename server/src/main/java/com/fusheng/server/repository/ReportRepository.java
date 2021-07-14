@@ -2,6 +2,9 @@ package com.fusheng.server.repository;
 
 import com.fusheng.server.config.ServerConfig;
 import com.fusheng.server.exception.FilesReadingFailedException;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +27,22 @@ public class ReportRepository {
             return Files.readString(path, StandardCharsets.UTF_8);
         } catch (IOException exp) {
             throw new FilesReadingFailedException("File not found");
+        }
+    }
+
+    public List<String> retrieveAll() {
+        Path path = Paths.get(PROJECT_ROOT_DIRECTORY, serverConfig.getReportFolderLocation());
+        try (Stream<Path> paths = Files.walk(path)) {
+            return paths
+                    .filter(Files::isRegularFile)
+                    .map(filePath -> filePath.getFileName()
+                            .normalize()
+                            .toString()
+                            .replace(REPORT_SUFFIX, ""))
+                    .collect(Collectors.toList());
+
+        } catch (IOException e) {
+            throw new FilesReadingFailedException("Files not found");
         }
     }
 }

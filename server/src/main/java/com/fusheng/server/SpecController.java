@@ -12,8 +12,6 @@ import java.util.List;
 public class SpecController {
     private final SpecRepository specRepository;
 
-    private final SpecService specService;
-
     @GetMapping("/test")
     public List<SpecReport> retrieveSpec() {
         return List.of(
@@ -31,25 +29,5 @@ public class SpecController {
     @GetMapping(value = "/specs/{pathName}", produces = MediaType.TEXT_HTML_VALUE)
     public String retrieveSpec(@PathVariable String pathName) {
         return specRepository.retrieveSpec(pathName);
-    }
-
-    @GetMapping("/experiments")
-    public List<String> retrieveAllExperiments(){
-        return specService.findAllExperiments();
-    }
-
-    @GetMapping("/reports")
-    public List<String> retrieveAllReports() {
-        return specService.findAllReports();
-    }
-
-    @GetMapping("/experiment/{pathName}")
-    public String retrieveExperimentByPathName(@PathVariable String pathName){
-        return specService.findExperimentByPathName(pathName);
-    }
-
-    @PostMapping("/experiment/{pathName}")
-    public String runExperiment(@PathVariable String pathName, @RequestBody String htmlContent){
-        return specService.runExperiment(pathName, htmlContent);
     }
 }

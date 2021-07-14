@@ -1,6 +1,7 @@
 package com.fusheng.server;
 
 import com.fusheng.server.repository.ReportRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,12 @@ public class ReportController {
     @GetMapping(value = "/reports/{pathName}", produces = MediaType.TEXT_HTML_VALUE)
     public String retrieveReport(@PathVariable String pathName) {
         return reportRepository.retrieve(pathName);
+    }
+
+
+    @GetMapping(value = "/reports", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<String> retrieveReports() {
+        return reportRepository.retrieveAll();
     }
 
 }

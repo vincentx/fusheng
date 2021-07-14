@@ -12,4 +12,5 @@ import org.springframework.context.annotation.Configuration;
 public class ServerConfig {
     private String rawSpecFolderLocation;
     private String reportFolderLocation;
+    private String experimentFolderLocation;
 }
