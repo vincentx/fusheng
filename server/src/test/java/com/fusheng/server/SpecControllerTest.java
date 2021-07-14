@@ -49,19 +49,6 @@ class SpecControllerTest {
     }
 
     @Test
-    void should_return_spec_content_if_spec_exist() throws Exception {
-
-        final var specPath = "firstSpec";
-        Mockito.when(specRepository.retrieveSpec(specPath)).thenReturn(new RawSpec(specPath));
-
-        mvc.perform(MockMvcRequestBuilders.get("/specs/" + specPath).contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name", is(specPath)));
-    }
-
-    @Test
     void should_return_all_experiments_files_when_call_experiments_api() throws Exception {
         String path = "/experiments";
         List<String> experiments = List.of("1", "2");
