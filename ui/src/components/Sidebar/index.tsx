@@ -2,31 +2,31 @@ import * as React from "react";
 import { hot } from "react-hot-loader/root";
 import { FC } from "react";
 import "./sidebar.scss";
-import { Spec } from "../../App";
+import { IReport } from "../../App";
 import classNames from "classnames";
 
 interface SidebarProps {
-  specs: Spec[];
-  onClick: (spec: Spec) => void;
-  activeSpec: Spec | undefined;
+  reports: IReport[];
+  onClick: (report: IReport) => void;
+  active: IReport | undefined;
 }
-const Index: FC<SidebarProps> = ({ specs, onClick, activeSpec }) => {
+const Index: FC<SidebarProps> = ({ reports, onClick, active }) => {
   return (
     <>
       <div className="sidebar">
         <div className="title">FUSHENG</div>
-        {specs.map((spec) => (
+        {reports.map((report) => (
           <div
             className={classNames("sidebar-item-wrapper", {
-              focus: activeSpec?.name === spec.name,
+              focus: active?.name === report.name,
             })}
-            key={spec.name}
+            key={report.name}
             onClick={() => {
-              onClick(spec);
+              onClick(report);
             }}
           >
             <div className="sidebar-item">
-              <p>{spec.name}</p>
+              <p>{report.name}</p>
             </div>
           </div>
         ))}

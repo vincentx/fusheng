@@ -1,30 +1,30 @@
 import * as React from "react";
 import { hot } from "react-hot-loader/root";
 import { FC, useEffect, useState } from "react";
-import Sidebar from "./components/sidebar";
+import Sidebar from "./components/Sidebar";
 import httpClient from "./utils/httpClient";
-import Spec from "./components/spec";
+import Report from "./components/Report";
 
-export interface Spec {
+export interface IReport {
   name: string;
   src: string;
 }
 const App: FC = () => {
-  const [specs, setSpecs] = useState<Spec[]>([]);
-  const [activeSpec, setActiveSpec] = useState<Spec>();
+  const [reports, setReports] = useState<IReport[]>([]);
+  const [activeReport, setActiveReport] = useState<IReport>();
 
   useEffect(() => {
-    retrieveSpecs();
+    retrieveReports();
   }, []);
 
-  const retrieveSpecs = () => {
+  const retrieveReports = () => {
     httpClient
       .get("specs")
       .then((res) => {
-        const specs = res.data.specs;
-        setSpecs(specs);
-        if (specs.length) {
-          setActiveSpec(specs[0]);
+        const reports = res.data.specs;
+        setReports(reports);
+        if (reports.length) {
+          setActiveReport(reports[0]);
         }
       })
       .catch((err) => {
@@ -34,8 +34,14 @@ const App: FC = () => {
 
   return (
     <>
-      <Sidebar specs={specs} onClick={setActiveSpec} activeSpec={activeSpec} />
-      <div className="main">{activeSpec && <Spec src={activeSpec.src} />}</div>
+      <Sidebar
+        reports={reports}
+        onClick={setActiveReport}
+        active={activeReport}
+      />
+      <div className="main">
+        {activeReport && <Report src={activeReport.src} />}
+      </div>
     </>
   );
 };
