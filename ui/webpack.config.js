@@ -37,7 +37,7 @@ const config = {
       template: "./src/index.html",
       filename: "./index.html",
     }),
-    new Dotenv(),
+    new Dotenv({ safe: true }),
   ],
 };
 
