@@ -1,0 +1,27 @@
+{
+    "request": {
+        "method": "GET",
+        "url": "/reports"
+    },
+    "response": {
+        "status": 200,
+        "jsonBody": {
+            "reports": [
+                {
+                    "name": "demo",
+                    "src": "http://localhost:8081/reports/demo"
+                },
+                {
+                    "name": "demo2",
+                    "src": "http://localhost:8081/reports/demo2"
+                }
+            ]
+        },
+        "headers": {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "*",
+            "Access-Control-Allow-Headers": "Accept, Content-Type, Content-Encoding, Server, Transfer-Encoding"
+        }
+    }
+}

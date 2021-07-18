@@ -9,6 +9,7 @@
   "scripts": {
     "clean": "rm dist/fusheng.js",
     "build": "webpack --mode production",
+    "mockserver": "cd mock && ./launch.sh",
     "start": "webpack serve --hot --mode development",
     "test": "jest",
     "lint": "eslint \"src/*.{ts,tsx}\" --fix"

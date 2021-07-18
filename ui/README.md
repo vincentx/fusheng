@@ -1,45 +1,37 @@
-# ui
-
-Empty project.
+# Fusheng UI 
 
 ## Building and running on localhost
 
 First install dependencies:
 
 ```sh
-npm install
+yarn
 ```
 
 To run in hot module reloading mode:
 
 ```sh
-npm start
+yarn start
 ```
 
 To create a production build:
 
 ```sh
-npm run build-prod
+yarn build
 ```
 
-To create a development build:
+## Mock Server
+
+To start the mockserver:
 
 ```sh
-npm run build-dev
+yarn mockserver
 ```
-
-## Running
-
-Open the file `dist/index.html` in your browser
 
 ## Testing
 
 To run unit tests:
 
 ```sh
-npm test
+yarn test
 ```
-
-## Credits
-
-Made with [createapp.dev](https://createapp.dev/)
