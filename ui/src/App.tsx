@@ -19,9 +19,9 @@ const App: FC = () => {
 
   const retrieveReports = () => {
     httpClient
-      .get("specs")
+      .get("reports")
       .then((res) => {
-        const reports = res.data.specs;
+        const reports = res.data.reports;
         setReports(reports);
         if (reports.length) {
           setActiveReport(reports[0]);
