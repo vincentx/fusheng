@@ -1,7 +1,7 @@
 import * as React from "react";
 import { hot } from "react-hot-loader/root";
 import { FC } from "react";
-import "./sidebar.scss";
+import "./style.scss";
 import { IReport } from "../../App";
 import classNames from "classnames";
 
@@ -13,7 +13,7 @@ interface SidebarProps {
 const Index: FC<SidebarProps> = ({ reports, onClick, active }) => {
   return (
     <>
-      <div className="sidebar">
+      <div className="sidebar" data-testid="sidebar">
         <div className="title">FUSHENG</div>
         {reports.map((report) => (
           <div
@@ -24,6 +24,7 @@ const Index: FC<SidebarProps> = ({ reports, onClick, active }) => {
             onClick={() => {
               onClick(report);
             }}
+            data-testid={`sidebar-${report.name}`}
           >
             <div className="sidebar-item">
               <p>{report.name}</p>
