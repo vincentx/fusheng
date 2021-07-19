@@ -1,15 +1,15 @@
 export const parse = ($, root, id, parseUtils, codes) => {
   codes = codes || []
-  root.children().each(function(index, element) {
-    let node = $(element)
-    if (node.hasClass('variable')) {
-      parseUtils.parseVariable(node, codes)
-    } else if (node.hasClass('function')) {
+  $.children(root).each(function(index, element) {
+    let node = $.wrapElement(element)
+    if ($.hasClass(node, 'variable')) {
+      parseUtils.parseVariable($, node, codes)
+    } else if ($.hasClass(node, 'function')) {
       const embeddedCode = parse($, node, id, parseUtils)
-      parseUtils.parseFunction(node, codes, embeddedCode)
-    } else if (node.hasClass('assertion')) {
+      parseUtils.parseFunction($, node, codes, embeddedCode)
+    } else if ($.hasClass(node, 'assertion')) {
       const embeddedCode = parse($, node, id, parseUtils)
-      parseUtils.parseAssertion(node, id, codes, embeddedCode)
+      parseUtils.parseAssertion($, node, id, codes, embeddedCode)
     } else {
       parse($, node, id, parseUtils, codes)
     }

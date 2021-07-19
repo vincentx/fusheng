@@ -38,6 +38,10 @@ const load = function (resource) {
     api.empty = function (node) {
         node.empty()
     }
+    api.appendByTag = function (tag, content) {
+        $(tag).append(content)
+    }
+    return api;
 }
 
 const uuid = function () {

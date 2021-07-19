@@ -1,23 +1,23 @@
-const parseVariable = (node, codes) => {
-  const variableName = node.attr('data-name')
-  const variableValue = node.text().trim()
+const parseVariable = ($, node, codes) => {
+  const variableName = $.getAttr(node, 'data-name')
+  const variableValue = $.text(node).trim()
   codes.push(convertVariableCode(variableName, variableValue))
 }
 
-const parseFunction = (node, codes, embeddedCode) => {
-  const actionName = node.attr('data-action')
-  const actionParams = node.attr('data-params')
+const parseFunction = ($, node, codes, embeddedCode) => {
+  const actionName = $.getAttr(node, 'data-action')
+  const actionParams = $.getAttr(node, 'data-params')
   codes.push(convertFunctionCode(actionName, actionParams, embeddedCode))
 }
 
-const parseAssertion = (node, exampleId, codes, embeddedCode) => {
-  const actionName = node.attr('data-action')
-  const actionParams = node.attr('data-params')
+const parseAssertion = ($, node, exampleId, codes, embeddedCode) => {
+  const actionName = $.getAttr(node, 'data-action')
+  const actionParams = $.getAttr(node, 'data-params')
   codes.push(convertAssertionFunctionCode(actionName, actionParams, embeddedCode))
-  const expectType = node.attr('data-expect')
-  const expectValue = node.text().trim()
+  const expectType = $.getAttr(node, 'data-expect')
+  const expectValue = $.text(node).trim()
   codes.push(convertAssertionCode(expectType, expectValue))
-  const assertionId = node.attr('id')
+  const assertionId = $.getAttr(node, 'id')
   codes.push(convertAssertionResultCode(exampleId, assertionId))
 }
 
@@ -60,7 +60,7 @@ const convertAssertionCode = (expectType, expectValue) => {
 }
 
 const convertAssertionResultCode = (exampleId, assertionId) => {
-  return `$("#${assertionId}").addClass(result ? "success" : "error");context["${exampleId}"] = context["${exampleId}"] && result;`
+  return `$.addClass($.getElementById("${assertionId}"), result ? "success" : "error");context["${exampleId}"] = context["${exampleId}"] && result;`
 }
 
 export default {

@@ -1,23 +1,23 @@
 function enhanceContentId($, uuid) {
-  $('.example').each(function (index, element) {
-    const node = $(element)
-    node.attr('id', uuid())
+  $.getElementsByClassName('example').each(function (index, element) {
+    const node = $.wrapElement(element)
+    $.setAttr(node, 'id', uuid())
   })
 }
 
 function enhanceAssertion($, uuid) {
-  $('.assertion').each(function (index, element) {
-    const node = $(element)
-    const expectValue = node.text().trim()
-    node.empty()
-    node.attr('id', uuid())
-    node.append(`<span class="assert-expect">${expectValue}</span>`)
-    node.append('<span class="assert-actual"></span>')
+  $.getElementsByClassName('assertion').each(function (index, element) {
+    const node = $.wrapElement(element)
+    const expectValue = $.text(node).trim()
+    $.empty(node)
+    $.setAttr(node, 'id', uuid())
+    $.append(node, `<span class="assert-expect">${expectValue}</span>`)
+    $.append(node, '<span class="assert-actual"></span>')
   })
 }
 
 function enhanceStyle($) {
-  $('html').append(`
+  $.appendByTag('html', `
     <style>
       .success {
           background-color: #afa;
