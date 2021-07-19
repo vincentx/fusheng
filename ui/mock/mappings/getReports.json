@@ -12,6 +12,9 @@
                     "src": "http://localhost:8081/reports/demo"
                 },
                 {
+                    "name": "demo1",
+                    "src": "http://localhost:8081/reports/demo1"
+                },                {
                     "name": "demo2",
                     "src": "http://localhost:8081/reports/demo2"
                 }
