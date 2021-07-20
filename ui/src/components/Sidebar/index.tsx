@@ -15,22 +15,24 @@ const Index: FC<SidebarProps> = ({ reports, onClick, active }) => {
     <>
       <div className="sidebar" data-testid="sidebar">
         <div className="title">FUSHENG</div>
-        {reports.map((report) => (
-          <div
-            className={classNames("sidebar-item-wrapper", {
-              focus: active?.name === report.name,
-            })}
-            key={report.name}
-            onClick={() => {
-              onClick(report);
-            }}
-            data-testid={`sidebar-${report.name}`}
-          >
-            <div className="sidebar-item">
-              <p>{report.name}</p>
+        <div className="sidebar-content">
+          {reports.map((report) => (
+            <div
+              className={classNames("sidebar-item-wrapper", {
+                focus: active?.name === report.name,
+              })}
+              key={report.name}
+              onClick={() => {
+                onClick(report);
+              }}
+              data-testid={`sidebar-${report.name}`}
+            >
+              <div className="sidebar-item">
+                <p>{report.name}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </>
   );

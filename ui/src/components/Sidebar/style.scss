@@ -1,36 +1,48 @@
 @import "src/styles/variables";
 
 .title {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
   display: flex;
   justify-content: center;
-  padding: 1em;
-  font-size: 1.5em;
+  align-items: center;
+  font-size: 1em;
+  min-height: 64px;
   background-color: $primary;
 }
 
 .sidebar {
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  width: 258px;
   background-color: $dark;
   color: $light;
-  width: 30%;
-  min-width: 120px;
-  max-width: 300px;
-  flex-grow: 1;
+}
 
-  .sidebar-item-wrapper {
-    :hover {
-      background-color: lighten($dark, 5%);
-    }
 
-    :active {
-      background-color: darken($dark, 5%);
-    }
+.sidebar-content {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
 
-    .sidebar-item {
-      padding: 0.2em 1em 0.2em 2em;
+.sidebar-item-wrapper {
+  :hover {
+    background-color: lighten($dark, 5%);
+  }
 
-      p {
-        word-wrap: break-word;
-      }
+  :active {
+    background-color: darken($dark, 5%);
+  }
+
+  .sidebar-item {
+    padding: 0.2em 1em 0.2em 2em;
+
+    p {
+      word-wrap: break-word;
     }
   }
 }
