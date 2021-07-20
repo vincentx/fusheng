@@ -1,0 +1,13 @@
+$small-devices: 960px;
+
+@mixin is-small {
+  @media (max-width: $small-devices) {
+    @content;
+  }
+}
+
+@mixin is-large {
+  @media screen and (min-width: $small-devices + 1) {
+    @content;
+  }
+}

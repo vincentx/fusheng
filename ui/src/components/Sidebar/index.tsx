@@ -10,7 +10,7 @@ interface SidebarProps {
   onClick: (report: IReport) => void;
   active: IReport | undefined;
 }
-const Index: FC<SidebarProps> = ({ reports, onClick, active }) => {
+const Sidebar: FC<SidebarProps> = ({ reports, onClick, active }) => {
   return (
     <>
       <div className="sidebar" data-testid="sidebar">
@@ -18,7 +18,7 @@ const Index: FC<SidebarProps> = ({ reports, onClick, active }) => {
         <div className="sidebar-content">
           {reports.map((report) => (
             <div
-              className={classNames("sidebar-item-wrapper", {
+              className={classNames("sidebar-item-wrapper", "clickable", {
                 focus: active?.name === report.name,
               })}
               key={report.name}
@@ -38,4 +38,4 @@ const Index: FC<SidebarProps> = ({ reports, onClick, active }) => {
   );
 };
 
-export default hot(Index);
+export default hot(Sidebar);

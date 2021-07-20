@@ -3,7 +3,8 @@ import { hot } from "react-hot-loader/root";
 import { FC, useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import httpClient from "./utils/httpClient";
-import Report from "./components/Report";
+import Report from "./components/report";
+import ToolBar from "./components/toolbar";
 
 export interface IReport {
   name: string;
@@ -40,7 +41,10 @@ const App: FC = () => {
         active={activeReport}
       />
       <div className="main">
-        {activeReport && <Report src={activeReport.src} />}
+        <ToolBar />
+        <div className="main-content">
+          {activeReport && <Report src={activeReport.src} />}
+        </div>
       </div>
     </>
   );

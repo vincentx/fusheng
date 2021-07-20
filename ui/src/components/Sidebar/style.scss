@@ -1,16 +1,5 @@
 @import "src/styles/variables";
-
-.title {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1em;
-  min-height: 64px;
-  background-color: $primary;
-}
+@import "src/styles/responsive";
 
 .sidebar {
   top: 0;
@@ -23,6 +12,17 @@
   color: $light;
 }
 
+.title {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em;
+  min-height: 64px;
+  border-bottom: lighten($dark, 5) solid 1px;
+}
 
 .sidebar-content {
   overflow-y: auto;
@@ -31,11 +31,11 @@
 
 .sidebar-item-wrapper {
   :hover {
-    background-color: lighten($dark, 5%);
+    background-color: lighten($dark, 5);
   }
 
   :active {
-    background-color: darken($dark, 5%);
+    background-color: darken($dark, 5);
   }
 
   .sidebar-item {
@@ -44,5 +44,12 @@
     p {
       word-wrap: break-word;
     }
+  }
+}
+
+
+@include is-small {
+  .sidebar {
+    display: none;
   }
 }

@@ -1,0 +1,41 @@
+@import "src/styles/variables";
+
+.toolbar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  display: flex;
+  padding: 0 1em;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 64px;
+  background-color: $primary;
+}
+
+.button {
+  border: none;
+  background-color: transparent;
+
+  :hover {
+    background-color: lighten($primary, 5);
+  }
+
+  :active {
+    background-color: darken($primary, 5);
+  }
+}
+
+.button-wrapper {
+  padding: 8px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em;
+  color: $light;
+}
+
+.icon {
+  padding-right: 4px;
+}
+
