@@ -1,4 +1,4 @@
-import {load} from 'cheerio';
+import {load} from '../src/sandbox';
 import {enhance} from '../src/enhance'
 import {v4} from 'uuid'
 
@@ -7,7 +7,7 @@ test('enhance context id', () => {
         <p class="example"></p>
     `)
     enhance($, v4)
-    expect($('.example').attr('id')).toBeDefined()
+    expect($.getElementsByClassName('example').attr('id')).toBeDefined()
 })
 
 test('enhance assertion tag', () => {
@@ -15,11 +15,10 @@ test('enhance assertion tag', () => {
         <span class="assertion" data-expect="equal" data-action="getPot">0</span>
     `)
     enhance($, v4)
-    console.log($.html())
-    expect($('.assertion').attr('id')).toBeDefined()
-    expect($('.assertion').children().length).toBe(2)
-    expect($('.assertion').children('.assert-expect')).toBeDefined()
-    expect($('.assertion').children('.assert-actual')).toBeDefined()
+    expect($.getElementsByClassName('assertion').attr('id')).toBeDefined()
+    expect($.getElementsByClassName('assertion').children().length).toBe(2)
+    expect($.getElementsByClassName('assertion').children('.assert-expect')).toBeDefined()
+    expect($.getElementsByClassName('assertion').children('.assert-actual')).toBeDefined()
 })
 
 test('enhance style', () => {
@@ -27,5 +26,5 @@ test('enhance style', () => {
         <p></p>
     `)
     enhance($, v4)
-    expect($('style').html()).toBeDefined()
+    expect($.getElementsByClassName('style').html()).toBeDefined()
 })
