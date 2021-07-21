@@ -6,6 +6,8 @@ public interface DomHelper {
 
   public List<DomHelper> getElementsByClassName(String classname);
 
+  public List<DomHelper> getElementsByTag(String tag);
+
   public DomHelper getElementById(String id);
 
   public List<DomHelper> children();

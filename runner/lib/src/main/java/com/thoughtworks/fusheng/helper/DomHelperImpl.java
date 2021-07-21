@@ -28,6 +28,15 @@ public class DomHelperImpl implements DomHelper {
   }
 
   @Override
+  public List<DomHelper> getElementsByTag(String tag) {
+    return element
+            .getElementsByTag(tag)
+            .stream()
+            .map(DomHelperImpl::of)
+            .collect(Collectors.toList());
+  }
+
+  @Override
   public DomHelper getElementById(String id) {
     return new DomHelperImpl(Jsoup.parse(element.getElementById(id).html()));
   }
