@@ -38,7 +38,7 @@ public class DomHelperImpl implements DomHelper {
 
   @Override
   public DomHelper getElementById(String id) {
-    return new DomHelperImpl(Jsoup.parse(element.getElementById(id).html()));
+    return DomHelperImpl.of(element.getElementById(id));
   }
 
   @Override
@@ -67,8 +67,7 @@ public class DomHelperImpl implements DomHelper {
 
   @Override
   public String getAttr(String name) {
-    Attributes attributes = element.attributes();
-    return attributes.get(name);
+    return element.attributes().get(name);
   }
 
   @Override
