@@ -25,7 +25,7 @@ class SpecControllerIntegrationTest {
     @Test
     void should_return_spec_content_if_spec_exist() throws Exception {
 
-        final var specPath = "/spec-202107131212";
+        final var specPath = "firstRoundBet";
 
         mvc.perform(
                 MockMvcRequestBuilders

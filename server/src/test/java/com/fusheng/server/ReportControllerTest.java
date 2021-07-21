@@ -28,7 +28,7 @@ class ReportControllerTest {
     @Test
     void should_return_spec_content_if_report_exist() throws Exception {
 
-        final var reportPath = "spec-202107131212";
+        final var reportPath = "test";
 
         mvc.perform(
                 MockMvcRequestBuilders
@@ -48,7 +48,7 @@ class ReportControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(equalTo(2))))
+                .andExpect(jsonPath("$", hasSize(equalTo(4))))
                 .andExpect(jsonPath("$[0]", is("selectWinner")))
                 .andExpect(jsonPath("$[1]", is("firstRoundBet")));
     }

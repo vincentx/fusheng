@@ -46,18 +46,4 @@ class SpecControllerTest {
                 .andExpect(jsonPath("$[0].description", is("first spec")))
                 .andExpect(jsonPath("$[1].description", is("second spec")));
     }
-
-    @Test
-    void should_return_specific_experiment_result_when_call_run_experiment_api_given_path_name_and_content() throws Exception {
-        String pathName = "firstReport";
-        String path = "/experiment/" + pathName;
-        String content = "content";
-        String report = "first report";
-        Mockito.when(specService.runExperiment(pathName, content))
-                .thenReturn(report);
-
-        mvc.perform(MockMvcRequestBuilders.post(path).content(content))
-                .andExpect(status().isOk())
-                .andExpect(content().string(report));
-    }
 }
