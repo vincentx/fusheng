@@ -1,23 +1,23 @@
-const parseVariable = ($, node, codes) => {
-  const variableName = $.getAttr(node, 'data-name')
-  const variableValue = $.text(node).trim()
+const parseVariable = (api, codes) => {
+  const variableName = api.getAttr('data-name')
+  const variableValue = api.text().trim()
   codes.push(convertVariableCode(variableName, variableValue))
 }
 
-const parseFunction = ($, node, codes, embeddedCode) => {
-  const actionName = $.getAttr(node, 'data-action')
-  const actionParams = $.getAttr(node, 'data-params')
+const parseFunction = (api, codes, embeddedCode) => {
+  const actionName = api.getAttr('data-action')
+  const actionParams = api.getAttr('data-params')
   codes.push(convertFunctionCode(actionName, actionParams, embeddedCode))
 }
 
-const parseAssertion = ($, node, exampleId, codes, embeddedCode) => {
-  const actionName = $.getAttr(node, 'data-action')
-  const actionParams = $.getAttr(node, 'data-params')
+const parseAssertion = (api, exampleId, codes, embeddedCode) => {
+  const actionName = api.getAttr('data-action')
+  const actionParams = api.getAttr('data-params')
   codes.push(convertAssertionFunctionCode(actionName, actionParams, embeddedCode))
-  const expectType = $.getAttr(node, 'data-expect')
-  const expectValue = $.text(node).trim()
+  const expectType = api.getAttr('data-expect')
+  const expectValue = api.text().trim()
   codes.push(convertAssertionCode(expectType, expectValue))
-  const assertionId = $.getAttr(node, 'id')
+  const assertionId = api.getAttr('id')
   codes.push(convertAssertionResultCode(exampleId, assertionId))
 }
 
@@ -60,7 +60,7 @@ const convertAssertionCode = (expectType, expectValue) => {
 }
 
 const convertAssertionResultCode = (exampleId, assertionId) => {
-  return `$.addClass($.getElementById("${assertionId}"), result ? "success" : "error");context["${exampleId}"] = context["${exampleId}"] && result;`
+  return `$.getElementById("${assertionId}").addClass(result ? "success" : "error");context["${exampleId}"] = context["${exampleId}"] && result;`
 }
 
 export default {

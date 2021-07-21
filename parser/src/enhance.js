@@ -1,23 +1,21 @@
-function enhanceContentId($, uuid) {
-  $.getElementsByClassName('example').each(function (index, element) {
-    const node = $.wrapElement(element)
-    $.setAttr(node, 'id', uuid())
+function enhanceContentId(api, uuid) {
+  api.getElementsByClassName('example').forEach(element => {
+    element.setAttr('id', uuid())
   })
 }
 
-function enhanceAssertion($, uuid) {
-  $.getElementsByClassName('assertion').each(function (index, element) {
-    const node = $.wrapElement(element)
-    const expectValue = $.text(node).trim()
-    $.empty(node)
-    $.setAttr(node, 'id', uuid())
-    $.append(node, `<span class="assert-expect">${expectValue}</span>`)
-    $.append(node, '<span class="assert-actual"></span>')
+function enhanceAssertion(api, uuid) {
+  api.getElementsByClassName('assertion').forEach(element => {
+    const expectValue = element.text().trim()
+    element.empty()
+    element.setAttr('id', uuid())
+    element.append(`<span class="assert-expect">${expectValue}</span>`)
+    element.append('<span class="assert-actual"></span>')
   })
 }
 
-function enhanceStyle($) {
-  $.appendByTag('html', `
+function enhanceStyle(api) {
+  api.appendByTag('html', `
     <style>
       .success {
           background-color: #afa;
@@ -38,8 +36,8 @@ function enhanceStyle($) {
   `)
 }
 
-export const enhance = ($, uuid) => {
-  enhanceContentId($, uuid);
-  enhanceAssertion($, uuid);
-  enhanceStyle($)
+export const enhance = (api, uuid) => {
+  enhanceContentId(api, uuid);
+  enhanceAssertion(api, uuid);
+  enhanceStyle(api)
 }

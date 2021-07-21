@@ -1,45 +1,60 @@
 import * as cheerio from "cheerio";
 import { v4 } from 'uuid'
 
-const api = {}
-
 const load = function (resource) {
     const $ = cheerio.load(resource)
+    return getApi($)
+}
+
+const getApi = function ($, node) {
+    const api = {}
     api.getElementsByClassName = function (className) {
-        return $('.' + className)
+        const apis = []
+        $('.' + className).each((index, element) => {
+            apis.push(getApi($, $(element)))
+        })
+        return apis
     }
     api.getElementById = function (id) {
-        return $('#' + id)
+        const apis = []
+        $('#' + id).each((index, element) => {
+            apis.push(getApi($, $(element)))
+        })
+        return apis;
     }
-    api.children = function (node) {
-        return $(node).children()
+    api.children = function () {
+        const apis = []
+        node.children().each((index, element) => {
+            apis.push(getApi($, $(element)))
+        })
+        return apis
     }
-    api.wrapElement = function (element) {
-        return $(element)
-    }
-    api.addClass = function (node, name) {
+    api.addClass = function (name) {
         node.addClass(name)
     }
-    api.hasClass = function (node, name) {
+    api.hasClass = function (name) {
         return node.hasClass(name)
     }
-    api.text = function (node) {
+    api.text = function () {
         return node.text()
     }
-    api.getAttr = function (node, name) {
+    api.getAttr = function (name) {
         return node.attr(name)
     }
-    api.setAttr = function (node, name, value) {
+    api.setAttr = function (name, value) {
         return node.attr(name, value)
     }
-    api.append = function (node, html) {
+    api.append = function (html) {
         node.append(html)
     }
-    api.empty = function (node) {
+    api.empty = function () {
         node.empty()
     }
     api.appendByTag = function (tag, content) {
         $(tag).append(content)
+    }
+    api.html = function () {
+        console.log($.html())
     }
     return api;
 }

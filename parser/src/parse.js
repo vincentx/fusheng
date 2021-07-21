@@ -1,17 +1,16 @@
-export const parse = ($, root, id, parseUtils, codes) => {
+export const parse = (api, id, parseUtils, codes) => {
   codes = codes || []
-  $.children(root).each(function(index, element) {
-    let node = $.wrapElement(element)
-    if ($.hasClass(node, 'variable')) {
-      parseUtils.parseVariable($, node, codes)
-    } else if ($.hasClass(node, 'function')) {
-      const embeddedCode = parse($, node, id, parseUtils)
-      parseUtils.parseFunction($, node, codes, embeddedCode)
-    } else if ($.hasClass(node, 'assertion')) {
-      const embeddedCode = parse($, node, id, parseUtils)
-      parseUtils.parseAssertion($, node, id, codes, embeddedCode)
+  api.children().forEach(_api => {
+    if (_api.hasClass('variable')) {
+      parseUtils.parseVariable(_api, codes)
+    } else if (_api.hasClass('function')) {
+      const embeddedCode = parse(_api, id, parseUtils)
+      parseUtils.parseFunction(_api, codes, embeddedCode)
+    } else if (_api.hasClass('assertion')) {
+      const embeddedCode = parse(_api, id, parseUtils)
+      parseUtils.parseAssertion(_api, id, codes, embeddedCode)
     } else {
-      parse($, node, id, parseUtils, codes)
+      parse(_api, id, parseUtils, codes)
     }
   })
   return codes.join('')
