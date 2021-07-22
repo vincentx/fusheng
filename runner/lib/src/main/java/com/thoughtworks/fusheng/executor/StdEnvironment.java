@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 public class StdEnvironment {
 
     private static final String CONTEXT_FIELD_NAME = "context";
-    private static final stdLib stdLib = new stdLib();
+    public static final StdLib stdLib = new StdLib();
 
     @RequiredArgsConstructor(staticName = "of")
     public static class Context {
@@ -42,7 +42,7 @@ public class StdEnvironment {
 
         symbols.put("context", new HashMap<>());
 
-        Arrays.stream(stdLib.class.getMethods()).forEach(
+        Arrays.stream(StdLib.class.getMethods()).forEach(
             method -> symbols.put(method.getName(), wrapFunc(stdLib, method))
         );
 
@@ -50,7 +50,7 @@ public class StdEnvironment {
     }
 
     @FunctionalInterface
-    private interface Func<T> {
+    public interface Func<T> {
 
         T apply(Object... obj);
     }
