@@ -60,7 +60,7 @@ const convertAssertionCode = (expectType, expectValue) => {
 }
 
 const convertAssertionResultCode = (exampleId, assertionId) => {
-  return `$.getElementById("${assertionId}").addClass(result ? "success" : "error");context["${exampleId}"] = context["${exampleId}"] && result;`
+  return `$.getElementById("${assertionId}").addClass(result ? "success" : "error");context["${exampleId}"] = context["${exampleId}"] && result;$.getElementById("${assertionId}").children()[1].setText(actual);`
 }
 
 export default {

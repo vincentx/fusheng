@@ -7,9 +7,9 @@ import fs from 'fs'
 let html = fs.readFileSync('public/example.html', 'utf-8')
 const $ = load(html)
 const uuid = uuidv4()
-console.log(getJsCode())
+const generatedScript = getJsCode()
 
-export function getJsCode() {
+function getJsCode() {
   enhance($, uuid)
   const script = {}
   $.getElementsByClassName('example').forEach(api => {
@@ -18,4 +18,11 @@ export function getJsCode() {
     script[id] = parse(api, id, parseUtils, initCodes)
   })
   return script
+}
+
+export {
+  $,
+  uuid,
+  generatedScript,
+  getJsCode
 }

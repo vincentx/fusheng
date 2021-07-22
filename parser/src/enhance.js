@@ -10,12 +10,12 @@ function enhanceAssertion(api, uuid) {
     element.empty()
     element.setAttr('id', uuid())
     element.append(`<span class="assert-expect">${expectValue}</span>`)
-    element.append('<span class="assert-actual"></span>')
+    element.append(`<span class="assert-actual"></span>`)
   })
 }
 
 function enhanceStyle(api) {
-  api.getElementsByTag('html')[0].append(`
+  api.getElementsByTag('head')[0].append(`
     <style>
       .success {
           background-color: #afa;

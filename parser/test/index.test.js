@@ -1,18 +1,16 @@
-import {readFileSync} from 'fs'
-import {getJsCode} from '../src'
-import {load} from "../src/sandbox";
-import {uuid} from "../src/sandbox";
+import {generatedScript, $, uuid} from '../src'
 
 test('test generated script', () => {
   // init $, fixture, context
-  const html = readFileSync('public/example.html', 'utf-8')
-  const $ = load(html)
-  const script = getJsCode($, uuid())
-  const context = {}
+  const script = generatedScript
+  const api = $
+  const uuidv4 = uuid
   const fixture = defaultFixture()
+
   let actualPlayers
   let actualMinWager
   let actualRaiseWager
+
   fixture.newGame = function(players) {
     actualPlayers = players
   }
@@ -22,16 +20,24 @@ test('test generated script', () => {
   fixture.raise = function (wager) {
     actualRaiseWager = wager
   }
-  $.getElementsByClassName('example').each((index, element) => {
-    const uuid = $.getAttr($.wrapElement(element), 'id')
-    execute(script[uuid], $, context, fixture)
+  fixture.getPot = function () {
+    return "1"
+  }
+  fixture.getActivePlayer = function () {
+    return "A"
+  }
+  api.getElementsByClassName('example').forEach(_api => {
+    const id = _api.getAttr('id')
+    // console.log(script[id], api, {}, fixture, uuidv4)
+    execute(script[id], api, {}, fixture, uuidv4)
     expect(actualPlayers).toBe('A,B,C')
     expect(actualMinWager).toBe(3)
     expect(actualRaiseWager).toBe(5)
+    console.log(api.html())
   })
 })
 
-function execute(script, $, context, fixture) {
+function execute(script, $, context, fixture, uuid) {
   eval(script)
 }
 

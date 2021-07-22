@@ -20,7 +20,7 @@ const getApi = function ($, node) {
         $('#' + id).each((index, element) => {
             apis.push(getApi($, $(element)))
         })
-        return apis;
+        return apis[0];
     }
     api.children = function () {
         const apis = []
@@ -52,6 +52,12 @@ const getApi = function ($, node) {
     }
     api.getElementsByTag = function (tag) {
         return [$(tag)]
+    }
+    api.setText = function (text) {
+        node.text(text)
+    }
+    api.html = function () {
+        return $.html()
     }
     return api;
 }
