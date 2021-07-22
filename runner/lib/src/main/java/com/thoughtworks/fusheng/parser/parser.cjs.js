@@ -70,7 +70,7 @@ var parseAssertion = function parseAssertion(api, exampleId, codes, embeddedCode
 
 var convertVariableCode = function convertVariableCode(variableName, variableValue) {
   variableValue = isNaN(variableValue) ? '"' + variableValue + '"' : variableValue;
-  return "let ".concat(variableName, " = ").concat(variableValue, ";");
+  return "var ".concat(variableName, " = ").concat(variableValue, ";");
 };
 
 var convertFunctionCode = function convertFunctionCode(actionName, actionParams, embeddedCode) {
@@ -113,13 +113,13 @@ var parseUtils = {
 };
 
 function getJsCode() {
-  enhance($, uuid());
+  enhance($, uuid);
   var script = {};
-  $.getElementsByClassName('example').forEach(function (_api) {
-    var id = _api.getAttr('id');
-
-    var initCodes = ["let expect;let actual;let result;context[\"".concat(id, "\"] = true;")];
-    script[id] = parse(_api, id, parseUtils, initCodes);
+  $.getElementsByClassName('example').forEach(function (api) {
+    var id = api.getAttr('id');
+    var initCodes = ["var expect;var actual;var result;context[\"".concat(id, "\"] = true;")];
+    script[id] = parse(api, id, parseUtils, initCodes);
   });
   return script;
 }
+
