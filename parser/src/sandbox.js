@@ -50,20 +50,17 @@ const getApi = function ($, node) {
     api.empty = function () {
         node.empty()
     }
-    api.appendByTag = function (tag, content) {
-        $(tag).append(content)
-    }
-    api.html = function () {
-        console.log($.html())
+    api.getElementsByTag = function (tag) {
+        return [$(tag)]
     }
     return api;
 }
 
-const uuid = function () {
+const uuidv4 = function () {
     return v4
 }
 
 export {
     load,
-    uuid
+    uuidv4
 }

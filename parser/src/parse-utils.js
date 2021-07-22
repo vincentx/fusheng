@@ -23,7 +23,7 @@ const parseAssertion = (api, exampleId, codes, embeddedCode) => {
 
 const convertVariableCode  = (variableName, variableValue) => {
   variableValue = isNaN(variableValue) ? '"' + variableValue + '"' : variableValue
-  return `let ${variableName} = ${variableValue};`
+  return `var ${variableName} = ${variableValue};`
 }
 
 const convertFunctionCode = (actionName, actionParams, embeddedCode) => {

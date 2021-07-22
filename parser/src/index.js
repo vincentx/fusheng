@@ -1,25 +1,21 @@
-import 'core-js'
-import 'regenerator-runtime/runtime'
-import fs from 'fs'
 import { enhance } from './enhance'
 import { parse } from './parse'
+import { load, uuidv4 } from './sandbox'
 import parseUtils from './parse-utils'
-import {load} from "./sandbox";
-import {uuid} from "./sandbox";
+import fs from 'fs'
 
 let html = fs.readFileSync('public/example.html', 'utf-8')
-const api = load(html)
-const v4 = uuid()
-const script = exec(api, v4)
-console.log(script)
+const $ = load(html)
+const uuid = uuidv4()
+console.log(getJsCode())
 
-export function exec(api, uuid) {
-  enhance(api, uuid)
+export function getJsCode() {
+  enhance($, uuid)
   const script = {}
-  api.getElementsByClassName('example').forEach(_api => {
-    const id = _api.getAttr('id')
-    const initCodes = [`let expect;let actual;let result;context["${id}"] = true;`]
-    script[id] = parse(_api, id, parseUtils, initCodes)
+  $.getElementsByClassName('example').forEach(api => {
+    const id = api.getAttr('id')
+    const initCodes = [`var expect;var actual;var result;context["${id}"] = true;`]
+    script[id] = parse(api, id, parseUtils, initCodes)
   })
   return script
 }

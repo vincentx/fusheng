@@ -1,5 +1,5 @@
 import {readFileSync} from 'fs'
-import {exec} from '../src'
+import {getJsCode} from '../src'
 import {load} from "../src/sandbox";
 import {uuid} from "../src/sandbox";
 
@@ -7,7 +7,7 @@ test('test generated script', () => {
   // init $, fixture, context
   const html = readFileSync('public/example.html', 'utf-8')
   const $ = load(html)
-  const script = exec($, uuid())
+  const script = getJsCode($, uuid())
   const context = {}
   const fixture = defaultFixture()
   let actualPlayers

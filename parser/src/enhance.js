@@ -15,7 +15,7 @@ function enhanceAssertion(api, uuid) {
 }
 
 function enhanceStyle(api) {
-  api.appendByTag('html', `
+  api.getElementsByTag('html')[0].append(`
     <style>
       .success {
           background-color: #afa;
