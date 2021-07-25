@@ -4,7 +4,7 @@ import { FC, useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import httpClient from "./utils/httpClient";
 import Report from "./components/report";
-import ToolBar from "./components/toolbar";
+import { REPORTS_RESOURCE_PATH } from "./utils/constant";
 
 export interface IReport {
   name: string;
@@ -20,7 +20,7 @@ const App: FC = () => {
 
   const retrieveReports = () => {
     httpClient
-      .get("reports")
+      .get(REPORTS_RESOURCE_PATH)
       .then((res) => {
         const reports = res.data.reports;
         setReports(reports);
@@ -41,7 +41,6 @@ const App: FC = () => {
         active={activeReport}
       />
       <div className="main">
-        <ToolBar />
         <div className="main-content">
           {activeReport && <Report src={activeReport.src} />}
         </div>
