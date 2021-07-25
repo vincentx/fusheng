@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPattern": "/experiments/.*"
+  },
+  "response" : {
+    "status" : 200,
+    "jsonBody" : {
+      "id": "2021-07-23 12:30"
+    },
+    "headers" : {
+      "Access-Control-Allow-Origin" : "*",
+      "Access-Control-Allow-Methods" : "*",
+      "Access-Control-Allow-Headers": "Accept, Content-Type, Content-Encoding, Server, Transfer-Encoding"
+    }
+  }
+}
