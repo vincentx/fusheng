@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "fusheng.fusheng.server")
+@ConfigurationProperties(prefix = "fusheng.server")
 @Getter
 @Setter
 public class ServerConfig {
