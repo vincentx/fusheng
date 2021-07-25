@@ -8,55 +8,13 @@
         "jsonBody": {
             "reports": [
                 {
-                    "name": "demo",
-                    "src": "http://localhost:8081/reports/demo"
+                    "name": "demo"
                 },
                 {
-                    "name": "demo1",
-                    "src": "http://localhost:8081/reports/demo1"
-                },                {
-                    "name": "demo2",
-                    "src": "http://localhost:8081/reports/demo2"
-                },                {
-                    "name": "demoa",
-                    "src": "http://localhost:8081/reports/demo"
+                    "name": "demo1"
                 },
                 {
-                    "name": "demo1a",
-                    "src": "http://localhost:8081/reports/demo1"
-                },                {
-                    "name": "demo2a",
-                    "src": "http://localhost:8081/reports/demo2"
-                },                {
-                    "name": "demob",
-                    "src": "http://localhost:8081/reports/demo"
-                },
-                {
-                    "name": "demo1b",
-                    "src": "http://localhost:8081/reports/demo1"
-                },                {
-                    "name": "demo2b",
-                    "src": "http://localhost:8081/reports/demo2"
-                },                {
-                    "name": "democ",
-                    "src": "http://localhost:8081/reports/demo"
-                },
-                {
-                    "name": "demo1c",
-                    "src": "http://localhost:8081/reports/demo1"
-                },                {
-                    "name": "demo2c",
-                    "src": "http://localhost:8081/reports/demo2"
-                },                {
-                    "name": "demod",
-                    "src": "http://localhost:8081/reports/demo"
-                },
-                {
-                    "name": "demo1d",
-                    "src": "http://localhost:8081/reports/demo1"
-                },                {
-                    "name": "demo2d",
-                    "src": "http://localhost:8081/reports/demo2"
+                    "name": "demo2"
                 }
             ]
         },

@@ -1,11 +1,11 @@
 import * as React from "react";
 import { hot } from "react-hot-loader/root";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import "./style.scss";
 import ToolBar from "../toolbar";
 
 interface ReportProps {
-  src: string;
+  name: string;
 }
 
 export enum Mode {
@@ -13,13 +13,27 @@ export enum Mode {
   EXPERIMENT = "EXPERIMENT",
 }
 
-const Report: FC<ReportProps> = ({ src }) => {
+const Report: FC<ReportProps> = ({ name }) => {
   const [mode, setMode] = useState(Mode.VIEW);
+  const [src, setSrc] = useState(`${process.env.SERVER_HOST}/reports/${name}`);
+
+  useEffect(() => {
+    setMode(Mode.VIEW);
+    setSrc(`${process.env.SERVER_HOST}/reports/${name}`);
+  }, [name]);
+
+  useEffect(() => {
+    if (mode === Mode.EXPERIMENT) {
+      setSrc(`${process.env.SERVER_HOST}/specs/${name}`);
+    } else {
+      setSrc(`${process.env.SERVER_HOST}/reports/${name}`);
+    }
+  }, [mode]);
 
   return (
     <>
       <ToolBar mode={mode} setMode={setMode} />
-      <iframe src={src} className="report" />
+      <iframe src={src} className="report" id="report-iframe" />
     </>
   );
 };

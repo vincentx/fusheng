@@ -21,7 +21,7 @@ const ToolBar: FC<ToolBarProps> = ({ mode, setMode }) => {
     EXPERIMENT: {
       actionButton: {
         displayText: "Try it out",
-        icon: "edit",
+        icon: "play_arrow",
         onClick: () => setMode(Mode.VIEW),
       },
     },
