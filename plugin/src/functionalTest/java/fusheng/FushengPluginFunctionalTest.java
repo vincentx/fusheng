@@ -11,6 +11,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
+import org.gradle.testkit.runner.TaskOutcome;
 import org.junit.Test;
 
 public class FushengPluginFunctionalTest {
@@ -34,8 +35,8 @@ public class FushengPluginFunctionalTest {
         BuildResult result = runner.build();
 
         final var startLivingDocTask = result.getTasks().get(0);
-//        assertThat(startLivingDocTask.getPath(), is(equalTo(":startLivingDoc")));
-//        assertThat(startLivingDocTask.getOutcome(), is(equalTo("SUCCESS")));
+        assertThat(startLivingDocTask.getPath(), is(equalTo(":startLivingDoc")));
+        assertThat(startLivingDocTask.getOutcome(), is(equalTo(TaskOutcome.SUCCESS)));
     }
 
     private void writeString(File file, String string) throws IOException {
