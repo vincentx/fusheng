@@ -33,7 +33,9 @@ const Report: FC<ReportProps> = ({ name }) => {
   return (
     <>
       <ToolBar mode={mode} setMode={setMode} />
-      <iframe src={src} className="report" id="report-iframe" />
+      <div className="report-wrapper">
+        <iframe src={src} className="report" id="report-iframe" />
+      </div>
     </>
   );
 };
