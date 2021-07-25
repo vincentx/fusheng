@@ -50,6 +50,6 @@ tasks.named('check') {
 }
 
 
-tasks.withType(Test).configureEach {
+test {
     useJUnitPlatform()
 }
