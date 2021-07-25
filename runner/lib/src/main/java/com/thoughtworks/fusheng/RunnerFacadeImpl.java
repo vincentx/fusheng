@@ -71,7 +71,7 @@ public class RunnerFacadeImpl implements RunnerFacade {
   @Override
   public void saveDomJSONToFile() {
     Path path = Paths.get(System.getProperty("user.dir"), "build", "reports", "tests", "fusheng", "result",
-            fixtureClass.getSimpleName() + ".html");
+            fixtureClass.getPackageName() + "." + fixtureClass.getSimpleName() + ".html");
     this.saveDomJSONToFile(path);
   }
 

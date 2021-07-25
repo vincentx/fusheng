@@ -81,6 +81,11 @@ public class DomHelperImpl implements DomHelper {
   }
 
   @Override
+  public void setText(String text) {
+    element.appendText(text);
+  }
+
+  @Override
   public void empty() {
     element.empty();
   }

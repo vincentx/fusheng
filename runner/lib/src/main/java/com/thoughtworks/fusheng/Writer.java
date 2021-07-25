@@ -17,7 +17,7 @@ public class Writer {
         Files.createDirectories(folder);
       }
 
-      FileOutputStream fos = new FileOutputStream(path.getFileName().toString());
+      FileOutputStream fos = new FileOutputStream(path.toFile());
       OutputStreamWriter osw = new OutputStreamWriter(fos, "utf-8");
       osw.write(element.html());
       osw.close();

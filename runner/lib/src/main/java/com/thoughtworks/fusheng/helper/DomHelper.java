@@ -26,4 +26,5 @@ public interface DomHelper {
 
   public void empty();
 
+  public void setText(String text);
 }

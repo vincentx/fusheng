@@ -12,12 +12,12 @@ function enhanceAssertion(api, uuid) {
     element.empty();
     element.setAttr('id', uuid());
     element.append("<span class=\"assert-expect\">".concat(expectValue, "</span>"));
-    element.append('<span class="assert-actual"></span>');
+    element.append("<span class=\"assert-actual\"></span>");
   });
 }
 
 function enhanceStyle(api) {
-  api.getElementsByTag('html')[0].append("\n    <style>\n      .success {\n          background-color: #afa;\n      }\n      .success .assert-actual {\n          display: none;\n      }\n      .error {\n          background-color: #ffb0b0;\n          padding: 1px;\n      }\n      .error .assert-expect {\n          text-decoration: line-through;\n          color: #bb5050;\n          margin-right: 5px;\n      }\n    </style>\n  ");
+  api.getElementsByTag('head')[0].append("\n    <style>\n      .success {\n          background-color: #afa;\n      }\n      .success .assert-actual {\n          display: none;\n      }\n      .error {\n          background-color: #ffb0b0;\n          padding: 1px;\n      }\n      .error .assert-expect {\n          text-decoration: line-through;\n          color: #bb5050;\n          margin-right: 5px;\n      }\n    </style>\n  ");
 }
 
 var enhance = function enhance(api, uuid) {
@@ -103,7 +103,7 @@ var convertAssertionCode = function convertAssertionCode(expectType, expectValue
 };
 
 var convertAssertionResultCode = function convertAssertionResultCode(exampleId, assertionId) {
-  return "$.getElementById(\"".concat(assertionId, "\").addClass(result ? \"success\" : \"error\");context[\"").concat(exampleId, "\"] = context[\"").concat(exampleId, "\"] && result;");
+  return "$.getElementById(\"".concat(assertionId, "\").addClass(result ? \"success\" : \"error\");context[\"").concat(exampleId, "\"] = context[\"").concat(exampleId, "\"] && result;$.getElementById(\"").concat(assertionId, "\").children()[1].setText(actual);");
 };
 
 var parseUtils = {
