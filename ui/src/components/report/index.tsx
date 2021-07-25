@@ -3,6 +3,7 @@ import { hot } from "react-hot-loader/root";
 import { FC, useEffect, useState } from "react";
 import "./style.scss";
 import ToolBar from "../toolbar";
+import httpClient from "../../utils/httpClient";
 
 interface ReportProps {
   name: string;
@@ -13,54 +14,57 @@ export enum Mode {
   EXPERIMENT = "EXPERIMENT",
 }
 
-const isIFrame = (input: HTMLElement | null): input is HTMLIFrameElement =>
-  input !== null && input.tagName === "IFRAME";
-
-const enhance2InputBox = (iframe: Document) => {
-  const elements = iframe.getElementsByClassName("variable");
+const enhance2InputBox = (myDocument: Document) => {
+  const elements = myDocument.getElementsByClassName(
+    "variable",
+  ) as HTMLCollectionOf<HTMLElement>;
   for (let i = 0; i < elements.length; i++) {
     const originalInput = elements[i];
     originalInput.insertAdjacentElement(
       "beforebegin",
-      createEnhancedInputBox(originalInput, iframe),
+      createEnhancedInputBox(originalInput, myDocument),
     );
-    originalInput.className = `${originalInput.className} enhanced`;
+    originalInput.style.display = "none";
   }
 };
 
-const createEnhancedInputBox = (originalInput: Element, iframe: Document) => {
-  const newInputBox = iframe.createElement("input");
+const createEnhancedInputBox = (
+  originalInput: Element,
+  myDocument: Document,
+) => {
+  const newInputBox = myDocument.createElement("input");
   newInputBox.defaultValue = originalInput.innerHTML;
-  newInputBox.className = "enhance";
   return newInputBox;
 };
 
 const Report: FC<ReportProps> = ({ name }) => {
   const [mode, setMode] = useState(Mode.VIEW);
-  const src =
-    mode === Mode.VIEW
-      ? `${process.env.SERVER_HOST}/reports/${name}`
-      : `${process.env.SERVER_HOST}/specs/${name}`;
+  const [doc, setDoc] = useState("");
+  const isViewMode = mode === Mode.VIEW;
 
   useEffect(() => {
     setMode(Mode.VIEW);
   }, [name]);
 
-  console.log(mode, name, src);
-
   useEffect(() => {
-    const iframe = document.getElementById("report-iframe");
-    if (mode === Mode.EXPERIMENT && isIFrame(iframe) && iframe.contentWindow) {
-      const iFrameDocument = iframe.contentWindow.document;
-      enhance2InputBox(iFrameDocument);
-    }
+    httpClient
+      .get(isViewMode ? `/reports/${name}` : `/specs/${name}`)
+      .then((res) => {
+        if (isViewMode) {
+          setDoc(res.data);
+        } else {
+          const doc = new DOMParser().parseFromString(res.data, "text/html");
+          enhance2InputBox(doc);
+          setDoc(doc.getElementsByTagName("html")[0].innerHTML);
+        }
+      });
   }, [mode]);
 
   return (
     <>
       <ToolBar mode={mode} setMode={setMode} />
       <div className="report-wrapper">
-        <iframe className="report" id="report-iframe" src={src} />
+        <iframe className="report" srcDoc={doc} />
       </div>
     </>
   );

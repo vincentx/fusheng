@@ -11,15 +11,10 @@ export const useReports = () => {
   }, []);
 
   const retrieveReports = () => {
-    httpClient
-      .get(REPORTS_RESOURCE_PATH)
-      .then((res) => {
-        const reports = res.data.reports;
-        setReports(reports);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    httpClient.get(REPORTS_RESOURCE_PATH).then((res) => {
+      const reports = res.data.reports;
+      setReports(reports);
+    });
   };
 
   return { reports, retrieveReports };
