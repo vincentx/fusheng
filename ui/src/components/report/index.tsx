@@ -14,6 +14,7 @@ import {
   INSERT_POSITION,
 } from "../../utils/constant";
 import { v4 as uuidv4 } from "uuid";
+import { toast, ToastContainer } from "react-toastify";
 
 interface ReportProps {
   name: string;
@@ -72,7 +73,14 @@ const Report: FC<ReportProps> = ({ name }) => {
           enhance2InputBox(doc);
           setDoc(doc.getElementsByTagName("html")[0].innerHTML);
         }
-      });
+      })
+      .catch((err) =>
+        toast.error(
+          `Unable to get ${isViewMode ? "reports" : "specs"} due to ${
+            err.message
+          }`,
+        ),
+      );
   }, [mode, name]);
 
   return (

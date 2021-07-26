@@ -1,0 +1,14 @@
+{
+  "request": {
+    "urlPathPattern": ".*",
+    "method": "OPTIONS"
+  },
+  "response": {
+    "status": 200,
+    "headers" : {
+      "Access-Control-Allow-Origin" : "*",
+      "Access-Control-Allow-Methods" : "*",
+      "Access-Control-Allow-Headers": "Accept, Content-Type, Content-Encoding, Server, Transfer-Encoding"
+    }
+  }
+}

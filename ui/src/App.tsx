@@ -4,6 +4,8 @@ import { FC, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Report from "./components/report";
 import { useReports } from "./hooks/useReports";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 export interface IReport {
   name: string;
@@ -15,6 +17,12 @@ const App: FC = () => {
 
   return (
     <>
+      <ToastContainer
+        position={"bottom-right"}
+        hideProgressBar={true}
+        autoClose={5000}
+        limit={3}
+      />
       <Sidebar
         reports={reports}
         onClick={setActiveReport}

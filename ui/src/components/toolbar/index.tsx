@@ -11,6 +11,7 @@ import {
   IFRAME_ID,
 } from "../../utils/constant";
 import httpClient from "../../utils/httpClient";
+import { toast } from "react-toastify";
 
 interface ToolBarProps {
   name: string;
@@ -56,15 +57,24 @@ const ToolBar: FC<ToolBarProps> = ({ mode, setMode, name }) => {
 
           covertEnhancedToSpec(iframeDoc);
 
-          httpClient.post(
-            `/experiments/${name}`,
-            iframeDoc.getElementsByTagName("html")[0].innerHTML,
-            {
-              headers: {
-                "Content-Type": HTML_CONTENT,
+          httpClient
+            .post(
+              `/experiments/${name}`,
+              iframeDoc.getElementsByTagName("html")[0].innerHTML,
+              {
+                headers: {
+                  "Content-Type": HTML_CONTENT,
+                },
               },
-            },
-          );
+            )
+            .then(() =>
+              toast.success(
+                "Your experiment has been triggered. It might takes some time to run this test, you'll able to see the report once it's finished.",
+              ),
+            )
+            .catch((err) =>
+              toast.error(`Unable to submit experiment due to ${err.message}`),
+            );
         },
       },
     },

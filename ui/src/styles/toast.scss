@@ -1,0 +1,16 @@
+@import "variables";
+.Toastify__toast{
+  border-radius: 0;
+}
+.Toastify__toast-container {
+  color: $light;
+  border-radius: 0;
+}
+
+.Toastify__toast--success {
+  background-color: $primary;
+}
+
+.Toastify__toast--error {
+  background-color: $danger;
+}
