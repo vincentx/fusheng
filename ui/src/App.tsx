@@ -5,7 +5,8 @@ import Sidebar from "./components/Sidebar";
 import Report from "./components/report";
 import { useReports } from "./hooks/useReports";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
+import { cssTransition, ToastContainer } from "react-toastify";
+import "animate.css/animate.min.css";
 
 export interface IReport {
   name: string;
@@ -22,6 +23,11 @@ const App: FC = () => {
         hideProgressBar={true}
         autoClose={5000}
         limit={3}
+        newestOnTop
+        transition={cssTransition({
+          enter: "animate__animated animate__fadeInRight",
+          exit: "animate__animated animate__fadeOutRight",
+        })}
       />
       <Sidebar
         reports={reports}
