@@ -1,13 +1,10 @@
 package fusheng;
 
-import java.io.IOException;
-import java.text.MessageFormat;
 import org.apache.log4j.Logger;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 
 public class FushengPlugin implements Plugin<Project> {
-    private static final Logger log = Logger.getLogger(FushengPlugin.class);
 
     public void apply(Project project) {
         final var server = new FushengServer();
@@ -19,8 +16,10 @@ public class FushengPlugin implements Plugin<Project> {
     private void runServer(final FushengServer server) {
         try {
             server.startServer();
-        } catch (IOException e) {
-            log.error(MessageFormat.format("error encountered! message: {0}, cause: {1}", e.getMessage(), e.getCause()));
+            Thread.sleep( 60000 );
+        }
+        catch(Exception e) {
+            e.printStackTrace();
         }
     }
 }
