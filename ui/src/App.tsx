@@ -10,7 +10,6 @@ import "animate.css/animate.min.css";
 
 export interface IReport {
   name: string;
-  src: string;
 }
 const App: FC = () => {
   const [activeReport, setActiveReport] = useState<IReport>();

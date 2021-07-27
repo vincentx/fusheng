@@ -15,7 +15,12 @@ export const useReports = () => {
     httpClient
       .get(REPORTS_RESOURCE_PATH)
       .then((res) => {
-        const reports = res.data.reports;
+        // const reports = res.data.reports;
+        // setReports(reports);
+
+        const reports = (res.data.split(", ") as string[]).map((it) => ({
+          name: it,
+        }));
         setReports(reports);
       })
       .catch((err) =>
