@@ -1,7 +1,9 @@
 package fusheng.repository;
 
+import com.thoughtworks.fusheng.adapter.ServerAdapter;
 import fusheng.config.ServerConfig;
 import fusheng.exception.FilesReadingFailedException;
+import fusheng.util.FushengLogger;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
@@ -43,5 +45,17 @@ public class ExperimentRepository {
         } catch (IOException exp) {
             throw new FilesReadingFailedException("File not found");
         }
+    }
+
+    public String runExperiment(String fullSpecName, String htmlContent) {
+        try {
+            FushengLogger.info("start to trigger runner with path:" + fullSpecName, getClass());
+            return ServerAdapter.runExperiment(fullSpecName, htmlContent);
+        } catch (ClassNotFoundException exp) {
+            FushengLogger.error("error encountered when run experiment, message:" + exp.getMessage(),
+                    exp,
+                    getClass());
+        }
+        return null;
     }
 }

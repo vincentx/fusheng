@@ -21,25 +21,20 @@ repositories {
 }
 
 dependencies {
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+    implementation group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
     testCompileOnly 'org.projectlombok:lombok:1.18.20'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
     implementation 'org.springframework:spring-web:5.3.9'
+
     // Use JUnit test framework for unit tests
     testImplementation 'junit:junit:4.13.1'
 
-    implementation 'org.junit.platform:junit-platform-runner:1.5.1'
-
-    api 'org.apache.commons:commons-math3:3.6.1k'
-
-    api 'com.alibaba:fastjson:1.2.73'
-
-    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation 'com.google.guava:guava:30.0-jre'
-
-    implementation 'org.jsoup:jsoup:1.14.1'
+    implementation fileTree(dir: "$rootDir/runner/lib/build/libs/", include: 'lib.jar')
+    implementation files("$projectDir/src/main/java/fusheng/lib/runner.jar")
 }
 
 gradlePlugin {
@@ -85,10 +80,26 @@ jar {
         configurations
                 .runtimeClasspath
                 .collect {
-                    if (it.name.equalsIgnoreCase("spring-web-5.3.9.jar")) {
+                    if (it.name.equalsIgnoreCase("spring-web-5.3.9.jar")
+                            || it.name.equalsIgnoreCase("commons-lang3-3.12.0.jar")
+                            || it.name.equalsIgnoreCase("commons-io-1.3.2.jar")
+                            || it.name.equalsIgnoreCase("runner.jar")
+                    ) {
                         zipTree(it)
                     }
                 }
     }
+    duplicatesStrategy(DuplicatesStrategy.WARN)
 }
 
+
+task printDir {
+    doLast {
+        println "the project dir is: ${projectDir}"
+        println "the root dir is: ${rootDir}"
+        println "the location: $rootDir/runner/lib/build/libs"
+        configurations.runtimeClasspath.collect {
+            println "the file is : $it.name"
+        }
+    }
+}

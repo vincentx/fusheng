@@ -1,5 +1,6 @@
-package fusheng;
+package fusheng.tasks;
 
+import fusheng.FushengServer;
 import org.gradle.api.tasks.TaskAction;
 
 public class FushengServerTask extends FushengBaseTask {

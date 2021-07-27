@@ -8,10 +8,12 @@ import fusheng.repository.ReportRepository;
 import fusheng.repository.SpecRepository;
 import fusheng.util.FushengLogger;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.util.UriTemplate;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -24,7 +26,6 @@ public class FushengHttpHandler implements HttpHandler {
     private final SpecRepository specRepository;
     private final ReportRepository reportRepository;
     private final ExperimentRepository experimentRepository;
-    private final SpecService specService;
     private final IndexRepository indexRepository;
 
     @Override
@@ -44,9 +45,12 @@ public class FushengHttpHandler implements HttpHandler {
         FushengLogger.info(message, getClass());
 
         String response = handleRequestByType(httpExchange);
+        if (Objects.isNull(response)) {
+            response = "Ops something went wrong!";
+        }
 
         handleResponse(httpExchange, Objects.requireNonNull(response));
-        FushengLogger.info("return response correctly!!!", getClass());
+        FushengLogger.info("request handling finished for URL:" + httpExchange.getRequestURI(), getClass());
     }
 
     private String handleRequestByType(HttpExchange httpExchange) {
@@ -62,7 +66,7 @@ public class FushengHttpHandler implements HttpHandler {
         return "Unexpected issue occurred!";
     }
 
-    private void handleResponse(final HttpExchange httpExchange, final String response) throws IOException {
+    private void handleResponse(final HttpExchange httpExchange, final String response) {
         try {
             byte[] bs = response.getBytes(StandardCharsets.UTF_8);
             httpExchange.sendResponseHeaders(200, bs.length);
@@ -74,13 +78,22 @@ public class FushengHttpHandler implements HttpHandler {
     }
 
     private String handlePostRequest(final HttpExchange httpExchange) {
-        if (httpExchange.getRequestURI().toString().equals("/experiment/{pathName}")) {
-            String pathName = "";
-            String htmlContent = httpExchange.getRequestBody().toString();
-            return specService.runExperiment(pathName, htmlContent);
-        } else {
-            return "all resources, contain css and javascript";
+        String specWithName = "/experiment/{pathName}";
+        if (isValidUri(httpExchange, specWithName)) {
+            Map<String, String> pathVariables = getPathVariable(httpExchange, specWithName);
+            InputStream requestBodyInputStream = httpExchange.getRequestBody();
+            String htmlContent;
+            try {
+                htmlContent = IOUtils.toString(requestBodyInputStream);
+            } catch (IOException exp) {
+                FushengLogger.error(exp.getMessage(), exp, getClass());
+                throw new IllegalArgumentException(exp);
+            }
+
+            return experimentRepository.runExperiment(pathVariables.get("pathName"), htmlContent);
         }
+
+        return "Unexpected Response";
     }
 
     private List<String> handleGetRequest(final HttpExchange httpExchange) {

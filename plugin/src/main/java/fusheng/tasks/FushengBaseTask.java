@@ -1,4 +1,4 @@
-package fusheng;
+package fusheng.tasks;
 
 import org.gradle.api.DefaultTask;
 import org.gradle.api.file.FileCollection;
