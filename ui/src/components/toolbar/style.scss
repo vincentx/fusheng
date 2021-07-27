@@ -33,9 +33,10 @@
   align-items: center;
   font-size: 1em;
   color: $light;
+
+  .MuiSvgIcon-root {
+    padding-right: 4px;
+  }
 }
 
-.icon {
-  padding-right: 4px;
-}
 

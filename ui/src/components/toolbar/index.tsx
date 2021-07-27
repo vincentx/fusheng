@@ -3,6 +3,7 @@ import { hot } from "react-hot-loader/root";
 import { FC } from "react";
 import "./style.scss";
 import { Mode } from "../report";
+import { Edit, PlayArrow } from "@material-ui/icons";
 
 interface ToolBarProps {
   mode: Mode;
@@ -15,14 +16,14 @@ const ToolBar: FC<ToolBarProps> = ({ mode, toViewMode, toExperimentMode }) => {
     VIEW: {
       actionButton: {
         displayText: "Experiment",
-        icon: "edit",
+        icon: <Edit className="icon" />,
         onClick: toExperimentMode,
       },
     },
     EXPERIMENT: {
       actionButton: {
         displayText: "Try it out",
-        icon: "play_arrow",
+        icon: <PlayArrow />,
         onClick: toViewMode,
       },
     },
@@ -38,7 +39,7 @@ const ToolBar: FC<ToolBarProps> = ({ mode, toViewMode, toExperimentMode }) => {
           data-testid={`actionButton-${mode}`}
         >
           <div className="button-wrapper">
-            <span className="material-icons icon">{actionButton.icon}</span>
+            {actionButton.icon}
             <span>{actionButton.displayText}</span>
           </div>
         </button>
