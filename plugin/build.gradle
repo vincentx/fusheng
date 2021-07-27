@@ -56,3 +56,16 @@ tasks.named('check') {
     // Run the functional tests as part of `check`
     dependsOn(tasks.functionalTest)
 }
+
+jar {
+    from {
+        configurations
+                .runtimeClasspath
+                .collect {
+                    if(it.name.equalsIgnoreCase("spring-web-5.3.9.jar")) {
+                        zipTree(it)
+                    }
+                }
+    }
+}
+
