@@ -35,7 +35,7 @@ const ToolBar: FC<ToolBarProps> = ({ mode, toViewMode, toExperimentMode }) => {
         <button
           className="button"
           onClick={actionButton.onClick}
-          data-testid={`actionButton-${Mode}`}
+          data-testid={`actionButton-${mode}`}
         >
           <div className="button-wrapper">
             <span className="material-icons icon">{actionButton.icon}</span>

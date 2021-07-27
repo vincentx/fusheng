@@ -14,6 +14,10 @@ export const mockServer = setupServer(
       }),
     ),
   ),
+
+  rest.get(`${REPORTS_RESOURCE_PATH}/spec1`, (req, res, ctx) =>
+    res(ctx.body("<html><body>Hello world!</body></html>")),
+  ),
 );
 
 beforeAll(() => mockServer.listen());
