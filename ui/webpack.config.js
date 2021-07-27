@@ -47,6 +47,7 @@ const config = {
     new HtmlWebPackPlugin({
       template: "./src/index.html",
       filename: "./index.html",
+      inject: "body",
     }),
     new Dotenv({ safe: true }),
   ],
