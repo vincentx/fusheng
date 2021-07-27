@@ -3,6 +3,7 @@ package fusheng;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import fusheng.repository.ExperimentRepository;
+import fusheng.repository.IndexRepository;
 import fusheng.repository.ReportRepository;
 import fusheng.repository.SpecRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +24,12 @@ public class FushengHttpHandler implements HttpHandler {
     private final ReportRepository reportRepository;
     private final ExperimentRepository experimentRepository;
     private final SpecService specService;
+    private final IndexRepository indexRepository;
 
     @Override
     public void handle(final HttpExchange httpExchange) throws IOException {
         String response = null;
-        final var allowList = List.of("spec", "experiment", "reports", "specs", "test");
+        final var allowList = List.of("spec", "experiment", "reports", "specs", "test", "index");
         final var url = httpExchange.getRequestURI().toString();
 
         if (allowList.stream().noneMatch(url::contains)) {
@@ -97,6 +99,11 @@ public class FushengHttpHandler implements HttpHandler {
         if (isValidUri(httpExchange, experimentWithName)){
             Map<String, String> pathVariables = getPathVariable(httpExchange, experimentWithName);
             return List.of(experimentRepository.retrieveSingleExperimentResult(pathVariables.get("pathName")));
+        }
+
+        String indexHtml = "/index";
+        if (isValidUri(httpExchange, indexHtml)){
+            return List.of(indexRepository.retrieveIndexHtml());
         }
 
         return List.of("all resources, contain css and javascript");
