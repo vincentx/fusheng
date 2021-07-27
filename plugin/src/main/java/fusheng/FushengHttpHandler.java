@@ -6,6 +6,7 @@ import fusheng.repository.ExperimentRepository;
 import fusheng.repository.IndexRepository;
 import fusheng.repository.ReportRepository;
 import fusheng.repository.SpecRepository;
+import fusheng.util.FushengLogger;
 import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.web.util.UriTemplate;
@@ -28,30 +29,46 @@ public class FushengHttpHandler implements HttpHandler {
 
     @Override
     public void handle(final HttpExchange httpExchange) throws IOException {
-        String response = null;
+
         final var allowList = List.of("spec", "experiment", "reports", "specs", "test", "index");
         final var url = httpExchange.getRequestURI().toString();
 
         if (allowList.stream().noneMatch(url::contains)) {
+            FushengLogger.info(String.format("the URL:%s not allowed!", httpExchange.getRequestURI()), getClass());
             throw new IOException("not supported API!");
         }
+        String message = String.format("start to handle request -> %s:%s",
+                httpExchange.getRequestMethod(),
+                httpExchange.getRequestURI());
 
-        if ("GET".equals(httpExchange.getRequestMethod())) {
-            response = String.join(", ", handleGetRequest(httpExchange));
-        } else if ("POST".equals(httpExchange.getRequestMethod())) {
-            response = handlePostRequest(httpExchange);
-        }
+        FushengLogger.info(message, getClass());
+
+        String response = handleRequestByType(httpExchange);
 
         handleResponse(httpExchange, Objects.requireNonNull(response));
+        FushengLogger.info("return response correctly!!!", getClass());
+    }
+
+    private String handleRequestByType(HttpExchange httpExchange) {
+        try {
+            if ("GET".equals(httpExchange.getRequestMethod())) {
+                return String.join(", ", handleGetRequest(httpExchange));
+            } else if ("POST".equals(httpExchange.getRequestMethod())) {
+                return handlePostRequest(httpExchange);
+            }
+        } catch (Exception exp) {
+            FushengLogger.error(exp.getMessage(), exp, getClass());
+        }
+        return "Unexpected issue occurred!";
     }
 
     private void handleResponse(final HttpExchange httpExchange, final String response) throws IOException {
-        try{
+        try {
             byte[] bs = response.getBytes(StandardCharsets.UTF_8);
             httpExchange.sendResponseHeaders(200, bs.length);
             OutputStream os = httpExchange.getResponseBody();
             os.write(bs);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error(e);
         }
     }
@@ -68,41 +85,41 @@ public class FushengHttpHandler implements HttpHandler {
 
     private List<String> handleGetRequest(final HttpExchange httpExchange) {
         String specsWithName = "/specs/{pathName}";
-        if (isValidUri(httpExchange, specsWithName)){
+        if (isValidUri(httpExchange, specsWithName)) {
             Map<String, String> pathVariables = getPathVariable(httpExchange, specsWithName);
             return List.of(specRepository.retrieveSpec(pathVariables.get("pathName")));
         }
 
         String spec = "/spec/test";
-        if (isValidUri(httpExchange, spec)){
+        if (isValidUri(httpExchange, spec)) {
             return List.of("test");
         }
 
         String reportsWithName = "/reports/{pathName}";
-        if (isValidUri(httpExchange, reportsWithName)){
+        if (isValidUri(httpExchange, reportsWithName)) {
             Map<String, String> pathVariables = getPathVariable(httpExchange, reportsWithName);
             return List.of(reportRepository.retrieve(pathVariables.get("pathName")));
         }
 
         String reports = "/reports";
-        if (isValidUri(httpExchange, reports)){
+        if (isValidUri(httpExchange, reports)) {
             return reportRepository.retrieveAll();
         }
 
         String specExperimentsWithName = "/spec/{pathName}/experiments";
-        if (isValidUri(httpExchange, specExperimentsWithName)){
+        if (isValidUri(httpExchange, specExperimentsWithName)) {
             Map<String, String> pathVariables = getPathVariable(httpExchange, specExperimentsWithName);
             return experimentRepository.retrieveExperimentHistoryForSpec(pathVariables.get("pathName"));
         }
 
         String experimentWithName = "/spec/experiments/{experimentPathName}";
-        if (isValidUri(httpExchange, experimentWithName)){
+        if (isValidUri(httpExchange, experimentWithName)) {
             Map<String, String> pathVariables = getPathVariable(httpExchange, experimentWithName);
             return List.of(experimentRepository.retrieveSingleExperimentResult(pathVariables.get("pathName")));
         }
 
         String indexHtml = "/index";
-        if (isValidUri(httpExchange, indexHtml)){
+        if (isValidUri(httpExchange, indexHtml)) {
             return List.of(indexRepository.retrieveIndexHtml());
         }
 
