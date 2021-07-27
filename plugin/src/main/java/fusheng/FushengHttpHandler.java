@@ -6,9 +6,11 @@ import fusheng.repository.ExperimentRepository;
 import fusheng.repository.ReportRepository;
 import fusheng.repository.SpecRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.log4j.Logger;
 import org.springframework.web.util.UriTemplate;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,7 @@ import java.util.Objects;
 
 @RequiredArgsConstructor
 public class FushengHttpHandler implements HttpHandler {
+    private static final Logger log = Logger.getLogger(FushengHttpHandler.class);
     private final SpecRepository specRepository;
     private final ReportRepository reportRepository;
     private final ExperimentRepository experimentRepository;
@@ -41,11 +44,14 @@ public class FushengHttpHandler implements HttpHandler {
     }
 
     private void handleResponse(final HttpExchange httpExchange, final String response) throws IOException {
-        final var outputStream = httpExchange.getResponseBody();
-        httpExchange.sendResponseHeaders(200, response.length());
-        outputStream.write(response.getBytes(StandardCharsets.UTF_8));
-        outputStream.flush();
-        outputStream.close();
+        try{
+            byte[] bs = response.getBytes(StandardCharsets.UTF_8);
+            httpExchange.sendResponseHeaders(200, bs.length);
+            OutputStream os = httpExchange.getResponseBody();
+            os.write(bs);
+        }catch (Exception e){
+            log.error(e);
+        }
     }
 
     private String handlePostRequest(final HttpExchange httpExchange) {
