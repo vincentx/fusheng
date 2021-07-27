@@ -7,8 +7,8 @@ import lombok.Setter;
 @Setter
 public class ServerConfig {
     // TODO: read configuration
-    private String rawSpecFolderLocation = "plugin/src/main/resources/specs";
-    private String reportFolderLocation = "plugin/src/main/resources/reports";
-    private String experimentFolderLocation = "plugin/src/main/resources/experiments";
-    private String indexHtmlLocation = "plugin/src/main/resources/index/fusheng-combined.html";
+    private String rawSpecFolderLocation = "/src/main/resources/specs";
+    private String reportFolderLocation = "/src/main/resources/reports";
+    private String experimentFolderLocation = "/src/main/resources/experiments";
+    private String indexHtmlLocation = "/src/main/resources/index/fusheng-combined.html";
 }

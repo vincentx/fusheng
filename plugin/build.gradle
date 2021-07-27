@@ -9,7 +9,11 @@
 plugins {
     // Apply the Java Gradle plugin development plugin to add support for developing Gradle plugins
     id 'java-gradle-plugin'
+    id 'maven-publish'
 }
+
+group = 'com.github.tw'
+version = 'v1'
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -42,7 +46,7 @@ gradlePlugin {
     // Define the plugin
     plugins {
         fusheng {
-            id = 'fusheng'
+            id = 'com.github.tw.fusheng'
             implementationClass = 'fusheng.FushengPlugin'
         }
     }
@@ -63,9 +67,17 @@ tasks.register('functionalTest', Test) {
     classpath = sourceSets.functionalTest.runtimeClasspath
 }
 
-tasks.named('check') {
-    // Run the functional tests as part of `check`
-    dependsOn(tasks.functionalTest)
+//tasks.named('check') {
+//    // Run the functional tests as part of `check`
+//    dependsOn(tasks.functionalTest)
+//}
+
+publishing {
+    repositories {
+        maven {
+            url = "$buildDir/repo"
+        }
+    }
 }
 
 jar {
@@ -73,7 +85,7 @@ jar {
         configurations
                 .runtimeClasspath
                 .collect {
-                    if(it.name.equalsIgnoreCase("spring-web-5.3.9.jar")) {
+                    if (it.name.equalsIgnoreCase("spring-web-5.3.9.jar")) {
                         zipTree(it)
                     }
                 }
