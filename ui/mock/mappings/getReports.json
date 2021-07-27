@@ -5,19 +5,7 @@
     },
     "response": {
         "status": 200,
-        "jsonBody": {
-            "reports": [
-                {
-                    "name": "demo"
-                },
-                {
-                    "name": "demo1"
-                },
-                {
-                    "name": "demo2"
-                }
-            ]
-        },
+        "body": "demo, demo1, demo2",
         "headers": {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin" : "*",
