@@ -13,7 +13,10 @@ public class FushengServerTask extends FushengBaseTask {
         final var server = new FushengServer();
         try {
             server.startServer();
-            Thread.sleep(60000);
+            // TODO: is there better way to keep server running?
+            while (true){
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

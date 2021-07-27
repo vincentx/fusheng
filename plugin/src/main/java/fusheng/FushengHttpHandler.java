@@ -136,7 +136,7 @@ public class FushengHttpHandler implements HttpHandler {
             return List.of(indexRepository.retrieveIndexHtml());
         }
 
-        return List.of("all resources, contain css and javascript");
+        return List.of("nothing matched, please check your url.");
     }
 
     private Map<String, String> getPathVariable(final HttpExchange httpExchange, String templateUri) {
