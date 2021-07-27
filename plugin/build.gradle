@@ -25,6 +25,17 @@ dependencies {
     implementation 'org.springframework:spring-web:5.3.9'
     // Use JUnit test framework for unit tests
     testImplementation 'junit:junit:4.13.1'
+
+    implementation 'org.junit.platform:junit-platform-runner:1.5.1'
+
+    api 'org.apache.commons:commons-math3:3.6.1k'
+
+    api 'com.alibaba:fastjson:1.2.73'
+
+    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
+    implementation 'com.google.guava:guava:30.0-jre'
+
+    implementation 'org.jsoup:jsoup:1.14.1'
 }
 
 gradlePlugin {
