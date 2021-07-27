@@ -53,39 +53,89 @@ const createEnhancedInputBox = (
   return newInputBox;
 };
 
+const covertEnhancedToSpec = (myDocument: Document) => {
+  while (myDocument.getElementsByClassName(ENHANCE_CLASS).length) {
+    const enhancedInput = myDocument.getElementsByClassName(
+      ENHANCE_CLASS,
+    )[0] as HTMLInputElement;
+    const inputValue = enhancedInput.value;
+    const enhanceId = enhancedInput.getAttributeNS(ENHANCE_NS, ENHANCE_ID);
+    enhancedInput.remove();
+    const original = myDocument.querySelector(
+      `[${ENHANCE_ID}="${enhanceId}"]`,
+    ) as HTMLElement;
+    original.removeAttributeNS(ENHANCE_NS, ENHANCE_ID);
+    original.innerHTML = inputValue;
+    original.style.removeProperty("display");
+  }
+};
+
 const Report: FC<ReportProps> = ({ name }) => {
   const [mode, setMode] = useState(Mode.VIEW);
   const [doc, setDoc] = useState("");
-  const isViewMode = mode === Mode.VIEW;
 
   useEffect(() => {
     setMode(Mode.VIEW);
+    getReports();
   }, [name]);
 
-  useEffect(() => {
+  const getReports = () => {
     httpClient
-      .get(isViewMode ? `/reports/${name}` : `/specs/${name}`)
-      .then((res) => {
-        if (isViewMode) {
-          setDoc(res.data);
-        } else {
-          const doc = new DOMParser().parseFromString(res.data, HTML_CONTENT);
-          enhance2InputBox(doc);
-          setDoc(doc.getElementsByTagName("html")[0].innerHTML);
-        }
+      .get(`/reports/${name}`)
+      .then(({ data }) => {
+        setDoc(data);
+        setMode(Mode.VIEW);
+      })
+      .catch((err) => {
+        toast.error(`Unable to get reports due to ${err.message}`);
+      });
+  };
+
+  const onGoToViewMode = () => {
+    const iframe = (document.getElementById(IFRAME_ID) as HTMLIFrameElement)
+      .innerHTML;
+    const iframeDocCopy = new DOMParser().parseFromString(iframe, HTML_CONTENT);
+
+    covertEnhancedToSpec(iframeDocCopy);
+
+    httpClient
+      .post(
+        `/experiments/${name}`,
+        iframeDocCopy.getElementsByTagName("html")[0].innerHTML,
+        { headers: { "Content-Type": HTML_CONTENT } },
+      )
+      .then(() => {
+        toast.success(
+          "Your experiment has been triggered. It might takes some time to run this test, you'll able to see the report once it's finished.",
+        );
+        getReports();
       })
       .catch((err) =>
-        toast.error(
-          `Unable to get ${isViewMode ? "reports" : "specs"} due to ${
-            err.message
-          }`,
-        ),
+        toast.error(`Unable to submit experiment due to ${err.message}`),
       );
-  }, [mode, name]);
+  };
+
+  const onGoToExperimentMode = () => {
+    httpClient
+      .get(`/specs/${name}`)
+      .then(({ data }) => {
+        const doc = new DOMParser().parseFromString(data, HTML_CONTENT);
+        enhance2InputBox(doc);
+        setDoc(doc.getElementsByTagName("html")[0].innerHTML);
+        setMode(Mode.EXPERIMENT);
+      })
+      .catch((err) => {
+        toast.error(`Unable to get specs due to ${err.message}`);
+      });
+  };
 
   return (
     <>
-      <ToolBar mode={mode} setMode={setMode} name={name} />
+      <ToolBar
+        mode={mode}
+        toViewMode={onGoToViewMode}
+        toExperimentMode={onGoToExperimentMode}
+      />
       <div className="report-wrapper">
         <iframe className="report" id={IFRAME_ID} srcDoc={doc} />
       </div>
