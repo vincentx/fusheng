@@ -35,10 +35,10 @@ const Report: FC<{ name: string }> = ({ name }) => {
         httpClient
           .get(`/reports/${name}/experiments`)
           .then((res) => {
-            console.log(res);
             setExperiments(res.data.split(", "));
           })
           .catch((err) => {
+            setExperiments([]);
             toast.error(`Unable to get past experiments due to ${err.message}`);
           });
       })

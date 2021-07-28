@@ -18,7 +18,6 @@ const ToolBar: FC<ToolBarProps> = ({
   toExperimentMode,
   experiments,
 }) => {
-  console.log(experiments);
   const modeConfig = {
     VIEW: {
       actionButton: {
@@ -51,16 +50,18 @@ const ToolBar: FC<ToolBarProps> = ({
           </div>
         </button>
 
-        <span className="toolbar-item">
-          <div className="button-wrapper">
-            {actionButton.icon}
-            <select className="dropdown">
-              {experiments.map((exp) => (
-                <option>{exp}</option>
-              ))}
-            </select>
-          </div>
-        </span>
+        {!!experiments.length && (
+          <span className="toolbar-item">
+            <div className="button-wrapper">
+              {actionButton.icon}
+              <select className="dropdown">
+                {experiments.map((exp) => (
+                  <option key={exp}>{exp}</option>
+                ))}
+              </select>
+            </div>
+          </span>
+        )}
       </div>
     </>
   );
