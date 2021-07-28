@@ -25,6 +25,5 @@ test('enhance style', () => {
     const $ = load(`
         <p></p>
     `)
-    enhance($, v4)
-    expect($.getElementsByClassName('style')).toBeDefined()
+    expect($.getElementsByTag('style').length).toBe(1)
 })
