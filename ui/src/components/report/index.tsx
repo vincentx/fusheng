@@ -62,25 +62,24 @@ const Report: FC<{ name: string }> = ({ name }) => {
 
   const onGoToViewMode = () => {
     const iframe = (document.getElementById(IFRAME_ID) as HTMLIFrameElement)
-      .innerHTML;
-    const iframeDocCopy = new DOMParser().parseFromString(iframe, HTML_CONTENT);
-    covertEnhancedToSpec(iframeDocCopy);
+      .contentWindow!.document;
+    covertEnhancedToSpec(iframe);
 
     httpClient
       .post(
         `/experiments/${name}`,
-        iframeDocCopy.getElementsByTagName("html")[0].innerHTML,
+        iframe.getElementsByTagName("html")[0].innerHTML,
         { headers: { "Content-Type": HTML_CONTENT } },
       )
       .then(() => {
         toast.success(
           "Your experiment has been triggered. It might takes some time to run this test, you'll able to see the report once it's finished.",
         );
-        getReportAndExperiments();
       })
       .catch((err) =>
         toast.error(`Unable to submit experiment due to ${err.message}`),
-      );
+      )
+      .finally(getReportAndExperiments);
   };
 
   const onGoToExperimentMode = () => {
