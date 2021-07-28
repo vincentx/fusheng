@@ -7,7 +7,7 @@ test('enhance context id', () => {
         <p class="example"></p>
     `)
     enhance($, v4)
-    expect($.getElementsByClassName('example').attr('id')).toBeDefined()
+    expect($.getElementsByClassName('example')[0].getAttr('id')).toBeDefined()
 })
 
 test('enhance assertion tag', () => {
@@ -15,10 +15,10 @@ test('enhance assertion tag', () => {
         <span class="assertion" data-expect="equal" data-action="getPot">0</span>
     `)
     enhance($, v4)
-    expect($.getElementsByClassName('assertion').attr('id')).toBeDefined()
-    expect($.getElementsByClassName('assertion').children().length).toBe(2)
-    expect($.getElementsByClassName('assertion').children('.assert-expect')).toBeDefined()
-    expect($.getElementsByClassName('assertion').children('.assert-actual')).toBeDefined()
+    expect($.getElementsByClassName('assertion')[0].getAttr('id')).toBeDefined()
+    expect($.getElementsByClassName('assertion')[0].children().length).toBe(2)
+    expect($.getElementsByClassName('assertion')[0].children('.assert-expect')).toBeDefined()
+    expect($.getElementsByClassName('assertion')[0].children('.assert-actual')).toBeDefined()
 })
 
 test('enhance style', () => {
@@ -26,5 +26,5 @@ test('enhance style', () => {
         <p></p>
     `)
     enhance($, v4)
-    expect($.getElementsByClassName('style').html()).toBeDefined()
+    expect($.getElementsByClassName('style')).toBeDefined()
 })
