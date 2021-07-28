@@ -8,10 +8,13 @@ export const useReports = () => {
   const [reports, setReports] = useState<IReport[]>([]);
 
   useEffect(() => {
-    retrieveReports();
+    retrieveReports(3);
   }, []);
 
-  const retrieveReports = () => {
+  const retrieveReports = (deps: number) => {
+    if (deps === 0) {
+      return;
+    }
     httpClient
       .get(REPORTS_RESOURCE_PATH)
       .then((res) => {
@@ -23,9 +26,14 @@ export const useReports = () => {
         }));
         setReports(reports);
       })
-      .catch((err) =>
-        toast.error(`Unable to list reports due to ${err.message}`),
-      );
+      .catch((err) => {
+        toast.error(
+          `Unable to list reports due to ${err.message}. ${
+            deps > 1 ? "Will retry in 3 seconds" : ""
+          }`,
+        );
+        setTimeout(() => retrieveReports(deps - 1), 3000);
+      });
   };
 
   return { reports, retrieveReports };
