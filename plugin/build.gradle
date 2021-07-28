@@ -23,6 +23,7 @@ repositories {
 dependencies {
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
     implementation group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
+    implementation 'org.testng:testng:7.1.0'
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
@@ -33,8 +34,8 @@ dependencies {
     // Use JUnit test framework for unit tests
     testImplementation 'junit:junit:4.13.1'
 
-    implementation fileTree(dir: "$rootDir/runner/lib/build/libs/", include: 'lib.jar')
-    implementation files("$projectDir/src/main/java/fusheng/lib/runner.jar")
+    implementation files("$projectDir/src/main/java/com/thoughtworks/fusheng/lib/runner.jar")
+//    implementation fileTree(dir: "$rootDir/runner/lib/build/libs/", include: 'lib.jar')
 }
 
 gradlePlugin {
@@ -42,7 +43,7 @@ gradlePlugin {
     plugins {
         fusheng {
             id = 'com.github.tw.fusheng'
-            implementationClass = 'fusheng.FushengPlugin'
+            implementationClass = 'com.thoughtworks.fusheng.FushengPlugin'
         }
     }
 }

@@ -1,7 +1,0 @@
-package fusheng.outbound;
-
-public class Runner {
-    public String runExperiment(String pathName, String htmlContent) {
-        return null;
-    }
-}
