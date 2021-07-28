@@ -41,7 +41,6 @@ test('test generated script', () => {
 })
 
 function execute(script, $, uuid, fixture, context) {
-  console.log(script)
   eval(script)
 }
 
