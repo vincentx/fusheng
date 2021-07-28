@@ -78,9 +78,9 @@ public class FushengHttpHandler implements HttpHandler {
     }
 
     private String handlePostRequest(final HttpExchange httpExchange) {
-        String specWithName = "/experiment/{pathName}";
-        if (isValidUri(httpExchange, specWithName)) {
-            Map<String, String> pathVariables = getPathVariable(httpExchange, specWithName);
+        String experimentWithName = "/experiment/{pathName}";
+        if (isValidUri(httpExchange, experimentWithName)) {
+            Map<String, String> pathVariables = getPathVariable(httpExchange, experimentWithName);
             InputStream requestBodyInputStream = httpExchange.getRequestBody();
             String htmlContent;
             try {
