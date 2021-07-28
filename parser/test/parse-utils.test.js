@@ -1,93 +1,99 @@
-import { load } from 'cheerio'
+import { load } from '../src/sandbox'
 import parseUtils from '../src/parse-utils'
 
-test('shoulr convert varable to code in the form of String when the variableValue is String', () => {
-  
-  const $ = load(`
-    <p class="example">
-      <span class="variable" data-name="players">A,B,C</span>
-    </p>
-  `)
-
-  let node = {}
-  $('.variable').each(function (index, element) {
-    node = $(element)
-  })
+test('should convert variable to code in the form of String when the variable value is String', () => {
+  const $ = load(`<span class="variable" data-name="players">A,B,C</span>`)
+  let node = $.getElementsByClassName('variable')[0]
   let codes = []
+
   parseUtils.parseVariable(node,codes)
-  expect(codes[0]).toBe('let players = "A,B,C";')
+
+  expect(codes).toEqual(['var players = "A,B,C";'])
 });
 
-test('shoulr convert varable to code in the form of number when the variableValue is number', () => {
-  
-  const $ = load(`
-    <p class="example">
-      <span class="variable" data-name="wager">5</span>
-    </p>
-  `)
-
-  let node = {}
-  $('.variable').each(function (index, element) {
-    node = $(element)
-  })
+test('should convert variable to code in the form of number when the variable value is number', () => {
+  const $ = load(`<span class="variable" data-name="wager">5</span>`)
+  let node = $.getElementsByClassName('variable')[0]
   let codes = []
+
   parseUtils.parseVariable(node,codes)
-  expect(codes[0]).toBe('let wager = 5;')
+
+  expect(codes).toEqual(['var wager = 5;'])
 });
 
-test('shoulr convert function to code when the embeddedCode not exists', () => {
-  
-  const $ = load(`
-    <p class="example">
-      <span class="function" data-action="newGame" data-params="players">游戏</span>
-    </p>
-  `)
-
-  let node = {}
-  $('.function').each(function (index, element) {
-    node = $(element)
-  })
+test('should convert function to code when the embeddedCode not exists', () => {
+  const $ = load(`<span class="function" data-action="newGame" data-params="players">游戏</span>`)
+  let node = $.getElementsByClassName('function')[0]
   let codes = []
+
   parseUtils.parseFunction(node,codes)
-  expect(codes[0]).toBe('(function () { fixture.newGame(players); })();')
+
+  expect(codes).toEqual(['(function () { fixture.newGame(players); })();'])
 });
 
-test('shoulr convert function to code when the embeddedCode exists', () => {
-  
-  const $ = load(`
-    <p class="example">
-      <span class="function" data-action="newGame" data-params="players">游戏</span>
-    </p>
-  `)
-
-  let node = {}
-  $('.function').each(function (index, element) {
-    node = $(element)
-  })
+test('should convert function to code when the embeddedCode exists', () => {
+  const $ = load(`<span class="function" data-action="newGame" data-params="players">游戏</span>`)
+  let node = $.getElementsByClassName('function')[0]
   let codes = []
-  parseUtils.parseFunction(node,codes,'let players = "A,B,C";')
-  expect(codes[0]).toBe('(function () { let players = "A,B,C";fixture.newGame(players); })();')
+
+  parseUtils.parseFunction(node,codes,'var players = "A,B,C";')
+
+  expect(codes).toEqual(['(function () { var players = "A,B,C";fixture.newGame(players); })();'])
 });
 
-test('shoulr convert assertion to code', () => {
-  
+test('should convert assertion to code for assert-equal', () => {
   const $ = load(`
-    <p class="example">
-      <span class="assertion" data-expect="equal" data-action="getPot" id=123>
-        <span class="assert-expect">0</span> 
-        <span class="assert-actual"></span>
-      </span>
-    </p>
+    <span class="assertion" data-expect="equal" data-action="getPot" id="123">
+      <span class="assert-expect">0</span> 
+      <span class="assert-actual"></span>
+    </span>
   `)
-
-  let node = {}
-  $('.assertion').each(function (index, element) {
-    node = $(element)
-  })
+  let node = $.getElementsByClassName('assertion')[0]
   let codes = []
-  parseUtils.parseAssertion(node,3333,codes)
-  console.log(codes)
-  expect(codes[0]).toBe('actual = fixture.getPot();')
-  expect(codes[1]).toBe('expect = 0;result = actual === expect;')
-  expect(codes[2]).toBe('$("#123").addClass(result ? "success" : "error");context["3333"] = context["3333"] && result;')
+
+  parseUtils.parseAssertion(node,'01', codes)
+
+  expect(codes).toEqual([
+    'actual = fixture.getPot();',
+    'expect = 0;result = actual === expect;',
+    '$.getElementById("123").addClass(result ? "success" : "error");context["01"] = context["01"] && result;$.getElementById("123").children()[1].setText(actual);',
+  ])
+});
+
+test('should convert assertion to code for assert-true', () => {
+  const $ = load(`
+    <span class="assertion" data-expect="true" data-action="goToNextRound" id="123">
+      <span class="assert-expect">进入下一轮</span> 
+      <span class="assert-actual"></span>
+    </span>
+  `)
+  let node = $.getElementsByClassName('assertion')[0]
+  let codes = []
+
+  parseUtils.parseAssertion(node,'01', codes)
+
+  expect(codes).toEqual([
+    'actual = fixture.goToNextRound();',
+    'result = actual === true;',
+    '$.getElementById("123").addClass(result ? "success" : "error");context["01"] = context["01"] && result;$.getElementById("123").children()[1].setText(actual);',
+  ])
+});
+
+test('should convert assertion to code for assert-false', () => {
+  const $ = load(`
+    <span class="assertion" data-expect="false" data-action="goToNextRound" id="123">
+      <span class="assert-expect">进入下一轮</span> 
+      <span class="assert-actual"></span>
+    </span>
+  `)
+  let node = $.getElementsByClassName('assertion')[0]
+  let codes = []
+
+  parseUtils.parseAssertion(node,'01', codes)
+
+  expect(codes).toEqual([
+    'actual = fixture.goToNextRound();',
+    'result = actual === false;',
+    '$.getElementById("123").addClass(result ? "success" : "error");context["01"] = context["01"] && result;$.getElementById("123").children()[1].setText(actual);',
+  ])
 });

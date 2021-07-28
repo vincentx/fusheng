@@ -22,7 +22,7 @@ const parseAssertion = (api, exampleId, codes, embeddedCode) => {
 }
 
 const convertVariableCode  = (variableName, variableValue) => {
-  variableValue = isNaN(variableValue) ? '"' + variableValue + '"' : variableValue
+  variableValue = convertValue(variableValue)
   return `var ${variableName} = ${variableValue};`
 }
 
@@ -48,7 +48,7 @@ const convertAssertionFunctionCode = (actionName, actionParams, embeddedCode) =>
 
 const convertAssertionCode = (expectType, expectValue) => {
   if (expectType === 'equal') {
-    expectValue = isNaN(expectValue) ? '"' + expectValue + '"' : expectValue
+    expectValue = convertValue(expectValue)
     return `expect = ${expectValue};result = actual === expect;`
   } else if (expectType === 'true') {
     return 'result = actual === true;'
@@ -61,6 +61,10 @@ const convertAssertionCode = (expectType, expectValue) => {
 
 const convertAssertionResultCode = (exampleId, assertionId) => {
   return `$.getElementById("${assertionId}").addClass(result ? "success" : "error");context["${exampleId}"] = context["${exampleId}"] && result;$.getElementById("${assertionId}").children()[1].setText(actual);`
+}
+
+const convertValue = (value) => {
+  return isNaN(value) ? '"' + value + '"' : value
 }
 
 export default {
