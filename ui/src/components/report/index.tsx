@@ -19,18 +19,28 @@ export enum Mode {
 const Report: FC<{ name: string }> = ({ name }) => {
   const [mode, setMode] = useState(Mode.VIEW);
   const [doc, setDoc] = useState("");
+  const [experiments, setExperiments] = useState<string[]>([]);
 
   useEffect(() => {
     setMode(Mode.VIEW);
-    getReports();
+    getReportAndExperiments();
   }, [name]);
 
-  const getReports = () => {
+  const getReportAndExperiments = () => {
     httpClient
       .get(`/reports/${name}`)
       .then(({ data }) => {
         setDoc(data);
         setMode(Mode.VIEW);
+        httpClient
+          .get(`/reports/${name}/experiments`)
+          .then((res) => {
+            console.log(res);
+            setExperiments(res.data.split(", "));
+          })
+          .catch((err) => {
+            toast.error(`Unable to get past experiments due to ${err.message}`);
+          });
       })
       .catch((err) => {
         toast.error(`Unable to get reports due to ${err.message}`);
@@ -53,7 +63,7 @@ const Report: FC<{ name: string }> = ({ name }) => {
         toast.success(
           "Your experiment has been triggered. It might takes some time to run this test, you'll able to see the report once it's finished.",
         );
-        getReports();
+        getReportAndExperiments();
       })
       .catch((err) =>
         toast.error(`Unable to submit experiment due to ${err.message}`),
@@ -80,6 +90,7 @@ const Report: FC<{ name: string }> = ({ name }) => {
         mode={mode}
         toViewMode={onGoToViewMode}
         toExperimentMode={onGoToExperimentMode}
+        experiments={experiments}
       />
       <div className="report-wrapper">
         <iframe className="report" id={IFRAME_ID} srcDoc={doc} />

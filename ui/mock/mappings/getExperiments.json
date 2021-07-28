@@ -1,12 +1,13 @@
 {
     "request": {
         "method": "GET",
-        "urlPattern": "/reports/\\w*"
+        "url": "/reports/demo/experiments"
     },
-    "response" : {
-        "status" : 200,
-        "bodyFileName" : "reports/{{request.pathSegments.[1]}}.html",
-        "headers" : {
+    "response": {
+        "status": 200,
+        "body": "exp, exp1, exp2",
+        "headers": {
+            "Content-Type": "application/json",
             "Access-Control-Allow-Origin" : "*",
             "Access-Control-Allow-Methods" : "*",
             "Access-Control-Allow-Headers": "Accept, Content-Type, Content-Encoding, Server, Transfer-Encoding"

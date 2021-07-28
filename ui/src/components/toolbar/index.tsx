@@ -9,9 +9,16 @@ interface ToolBarProps {
   mode: Mode;
   toViewMode: () => unknown;
   toExperimentMode: () => unknown;
+  experiments: string[];
 }
 
-const ToolBar: FC<ToolBarProps> = ({ mode, toViewMode, toExperimentMode }) => {
+const ToolBar: FC<ToolBarProps> = ({
+  mode,
+  toViewMode,
+  toExperimentMode,
+  experiments,
+}) => {
+  console.log(experiments);
   const modeConfig = {
     VIEW: {
       actionButton: {
@@ -34,7 +41,7 @@ const ToolBar: FC<ToolBarProps> = ({ mode, toViewMode, toExperimentMode }) => {
     <>
       <div className="toolbar" data-testid="toolbar">
         <button
-          className="button"
+          className="toolbar-item"
           onClick={actionButton.onClick}
           data-testid={`actionButton-${mode}`}
         >
@@ -43,6 +50,17 @@ const ToolBar: FC<ToolBarProps> = ({ mode, toViewMode, toExperimentMode }) => {
             <span>{actionButton.displayText}</span>
           </div>
         </button>
+
+        <span className="toolbar-item">
+          <div className="button-wrapper">
+            {actionButton.icon}
+            <select className="dropdown">
+              {experiments.map((exp) => (
+                <option>{exp}</option>
+              ))}
+            </select>
+          </div>
+        </span>
       </div>
     </>
   );

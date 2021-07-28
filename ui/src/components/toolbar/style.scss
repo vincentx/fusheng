@@ -13,7 +13,8 @@
   border-bottom: $primary solid 1px;
 }
 
-.button {
+.toolbar-item {
+  color: $light;
   border: none;
   background-color: transparent;
 
@@ -23,6 +24,10 @@
 
   :active {
     background-color: darken($primary, 5);
+  }
+
+  .hide {
+    display: none;
   }
 }
 
@@ -41,3 +46,15 @@
 }
 
 
+.dropdown {
+  color: $light;
+  border: none;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  width: auto;
+  max-width: 5em;
+  min-width: 3em;
+  outline: none;
+  background: transparent;
+  appearance: none;
+}
