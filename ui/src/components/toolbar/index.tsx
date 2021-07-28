@@ -10,13 +10,17 @@ interface ToolBarProps {
   toViewMode: () => unknown;
   toExperimentMode: () => unknown;
   experiments: string[];
+  onGoToViewExp: (expId: string, specId: string) => unknown;
+  specName: string;
 }
 
 const ToolBar: FC<ToolBarProps> = ({
   mode,
   toViewMode,
   toExperimentMode,
+  onGoToViewExp,
   experiments,
+  specName,
 }) => {
   const modeConfig = {
     VIEW: {
@@ -31,6 +35,13 @@ const ToolBar: FC<ToolBarProps> = ({
         displayText: "Try it out",
         icon: <PlayArrow />,
         onClick: toViewMode,
+      },
+    },
+    VIEW_EXP: {
+      actionButton: {
+        displayText: "Experiment",
+        icon: <Edit className="icon" />,
+        onClick: toExperimentMode,
       },
     },
   };
@@ -54,7 +65,12 @@ const ToolBar: FC<ToolBarProps> = ({
           <span className="toolbar-item">
             <div className="button-wrapper">
               {actionButton.icon}
-              <select className="dropdown">
+              <select
+                className="dropdown"
+                onChange={(event) => {
+                  onGoToViewExp(event.target.value, specName);
+                }}
+              >
                 {experiments.map((exp) => (
                   <option key={exp}>{exp}</option>
                 ))}

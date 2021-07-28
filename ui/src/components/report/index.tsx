@@ -14,6 +14,7 @@ import {
 export enum Mode {
   VIEW = "VIEW",
   EXPERIMENT = "EXPERIMENT",
+  VIEW_EXP = "VIEW_EXP",
 }
 
 const Report: FC<{ name: string }> = ({ name }) => {
@@ -33,7 +34,7 @@ const Report: FC<{ name: string }> = ({ name }) => {
         setDoc(data);
         setMode(Mode.VIEW);
         httpClient
-          .get(`/reports/${name}/experiments`)
+          .get(`/specs/${name}/experiments`)
           .then((res) => {
             setExperiments(res.data.split(", "));
           })
@@ -44,6 +45,18 @@ const Report: FC<{ name: string }> = ({ name }) => {
       })
       .catch((err) => {
         toast.error(`Unable to get reports due to ${err.message}`);
+      });
+  };
+
+  const onGoToViewExp = (expId: string, specId: string) => {
+    httpClient
+      .get(`/specs/${specId}/experiments/${expId}`)
+      .then(({ data }) => {
+        setDoc(data);
+        setMode(Mode.VIEW_EXP);
+      })
+      .catch((err) => {
+        toast.error(`Unable to get experiment due to ${err.message}`);
       });
   };
 
@@ -91,6 +104,8 @@ const Report: FC<{ name: string }> = ({ name }) => {
         toViewMode={onGoToViewMode}
         toExperimentMode={onGoToExperimentMode}
         experiments={experiments}
+        onGoToViewExp={onGoToViewExp}
+        specName={name}
       />
       <div className="report-wrapper">
         <iframe className="report" id={IFRAME_ID} srcDoc={doc} />

@@ -1,11 +1,11 @@
 {
     "request": {
         "method": "GET",
-        "url": "/reports/demo/experiments"
+        "url": "/specs/demo/experiments"
     },
     "response": {
         "status": 200,
-        "body": "exp, exp1, exp2",
+        "body": "exp1",
         "headers": {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin" : "*",
