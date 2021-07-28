@@ -25,7 +25,7 @@ public class FushengServer {
         final var requestQueue = 0;
         final var port = 26868;
         final var httpServer = HttpServer.create(new InetSocketAddress("localhost", port), requestQueue);
-        httpServer.createContext("/com/thoughtworks/fusheng", new FushengHttpHandler(specRepository, reportRepository, experimentRepository, indexRepository));
+        httpServer.createContext("/fusheng", new FushengHttpHandler(specRepository, reportRepository, experimentRepository, indexRepository));
         httpServer.setExecutor(Executors.newFixedThreadPool(10));
         httpServer.start();
         setCurrentActiveServer(httpServer);

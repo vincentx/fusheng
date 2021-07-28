@@ -153,7 +153,7 @@ public class FushengHttpHandler implements HttpHandler {
     }
 
     private Boolean isValidUri(final HttpExchange httpExchange, String templateUri) {
-        String flag = "/com/thoughtworks/fusheng";
+        String flag = "/fusheng";
         int prefixURIIndex = httpExchange.getRequestURI().toString().indexOf(flag);
         String prefixURI = httpExchange.getRequestURI().toString().substring(0, prefixURIIndex);
         UriTemplate template = new UriTemplate(prefixURI + flag + templateUri);

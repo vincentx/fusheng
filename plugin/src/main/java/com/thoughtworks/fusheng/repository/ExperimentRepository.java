@@ -50,8 +50,6 @@ public class ExperimentRepository {
     public String runExperiment(String fullSpecName, String htmlContent) {
         try {
             FushengLogger.info("start to trigger runner with path:" + fullSpecName, getClass());
-            Class<?> aClass = ClassLoader.getSystemClassLoader().loadClass(fullSpecName);
-            FushengLogger.info("loaded class is" + aClass.getName(), getClass());
             return ServerAdapter.runExperiment(fullSpecName, htmlContent);
         } catch (ClassNotFoundException exp) {
             FushengLogger.error("error encountered when run experiment, message:" + exp.getMessage(),

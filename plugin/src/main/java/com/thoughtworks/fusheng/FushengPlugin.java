@@ -23,12 +23,12 @@ public class FushengPlugin implements Plugin<Project> {
                 .getRuntimeClasspath();
 
         project.getTasks().register("startLivingDoc", FushengServerTask.class, task -> {
-            task.setGroup("com/thoughtworks/fusheng");
+            task.setGroup("fusheng");
             task.setFushengClasspath(fushengClasspath);
         });
 
         project.getTasks().register("fushengClasspath", FushengClassPathTask.class, task -> {
-            task.setGroup("com/thoughtworks/fusheng");
+            task.setGroup("fusheng");
             task.setFushengClasspath(fushengClasspath);
         });
     }
