@@ -1,5 +1,7 @@
 package fusheng;
 
+import static java.util.stream.Collectors.joining;
+
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import fusheng.repository.ExperimentRepository;
@@ -7,6 +9,8 @@ import fusheng.repository.IndexRepository;
 import fusheng.repository.ReportRepository;
 import fusheng.repository.SpecRepository;
 import fusheng.util.FushengLogger;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -105,6 +109,10 @@ public class FushengHttpHandler implements HttpHandler {
 
         String spec = "/spec/test";
         if (isValidUri(httpExchange, spec)) {
+
+            final String classPathPackages =
+                    Arrays.stream(ClassLoader.getSystemClassLoader().getDefinedPackages()).map(Package::getName).collect(joining(","));
+            FushengLogger.info(classPathPackages, getClass());
             return List.of("test");
         }
 
