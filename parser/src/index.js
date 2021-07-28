@@ -4,6 +4,7 @@ import { load, uuidv4 } from './sandbox'
 import parseUtils from './parse-utils'
 import fs from 'fs'
 
+// init $, uuid, get script
 let html = fs.readFileSync('public/example.html', 'utf-8')
 const $ = load(html)
 const uuid = uuidv4()

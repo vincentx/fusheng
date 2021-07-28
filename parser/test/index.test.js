@@ -1,15 +1,15 @@
 import {generatedScript, $, uuid} from '../src'
 
 test('test generated script', () => {
-  // init $, fixture, context
-  const script = generatedScript
-  const api = $
-  const uuidv4 = uuid
+  // init fixture, context
   const fixture = defaultFixture()
+  const context = {}
 
   let actualPlayers
   let actualMinWager
   let actualRaiseWager
+  let actualPot
+  let actualActivePlayer
 
   fixture.newGame = function(players) {
     actualPlayers = players
@@ -21,23 +21,27 @@ test('test generated script', () => {
     actualRaiseWager = wager
   }
   fixture.getPot = function () {
-    return "1"
+    actualPot = 1
   }
   fixture.getActivePlayer = function () {
-    return "A"
+    actualActivePlayer = 'A'
   }
-  api.getElementsByClassName('example').forEach(_api => {
-    const id = _api.getAttr('id')
-    // console.log(script[id], api, {}, fixture, uuidv4)
-    execute(script[id], api, {}, fixture, uuidv4)
+
+  // test execute generated script for each example
+  $.getElementsByClassName('example').forEach(api => {
+    const id = api.getAttr('id')
+    execute(generatedScript[id], api, uuid, fixture, context)
+
     expect(actualPlayers).toBe('A,B,C')
     expect(actualMinWager).toBe(3)
     expect(actualRaiseWager).toBe(5)
-    console.log(api.html())
+    expect(actualPot).toBe(1)
+    expect(actualActivePlayer).toBe('A')
   })
 })
 
-function execute(script, $, context, fixture, uuid) {
+function execute(script, $, uuid, fixture, context) {
+  console.log(script)
   eval(script)
 }
 
