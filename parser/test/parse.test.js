@@ -1,4 +1,4 @@
-import { load } from 'cheerio'
+import { load } from '../src/sandbox'
 import { parse } from '../src/parse'
 
 test('parse html sequentially', () => {
@@ -12,14 +12,15 @@ test('parse html sequentially', () => {
       <span class="assertion" data-expect="equal" data-action="getPot">0</span>。  
     </p>
   `)
-  const root = $('.example')
+  const api = $.getElementsByClassName('example')[0]
+
   const parseUtils = {
     parseVariable: (node, codes) => { codes.push(`variableCode;`) },
     parseFunction: (node, codes, embeddedCode) => { codes.push(`functionCode(){${embeddedCode}};`) },
     parseAssertion: (node, id, codes, embeddedCode) => { codes.push(`assertionCode(){${embeddedCode}};`) },
   }
 
-  const codes = parse($, root, 'id', parseUtils)
+  const codes = parse(api, 'id', parseUtils)
   expect(codes).toBe(`variableCode;functionCode(){};assertionCode(){};`)
 })
 
@@ -40,14 +41,15 @@ test('parse 2-depth html depth-first', () => {
       </span>   
     </p>
   `)
-  const root = $('.example')
+  const api = $.getElementsByClassName('example')[0]
+
   const parseUtils = {
     parseVariable: (node, codes) => { codes.push(`variableCode;`) },
     parseFunction: (node, codes, embeddedCode) => { codes.push(`functionCode(){${embeddedCode}};`) },
     parseAssertion: (node, id, codes, embeddedCode) => { codes.push(`assertionCode(){${embeddedCode}};`) },
   }
 
-  const codes = parse($, root, 'id', parseUtils)
+  const codes = parse(api, 'id', parseUtils)
   expect(codes).toBe(`variableCode;functionCode(){variableCode;};assertionCode(){};`)
 })
 
@@ -73,13 +75,14 @@ test('parse 3-depth html depth-first', () => {
       </span>   
     </p>
   `)
-  const root = $('.example')
+  const api = $.getElementsByClassName('example')[0]
+
   const parseUtils = {
     parseVariable: (node, codes) => { codes.push(`variableCode;`) },
     parseFunction: (node, codes, embeddedCode) => { codes.push(`functionCode(){${embeddedCode}};`) },
     parseAssertion: (node, id, codes, embeddedCode) => { codes.push(`assertionCode(){${embeddedCode}};`) },
   }
 
-  const codes = parse($, root, 'id', parseUtils)
+  const codes = parse(api, 'id', parseUtils)
   expect(codes).toBe(`variableCode;functionCode(){variableCode;functionCode(){variableCode;};};assertionCode(){};`)
 })
