@@ -25,7 +25,7 @@ public class Executor {
         }
     }
 
-    public void addSymbol(String name, Object obj) {
+    public void setSymbol(String name, Object obj) {
         engine.put(name, obj);
     }
 
