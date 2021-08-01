@@ -9,7 +9,7 @@ public class ServerAdapter {
 
     // fullSpecName 中包含完整的包名，例如：com.thoughtworks.fusheng.fixture.TestSpec
     public static String runExperiment(String fullSpecName, String htmlContent) throws ClassNotFoundException {
-        Class<?> spec = Class.forName(fullSpecName);
+        Class<?> spec = new ClassPathClassLoader(Paths.get(System.getProperty("user.dir")) +"/build/classes/java/test").findClass(fullSpecName);
         RunnerFacadeImpl runner = new RunnerFacadeImpl(spec, htmlContent);
 
         runner.getRunnerResource().getExampleResources().forEach(exampleResource -> {
