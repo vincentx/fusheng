@@ -76,6 +76,8 @@ public class FushengHttpHandler implements HttpHandler {
             httpExchange.sendResponseHeaders(200, bs.length);
             OutputStream os = httpExchange.getResponseBody();
             os.write(bs);
+            os.flush();
+            httpExchange.close();
         } catch (Exception e) {
             log.error(e);
         }
