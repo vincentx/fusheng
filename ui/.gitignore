@@ -10,6 +10,8 @@
 
 # production
 /build
+/dist
+/mock/wiremock-standalone.jar
 
 # misc
 .DS_Store
