@@ -10,11 +10,13 @@ public class FushengServerTask extends FushengBaseTask {
     }
 
     private void runServer() {
+        super.loadClassPath();
+
         final var server = new FushengServer();
         try {
             server.startServer();
             // TODO: is there better way to keep server running?
-            while (true){
+            while (true) {
 
             }
         } catch (Exception e) {

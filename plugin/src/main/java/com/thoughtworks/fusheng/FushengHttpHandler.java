@@ -133,7 +133,7 @@ public class FushengHttpHandler implements HttpHandler {
             return experimentRepository.retrieveExperimentHistoryForSpec(pathVariables.get("pathName"));
         }
 
-        String experimentWithName = "/spec/experiments/{experimentPathName}";
+        String experimentWithName = "/spec/experiments/{pathName}";
         if (isValidUri(httpExchange, experimentWithName)) {
             Map<String, String> pathVariables = getPathVariable(httpExchange, experimentWithName);
             return List.of(experimentRepository.retrieveSingleExperimentResult(pathVariables.get("pathName")));
