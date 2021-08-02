@@ -10,7 +10,6 @@ import com.thoughtworks.fusheng.repository.ReportRepository;
 import com.thoughtworks.fusheng.repository.SpecRepository;
 import com.thoughtworks.fusheng.util.FushengLogger;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -129,13 +128,13 @@ public class FushengHttpHandler implements HttpHandler {
             return reportRepository.retrieveAll();
         }
 
-        String specExperimentsWithName = "/spec/{pathName}/experiments";
+        String specExperimentsWithName = "/specs/{pathName}/experiments";
         if (isValidUri(httpExchange, specExperimentsWithName)) {
             Map<String, String> pathVariables = getPathVariable(httpExchange, specExperimentsWithName);
             return experimentRepository.retrieveExperimentHistoryForSpec(pathVariables.get("pathName"));
         }
 
-        String experimentWithName = "/spec/experiments/{pathName}";
+        String experimentWithName = "/experiments/{pathName}";
         if (isValidUri(httpExchange, experimentWithName)) {
             Map<String, String> pathVariables = getPathVariable(httpExchange, experimentWithName);
             return List.of(experimentRepository.retrieveSingleExperimentResult(pathVariables.get("pathName")));

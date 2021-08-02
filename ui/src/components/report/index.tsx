@@ -50,7 +50,7 @@ const Report: FC<{ name: string }> = ({ name }) => {
 
   const onGoToViewExp = (expId: string, specId: string) => {
     httpClient
-      .get(`/specs/${specId}/experiments/${expId}`)
+      .get(`/experiments/${expId}`)
       .then(({ data }) => {
         setDoc(data);
         setMode(Mode.VIEW_EXP);
