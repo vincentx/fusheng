@@ -17,7 +17,8 @@ public class SpecRepository {
     private final ServerConfig serverConfig;
 
     public String retrieveSpec(String pathName) {
-        Path path = Paths.get(PROJECT_ROOT_DIRECTORY, serverConfig.getRawSpecFolderLocation(), pathName + REPORT_SUFFIX);
+        String fileName = pathName.substring(pathName.lastIndexOf(".") + 1);
+        Path path = Paths.get(PROJECT_ROOT_DIRECTORY, serverConfig.getRawSpecFolderLocation(), fileName + REPORT_SUFFIX);
         try {
             return Files.readString(path, StandardCharsets.UTF_8);
         } catch (IOException exp) {

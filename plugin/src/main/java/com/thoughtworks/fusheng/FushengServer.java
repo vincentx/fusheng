@@ -19,7 +19,7 @@ public class FushengServer {
     private final SpecRepository specRepository = new SpecRepository(serverConfig);
     private final ReportRepository reportRepository = new ReportRepository(serverConfig);
     private final ExperimentRepository experimentRepository = new ExperimentRepository(serverConfig);
-    private final IndexRepository indexRepository = new IndexRepository(serverConfig);
+    private final IndexRepository indexRepository = new IndexRepository();
 
     public HttpServer startServer() throws IOException {
         final var requestQueue = 0;
