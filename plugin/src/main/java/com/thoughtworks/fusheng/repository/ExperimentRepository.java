@@ -5,6 +5,7 @@ import com.thoughtworks.fusheng.config.ServerConfig;
 import com.thoughtworks.fusheng.exception.FilesReadingFailedException;
 import com.thoughtworks.fusheng.util.FushengLogger;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -26,7 +27,13 @@ public class ExperimentRepository {
         try (Stream<Path> paths = Files.walk(path)) {
             return paths
                     .filter(Files::isRegularFile)
-                    .filter(filePath -> filePath.getFileName().toString().startsWith(pathName))
+                    .filter(
+                            filePath -> {
+                                val fileName = filePath.getFileName().toString();
+                                val specName = fileName.substring(0, fileName.lastIndexOf("_"));
+                                return specName.equals(pathName);
+                            }
+                    )
                     .map(filePath -> filePath.getFileName()
                             .normalize()
                             .toString()
