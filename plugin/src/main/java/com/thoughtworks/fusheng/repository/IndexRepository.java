@@ -17,7 +17,7 @@ public class IndexRepository {
     private final ServerConfig serverConfig;
 
     public String retrieveIndexHtml() {
-        Path path = Paths.get(PROJECT_ROOT_DIRECTORY,"plugin", serverConfig.getIndexHtmlLocation());
+        Path path = Paths.get(PROJECT_ROOT_DIRECTORY, serverConfig.getIndexHtmlLocation());
         try {
             return Files.readString(path, StandardCharsets.UTF_8);
         } catch (IOException exp) {
