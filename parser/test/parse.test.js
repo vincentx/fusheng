@@ -86,3 +86,37 @@ test('parse 3-depth html depth-first', () => {
   const codes = parse(api, 'id', parseUtils)
   expect(codes).toBe(`variableCode;functionCode(){variableCode;functionCode(){variableCode;};};assertionCode(){};`)
 })
+
+test('parse table code', () => {
+  const $ = load(`
+    <p class="example">
+      <table class="row-function" data-action="split" data-params="fullName" data-return="splitRes">
+          <tr>
+              <th>Full Name</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+          </tr>
+          <tr>
+              <td class="variable" data-name="fullName">John Smith</td>
+              <td class="assertion" data-expect="equal" data-actual="splitRes.firstName">John</td>
+              <td class="assertion" data-expect="equal" data-actual="splitRes.lastName">Smith</td>
+          </tr>
+          <tr>
+              <td class="variable" data-name="fullName">David Peterson</td>
+              <td class="assertion" data-expect="equal" data-actual="splitRes.firstName">David</td>
+              <td class="assertion" data-expect="equal" data-actual="splitRes.lastName">Peterson</td>
+          </tr>
+      </table>
+    </p>
+  `)
+  const api = $.getElementsByClassName('example')[0]
+
+  const parseUtils = {
+    parseVariable: (node, codes) => { codes.push(`variableCode;`) },
+    parseFunction: (node, codes, embeddedCode) => { codes.push(`functionCode(){${embeddedCode}};`) },
+    parseAssertion: (node, id, codes, embeddedCode) => { codes.push(`assertionCode(){${embeddedCode}};`) },
+  }
+
+  const codes = parse(api, 'id', parseUtils)
+  expect(codes).toBe(`variableCode;functionCode(){};assertionCode(){};functionCode(){};assertionCode(){};variableCode;functionCode(){};assertionCode(){};functionCode(){};assertionCode(){};`)
+})

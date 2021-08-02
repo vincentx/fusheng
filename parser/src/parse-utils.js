@@ -7,13 +7,15 @@ const parseVariable = (api, codes) => {
 const parseFunction = (api, codes, embeddedCode) => {
   const actionName = api.getAttr('data-action')
   const actionParams = api.getAttr('data-params')
-  codes.push(convertFunctionCode(actionName, actionParams, embeddedCode))
+  const actionReturn = api.getAttr('data-return')
+  codes.push(convertFunctionCode(actionName, actionParams, actionReturn, embeddedCode))
 }
 
 const parseAssertion = (api, exampleId, codes, embeddedCode) => {
   const actionName = api.getAttr('data-action')
   const actionParams = api.getAttr('data-params')
-  codes.push(convertAssertionFunctionCode(actionName, actionParams, embeddedCode))
+  const actionActual = api.getAttr('data-actual')
+  codes.push(convertAssertionFunctionCode(actionName, actionParams, actionActual, embeddedCode))
   const expectType = api.getAttr('data-expect')
   const expectValue = api.text().trim()
   codes.push(convertAssertionCode(expectType, expectValue))
@@ -26,22 +28,25 @@ const convertVariableCode  = (variableName, variableValue) => {
   return `var ${variableName} = ${variableValue};`
 }
 
-const convertFunctionCode = (actionName, actionParams, embeddedCode) => {
-  if (actionParams) {
+const convertFunctionCode = (actionName, actionParams, actionReturn, embeddedCode) => {
+  let returnCode = actionReturn ? `var ${actionReturn} = ` : ''
+  if (actionName && actionParams) {
     return embeddedCode
-      ? `(function () { ${embeddedCode}fixture.${actionName}(${actionParams.split(' ')}); })();`
-      : `(function () { fixture.${actionName}(${actionParams.split(' ')}); })();`
-  } else {
-    return `fixture.${actionName}();`
+    ? `${returnCode}(function () { ${embeddedCode}return fixture.${actionName}(${actionParams.split(' ')}); })();`
+    : `${returnCode}(function () { return fixture.${actionName}(${actionParams.split(' ')}); })();`
+  } else if (actionName) {
+    return `${returnCode}fixture.${actionName}();`
   }
 }
 
-const convertAssertionFunctionCode = (actionName, actionParams, embeddedCode) => {
-  if (actionParams) {
+const convertAssertionFunctionCode = (actionName, actionParams, actionActual, embeddedCode) => {
+  if (actionActual) {
+    return `actual = ${actionActual};`
+  } else if (actionName && actionParams) {
     return embeddedCode
-      ? `actual = (function () { ${embeddedCode}fixture.${actionName}(${actionParams.split(' ')}); })();`
-      : `actual = (function () { fixture.${actionName}(${actionParams.split(' ')}); })();`
-  } else {
+      ? `actual = (function () { ${embeddedCode}return fixture.${actionName}(${actionParams.split(' ')}); })();`
+      : `actual = (function () { return fixture.${actionName}(${actionParams.split(' ')}); })();`
+  } else if (actionName) {
     return `actual = fixture.${actionName}();`
   }
 }

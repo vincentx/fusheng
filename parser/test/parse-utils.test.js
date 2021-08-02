@@ -28,7 +28,7 @@ test('should convert function to code when the embeddedCode not exists', () => {
 
   parseUtils.parseFunction(node,codes)
 
-  expect(codes).toEqual(['(function () { fixture.newGame(players); })();'])
+  expect(codes).toEqual(['(function () { return fixture.newGame(players); })();'])
 });
 
 test('should convert function to code when the embeddedCode exists', () => {
@@ -38,8 +38,77 @@ test('should convert function to code when the embeddedCode exists', () => {
 
   parseUtils.parseFunction(node,codes,'var players = "A,B,C";')
 
-  expect(codes).toEqual(['(function () { var players = "A,B,C";fixture.newGame(players); })();'])
+  expect(codes).toEqual(['(function () { var players = "A,B,C";return fixture.newGame(players); })();'])
 });
+
+test('should convert function to code when the data-return is defined', () => {
+  const $ = load(`<span class="function" data-action="newGame" data-params="players" data-return="game">游戏</span>`)
+  let node = $.getElementsByClassName('function')[0]
+  let codes = []
+
+  parseUtils.parseFunction(node, codes)
+
+  expect(codes).toEqual(['var game = (function () { return fixture.newGame(players); })();'])
+})
+
+test('should convert assertion to code when the data-actual is defined', () => {
+  const $ = load(`
+    <span class="assertion" data-expect="equal" data-actual="3" id="123">
+      <span class="assert-expect">0</span> 
+      <span class="assert-actual"></span>
+    </span>
+  `)
+  let node = $.getElementsByClassName('assertion')[0]
+  let codes = []
+
+  parseUtils.parseAssertion(node,'01', codes)
+
+  expect(codes).toEqual([
+    'actual = 3;',
+    'expect = 0;result = actual === expect;',
+    '$.getElementById("123").addClass(result ? "success" : "error");context["01"] = context["01"] && result;$.getElementById("123").children()[1].setText(actual);',
+  ])
+})
+
+test('should convert assertion to code when the embeddedCode not exists', () => {
+  const $ = load(`
+    <span class="assertion" data-expect="equal" data-action="getPot" data-params="currentPlayer" id="123">
+      <span class="assert-expect">0</span> 
+      <span class="assert-actual"></span>
+    </span>
+  `)
+
+  let node = $.getElementsByClassName('assertion')[0]
+  let codes = []
+
+  parseUtils.parseAssertion(node,'01', codes)
+
+  expect(codes).toEqual([
+    'actual = (function () { return fixture.getPot(currentPlayer); })();',
+    'expect = 0;result = actual === expect;',
+    '$.getElementById("123").addClass(result ? "success" : "error");context["01"] = context["01"] && result;$.getElementById("123").children()[1].setText(actual);',
+  ])
+})
+
+test('should convert assertion to code when the embeddedCode exists', () => {
+  const $ = load(`
+    <span class="assertion" data-expect="equal" data-action="getPot" data-params="currentPlayer" id="123">
+      <span class="assert-expect">0</span> 
+      <span class="assert-actual"></span>
+    </span>
+  `)
+
+  let node = $.getElementsByClassName('assertion')[0]
+  let codes = []
+
+  parseUtils.parseAssertion(node,'01', codes, 'var currentPlayer = "A";')
+
+  expect(codes).toEqual([
+    'actual = (function () { var currentPlayer = "A";return fixture.getPot(currentPlayer); })();',
+    'expect = 0;result = actual === expect;',
+    '$.getElementById("123").addClass(result ? "success" : "error");context["01"] = context["01"] && result;$.getElementById("123").children()[1].setText(actual);',
+  ])
+})
 
 test('should convert assertion to code for assert-equal', () => {
   const $ = load(`
