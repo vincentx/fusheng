@@ -1,3 +1,20 @@
+function enhanceTable(api) {
+  api.getElementsByTag('table').forEach(table => {
+    const ths = table.getElementsByTag('th')
+    ths.forEach((th, i) => {
+      const attributes = th.getAttributes()
+      table.getElementsByTag('td').forEach((td, j) => {
+        if (j % ths.length === i) {
+          attributes.forEach(attribute => {
+            td.setAttr(attribute.name, attribute.value)
+          })
+        }
+      })
+      th.removeAttributes()
+    })
+  })
+}
+
 function enhanceContentId(api, uuid) {
   api.getElementsByClassName('example').forEach(element => {
     element.setAttr('id', uuid())
@@ -37,7 +54,8 @@ function enhanceStyle(api) {
 }
 
 export const enhance = (api, uuid) => {
-  enhanceContentId(api, uuid);
-  enhanceAssertion(api, uuid);
+  enhanceTable(api)
+  enhanceContentId(api, uuid)
+  enhanceAssertion(api, uuid)
   enhanceStyle(api)
 }

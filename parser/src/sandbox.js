@@ -1,4 +1,4 @@
-import * as cheerio from "cheerio";
+import * as cheerio from 'cheerio'
 import { v4 } from 'uuid'
 
 const load = function (resource) {
@@ -20,7 +20,7 @@ const getApi = function ($, node) {
         $('#' + id).each((index, element) => {
             apis.push(getApi($, $(element)))
         })
-        return apis[0];
+        return apis[0]
     }
     api.children = function () {
         const apis = []
@@ -38,6 +38,39 @@ const getApi = function ($, node) {
     api.text = function () {
         return node.text()
     }
+    api.getAttributes = function () {
+        return [{
+            name: 'class',
+            value: node.attr('class')
+        }, {
+            name: 'data-name',
+            value: node.attr('data-name')
+        }, {
+            name: 'data-action',
+            value: node.attr('data-action')
+        }, {
+            name: 'data-params',
+            value: node.attr('data-params')
+        }, {
+            name: 'data-return',
+            value: node.attr('data-return')
+        }, {
+            name: 'data-expect',
+            value: node.attr('data-expect')
+        }, {
+            name: 'data-actual',
+            value: node.attr('data-actual')
+        }]
+    },
+    api.removeAttributes = function () {
+        node.removeAttr('class')
+        node.removeAttr('data-name')
+        node.removeAttr('data-action')
+        node.removeAttr('data-params')
+        node.removeAttr('data-return')
+        node.removeAttr('data-expect')
+        node.removeAttr('data-actual')
+    },
     api.getAttr = function (name) {
         return node.attr(name)
     }
@@ -51,7 +84,11 @@ const getApi = function ($, node) {
         node.empty()
     }
     api.getElementsByTag = function (tag) {
-        return [$(tag)]
+        const apis = []
+        $(tag).each((index, element) => {
+            apis.push(getApi($, $(element)))
+        })
+        return apis
     }
     api.setText = function (text) {
         node.text(text)

@@ -30,23 +30,23 @@
 
 <p class="example">
 <!--版本1-->
-<table class="row-function" data-action="split" data-params="fullName" data-return="splitRes">
-    <tr>
-        <th>Full Name</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-    </tr>
-    <tr>
-        <td class="variable" data-name="fullName">John Smith</td>
-        <td class="assertion" data-expect="equal" data-actual="splitRes.firstName">John</td>
-        <td class="assertion" data-expect="equal" data-actual="splitRes.lastName">Smith</td>
-    </tr>
-    <tr>
-        <td class="variable" data-name="fullName">David Peterson</td>
-        <td class="assertion" data-expect="equal" data-actual="splitRes.firstName">David</td>
-        <td class="assertion" data-expect="equal" data-actual="splitRes.lastName">Peterson</td>
-    </tr>
-</table>
+<!--<table class="row-function" data-action="split" data-params="fullName" data-return="splitRes">-->
+<!--    <tr>-->
+<!--        <th>Full Name</th>-->
+<!--        <th>First Name</th>-->
+<!--        <th>Last Name</th>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td class="variable" data-name="fullName">John Smith</td>-->
+<!--        <td class="assertion" data-expect="equal" data-actual="splitRes.firstName">John</td>-->
+<!--        <td class="assertion" data-expect="equal" data-actual="splitRes.lastName">Smith</td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td class="variable" data-name="fullName">David Peterson</td>-->
+<!--        <td class="assertion" data-expect="equal" data-actual="splitRes.firstName">David</td>-->
+<!--        <td class="assertion" data-expect="equal" data-actual="splitRes.lastName">Peterson</td>-->
+<!--    </tr>-->
+<!--</table>-->
 
 <!-- rowFunction 作为 embedded code 插入到每个assertion之前-->
 <!--var rowFunction = 'var splitRes = fixture.split(fullName);'-->
@@ -62,23 +62,23 @@
 
 <!--版本2-->
 <!--先enhance html, 将th的class和data属性依次加到td上面，把自己上面的去除掉变成版本1-->
-<!--<table class="row-function" data-action="split" data-params="fullName" data-return="splitRes">-->
-<!--    <tr>-->
-<!--        <th class="variable" data-name="fullName">Full Name</th>-->
-<!--        <th class="assertion" data-expect="equal" data-actual="splitRes.firstName">First Name</th>-->
-<!--        <th class="assertion" data-expect="equal" data-actual="splitRes.lastName">Last Name</th>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--        <td>John Smith</td>-->
-<!--        <td>John</td>-->
-<!--        <td>Smith</td>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--        <td>David Peterson</td>-->
-<!--        <td>David</td>-->
-<!--        <td>Peterson</td>-->
-<!--    </tr>-->
-<!--</table>-->
+<table class="row-function" data-action="split" data-params="fullName" data-return="splitRes">
+    <tr>
+        <th class="variable" data-name="fullName">Full Name</th>
+        <th class="assertion" data-expect="equal" data-actual="splitRes.firstName">First Name</th>
+        <th class="assertion" data-expect="equal" data-actual="splitRes.lastName">Last Name</th>
+    </tr>
+    <tr>
+        <td>John Smith</td>
+        <td>John</td>
+        <td>Smith</td>
+    </tr>
+    <tr>
+        <td>David Peterson</td>
+        <td>David</td>
+        <td>Peterson</td>
+    </tr>
+</table>
 </p>
 </body>
 </html>
