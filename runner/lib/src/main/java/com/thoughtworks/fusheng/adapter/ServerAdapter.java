@@ -1,7 +1,6 @@
 package com.thoughtworks.fusheng.adapter;
 
 import com.thoughtworks.fusheng.RunnerFacadeImpl;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -12,10 +11,7 @@ public class ServerAdapter {
         Class<?> spec = Class.forName(fullSpecName);
         RunnerFacadeImpl runner = new RunnerFacadeImpl(spec, htmlContent);
 
-        runner.getRunnerResource().getExampleResources().forEach(exampleResource -> {
-            String exampleName = exampleResource.getExampleName();
-            runner.run(exampleName);
-        });
+        runner.getRunnerResource().getExampleResources().forEach((exampleName, code) -> runner.run(exampleName));
 
         String experimentSpecName = ServerAdapter.getNewExperimentSpecName(fullSpecName);
         Path reportFilePath = ServerAdapter.getExperimentReportFilePath(experimentSpecName);
@@ -31,6 +27,6 @@ public class ServerAdapter {
 
     private static Path getExperimentReportFilePath(String specName) {
         return Paths.get(System.getProperty("user.dir"), "build", "reports", "tests", "fusheng", "experiment",
-                specName + ".html");
+            specName + ".html");
     }
 }

@@ -6,7 +6,7 @@ public interface RunnerFacade {
 
     RunnerResource getRunnerResource();
 
-    Boolean run(String fixtureClzName);
+    ExampleResult run(String fixtureClzName);
 
     void saveDomJSONToFile();
 

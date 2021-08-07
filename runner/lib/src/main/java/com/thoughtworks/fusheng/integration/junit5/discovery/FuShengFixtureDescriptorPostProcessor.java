@@ -6,13 +6,6 @@ import com.thoughtworks.fusheng.integration.junit5.descriptor.FuShengFixtureDesc
 import com.thoughtworks.fusheng.integration.junit5.descriptor.FuShengTestDescriptor;
 import lombok.NoArgsConstructor;
 import org.junit.platform.engine.UniqueId;
-import org.junit.platform.engine.support.descriptor.ClassSource;
-import org.junit.platform.engine.support.descriptor.MethodSource;
-
-import java.util.List;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toList;
 
 @NoArgsConstructor
 public class FuShengFixtureDescriptorPostProcessor {
@@ -23,10 +16,10 @@ public class FuShengFixtureDescriptorPostProcessor {
         }
         final RunnerFacade runnerFacade = parent.getRunnerFacade();
         runnerFacade.getRunnerResource().getExampleResources().forEach(
-                exampleResource -> {
-                    UniqueId id = parent.getUniqueId().append(FuShengTestDescriptor.SEGMENT_TYPE_EXAMPLE, exampleResource.getExampleName());
-                    parent.addChild(new FuShengExampleDescriptor(id, exampleResource.getExampleName(), exampleResource.getExampleName(), parent.getSource().get()));
-                }
+            (exampleName, code) -> {
+                UniqueId id = parent.getUniqueId().append(FuShengTestDescriptor.SEGMENT_TYPE_EXAMPLE, exampleName);
+                parent.addChild(new FuShengExampleDescriptor(id, exampleName, exampleName, parent.getSource().get()));
+            }
         );
     }
 }

@@ -1,5 +1,6 @@
 package com.thoughtworks.fusheng.integration.junit5;
 
+import com.thoughtworks.fusheng.ExampleResult;
 import com.thoughtworks.fusheng.RunnerFacade;
 import com.thoughtworks.fusheng.exception.ExampleFailedException;
 import com.thoughtworks.fusheng.integration.junit5.descriptor.FuShengExampleDescriptor;
@@ -37,10 +38,13 @@ public class FuShengTestEngine implements TestEngine {
             for (TestDescriptor exampleDescriptor : fixtureDescriptor.getChildren()) {
                 listener.executionStarted(exampleDescriptor);
                 String exampleName = ((FuShengExampleDescriptor) exampleDescriptor).getExampleName();
-                if (runnerFacade.run(exampleName)) {
+                ExampleResult exampleResult = runnerFacade.run(exampleName);
+
+                if (exampleResult.isSuccess()) {
                     listener.executionFinished(exampleDescriptor, TestExecutionResult.successful());
                 } else {
-                    listener.executionFinished(exampleDescriptor, TestExecutionResult.failed(new ExampleFailedException("")));
+                    listener.executionFinished(exampleDescriptor,
+                        TestExecutionResult.failed(new ExampleFailedException(exampleResult.getMessage())));
                 }
             }
             runnerFacade.saveDomJSONToFile();
