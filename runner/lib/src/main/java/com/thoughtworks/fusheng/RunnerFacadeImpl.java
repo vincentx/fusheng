@@ -7,6 +7,8 @@ import com.thoughtworks.fusheng.exception.ExecutorException;
 import com.thoughtworks.fusheng.exception.FixtureInitFailedException;
 import com.thoughtworks.fusheng.executor.Executor;
 import com.thoughtworks.fusheng.executor.StdEnvironment.Context;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
@@ -65,7 +67,7 @@ public class RunnerFacadeImpl implements RunnerFacade {
             }
 
         } catch (Exception ex) {
-            return new ExampleResult(false, ex.getMessage());
+            return new ExampleResult(false, buildUnexpectedExceptionMessage(ex));
         }
 
         return new ExampleResult(true, "");
@@ -106,6 +108,22 @@ public class RunnerFacadeImpl implements RunnerFacade {
         builder.append("\n");
         builder.append(String.format("Expect: %s\n", context.get("expect").toString()));
         builder.append(String.format("Actual: %s\n", context.get("actual").toString()));
+
+        return builder.toString();
+    }
+
+    private String buildUnexpectedExceptionMessage(Exception ex) {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("\n");
+        builder.append("Got unexpected exception: \n");
+        builder.append(ex.toString());
+        builder.append("\n\n");
+
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        ex.printStackTrace(pw);
+        builder.append(sw.getBuffer());
 
         return builder.toString();
     }
