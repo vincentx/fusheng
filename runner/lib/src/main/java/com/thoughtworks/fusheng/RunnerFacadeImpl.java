@@ -106,8 +106,10 @@ public class RunnerFacadeImpl implements RunnerFacade {
         StringBuilder builder = new StringBuilder();
 
         builder.append("\n");
-        builder.append(String.format("Expect: %s\n", context.get("expect").toString()));
-        builder.append(String.format("Actual: %s\n", context.get("actual").toString()));
+        Object expect = context.get("expect");
+        Object actual = context.get("actual");
+        builder.append(String.format("Expect: %s\n", expect == null ? null : expect.toString()));
+        builder.append(String.format("Actual: %s\n", actual == null ? null : actual.toString()));
 
         return builder.toString();
     }

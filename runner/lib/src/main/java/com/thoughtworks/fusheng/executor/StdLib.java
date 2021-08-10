@@ -8,4 +8,7 @@ public class StdLib {
         return UUID.randomUUID().toString();
     }
 
+    public static void printLog(String output) {
+        System.out.println(output);
+    }
 }

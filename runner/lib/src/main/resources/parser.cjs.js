@@ -3,15 +3,19 @@
 function enhanceTable(api) {
   api.getElementsByTag('table').forEach(function (table) {
     var ths = table.getElementsByTag('th');
-    ths.forEach(function (th, i) {
+    var i = 0;
+    ths.forEach(function (th) {
       var attributes = th.getAttributes();
-      table.getElementsByTag('td').forEach(function (td, j) {
+      var j = 0;
+      table.getElementsByTag('td').forEach(function (td) {
         if (j % ths.length === i) {
           attributes.forEach(function (attribute) {
             td.setAttr(attribute.name, attribute.value);
           });
         }
+        j++;
       });
+      i++;
       th.removeAttributes();
     });
   });

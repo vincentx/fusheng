@@ -2,7 +2,8 @@ package com.thoughtworks.fusheng.integration.junit5;
 
 @FuShengTest
 public class DemoTest {
-    class Splitor {
+    // 一定要记住声明为 public class， 不然获取字段的值为 null
+    public class Splitor {
         public String firstName;
         public String lastName;
 
