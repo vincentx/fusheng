@@ -3,21 +3,29 @@
 function enhanceTable(api) {
   api.getElementsByTag('table').forEach(function (table) {
     var ths = table.getElementsByTag('th');
-    var i = 0;
-    ths.forEach(function (th) {
-      var attributes = th.getAttributes();
-      var j = 0;
-      table.getElementsByTag('td').forEach(function (td) {
+
+    var _loop = function _loop(i) {
+      var attributes = ths[i].getAttributes();
+      var tds = table.getElementsByTag('td');
+
+      var _loop2 = function _loop2(j) {
         if (j % ths.length === i) {
           attributes.forEach(function (attribute) {
-            td.setAttr(attribute.name, attribute.value);
+            tds[j].setAttr(attribute.name, attribute.value);
           });
         }
-        j++;
-      });
-      i++;
-      th.removeAttributes();
-    });
+      };
+
+      for (var j = 0; j < tds.length; j++) {
+        _loop2(j);
+      }
+
+      ths[i].removeAttributes();
+    };
+
+    for (var i = 0; i < ths.length; i++) {
+      _loop(i);
+    }
   });
 }
 
