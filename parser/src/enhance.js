@@ -1,17 +1,20 @@
 function enhanceTable(api) {
   api.getElementsByTag('table').forEach(table => {
     const ths = table.getElementsByTag('th')
-    ths.forEach((th, i) => {
-      const attributes = th.getAttributes()
-      table.getElementsByTag('td').forEach((td, j) => {
+    for (let i = 0; i < ths.length; i++) {
+      const attributes = ths[i].getAttributes()
+
+      const tds = table.getElementsByTag('td')
+      for (let j = 0; j < tds.length; j++) {
         if (j % ths.length === i) {
           attributes.forEach(attribute => {
-            td.setAttr(attribute.name, attribute.value)
+            tds[j].setAttr(attribute.name, attribute.value)
           })
         }
-      })
-      th.removeAttributes()
-    })
+      }
+
+      ths[i].removeAttributes()
+    }
   })
 }
 
