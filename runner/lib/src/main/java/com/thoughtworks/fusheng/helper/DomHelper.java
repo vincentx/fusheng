@@ -27,4 +27,8 @@ public interface DomHelper {
   public void empty();
 
   public void setText(String text);
+
+  public List<NameValuePair> getAttributes();
+
+  public void removeAttributes();
 }

@@ -1,5 +1,22 @@
 'use strict';
 
+function enhanceTable(api) {
+  api.getElementsByTag('table').forEach(function (table) {
+    var ths = table.getElementsByTag('th');
+    ths.forEach(function (th, i) {
+      var attributes = th.getAttributes();
+      table.getElementsByTag('td').forEach(function (td, j) {
+        if (j % ths.length === i) {
+          attributes.forEach(function (attribute) {
+            td.setAttr(attribute.name, attribute.value);
+          });
+        }
+      });
+      th.removeAttributes();
+    });
+  });
+}
+
 function enhanceContentId(api, uuid) {
   api.getElementsByClassName('example').forEach(function (element) {
     element.setAttr('id', uuid());
@@ -21,25 +38,68 @@ function enhanceStyle(api) {
 }
 
 var enhance = function enhance(api, uuid) {
+  enhanceTable(api);
   enhanceContentId(api, uuid);
   enhanceAssertion(api, uuid);
   enhanceStyle(api);
 };
 
-var parse = function parse(api, id, parseUtils, codes) {
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+}
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+}
+
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+}
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+  return arr2;
+}
+
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+var parse = function parse(api, id, parseUtils, codes, assertionPresetCodes) {
   codes = codes || [];
+  assertionPresetCodes = assertionPresetCodes || [];
   api.children().forEach(function (_api) {
     if (_api.hasClass('variable')) {
       parseUtils.parseVariable(_api, codes);
     } else if (_api.hasClass('function')) {
-      var embeddedCode = parse(_api, id, parseUtils);
+      var embeddedCode = parse(_api, id, parseUtils, [], assertionPresetCodes);
       parseUtils.parseFunction(_api, codes, embeddedCode);
     } else if (_api.hasClass('assertion')) {
-      var _embeddedCode = parse(_api, id, parseUtils);
+      var _codes;
+
+      (_codes = codes).push.apply(_codes, _toConsumableArray(assertionPresetCodes));
+
+      var _embeddedCode = parse(_api, id, parseUtils, [], assertionPresetCodes);
 
       parseUtils.parseAssertion(_api, id, codes, _embeddedCode);
+    } else if (_api.hasClass('row-function')) {
+      var rowCodes = [];
+      parseUtils.parseFunction(_api, rowCodes, '');
+      parse(_api, id, parseUtils, codes, rowCodes);
     } else {
-      parse(_api, id, parseUtils, codes);
+      parse(_api, id, parseUtils, codes, assertionPresetCodes);
     }
   });
   return codes.join('');
@@ -54,13 +114,15 @@ var parseVariable = function parseVariable(api, codes) {
 var parseFunction = function parseFunction(api, codes, embeddedCode) {
   var actionName = api.getAttr('data-action');
   var actionParams = api.getAttr('data-params');
-  codes.push(convertFunctionCode(actionName, actionParams, embeddedCode));
+  var actionReturn = api.getAttr('data-return');
+  codes.push(convertFunctionCode(actionName, actionParams, actionReturn, embeddedCode));
 };
 
 var parseAssertion = function parseAssertion(api, exampleId, codes, embeddedCode) {
   var actionName = api.getAttr('data-action');
   var actionParams = api.getAttr('data-params');
-  codes.push(convertAssertionFunctionCode(actionName, actionParams, embeddedCode));
+  var actionActual = api.getAttr('data-actual');
+  codes.push(convertAssertionFunctionCode(actionName, actionParams, actionActual, embeddedCode));
   var expectType = api.getAttr('data-expect');
   var expectValue = api.text().trim();
   codes.push(convertAssertionCode(expectType, expectValue));
@@ -69,29 +131,33 @@ var parseAssertion = function parseAssertion(api, exampleId, codes, embeddedCode
 };
 
 var convertVariableCode = function convertVariableCode(variableName, variableValue) {
-  variableValue = isNaN(variableValue) ? '"' + variableValue + '"' : variableValue;
+  variableValue = convertValue(variableValue);
   return "var ".concat(variableName, " = ").concat(variableValue, ";");
 };
 
-var convertFunctionCode = function convertFunctionCode(actionName, actionParams, embeddedCode) {
-  if (actionParams) {
-    return embeddedCode ? "(function () { ".concat(embeddedCode, "fixture.").concat(actionName, "(").concat(actionParams.split(' '), "); })();") : "(function () { fixture.".concat(actionName, "(").concat(actionParams.split(' '), "); })();");
-  } else {
-    return "fixture.".concat(actionName, "();");
+var convertFunctionCode = function convertFunctionCode(actionName, actionParams, actionReturn, embeddedCode) {
+  var returnCode = actionReturn ? "var ".concat(actionReturn, " = ") : '';
+
+  if (actionName && actionParams) {
+    return embeddedCode ? "".concat(returnCode, "(function () { ").concat(embeddedCode, "return fixture.").concat(actionName, "(").concat(actionParams.split(' '), "); })();") : "".concat(returnCode, "(function () { return fixture.").concat(actionName, "(").concat(actionParams.split(' '), "); })();");
+  } else if (actionName) {
+    return "".concat(returnCode, "fixture.").concat(actionName, "();");
   }
 };
 
-var convertAssertionFunctionCode = function convertAssertionFunctionCode(actionName, actionParams, embeddedCode) {
-  if (actionParams) {
-    return embeddedCode ? "actual = (function () { ".concat(embeddedCode, "fixture.").concat(actionName, "(").concat(actionParams.split(' '), "); })();") : "actual = (function () { fixture.".concat(actionName, "(").concat(actionParams.split(' '), "); })();");
-  } else {
+var convertAssertionFunctionCode = function convertAssertionFunctionCode(actionName, actionParams, actionActual, embeddedCode) {
+  if (actionActual) {
+    return "actual = ".concat(actionActual, ";");
+  } else if (actionName && actionParams) {
+    return embeddedCode ? "actual = (function () { ".concat(embeddedCode, "return fixture.").concat(actionName, "(").concat(actionParams.split(' '), "); })();") : "actual = (function () { return fixture.".concat(actionName, "(").concat(actionParams.split(' '), "); })();");
+  } else if (actionName) {
     return "actual = fixture.".concat(actionName, "();");
   }
 };
 
 var convertAssertionCode = function convertAssertionCode(expectType, expectValue) {
   if (expectType === 'equal') {
-    expectValue = isNaN(expectValue) ? '"' + expectValue + '"' : expectValue;
+    expectValue = convertValue(expectValue);
     return "expect = ".concat(expectValue, ";result = actual === expect;");
   } else if (expectType === 'true') {
     return 'result = actual === true;';
@@ -104,6 +170,10 @@ var convertAssertionCode = function convertAssertionCode(expectType, expectValue
 
 var convertAssertionResultCode = function convertAssertionResultCode(exampleId, assertionId) {
   return "$.getElementById(\"".concat(assertionId, "\").addClass(result ? \"success\" : \"error\");context[\"").concat(exampleId, "\"] = context[\"").concat(exampleId, "\"] && result;$.getElementById(\"").concat(assertionId, "\").children()[1].setText(actual);");
+};
+
+var convertValue = function convertValue(value) {
+  return isNaN(value) ? '"' + value + '"' : value;
 };
 
 var parseUtils = {
