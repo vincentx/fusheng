@@ -62,7 +62,9 @@ public class RunnerFacadeImpl implements RunnerFacade {
                 .map(jsCode -> executor.exec(symbols, jsCode))
                 .orElseThrow(() -> new ExampleNotFoundException("Cannot found example uuid: " + exampleUuid));
 
-            if (!(boolean) context.get("result")) {
+            Object result = context.get("result");
+
+            if (result != null && !(boolean) result) {
                 return new ExampleResult(false, buildFailedMessage(context));
             }
 
