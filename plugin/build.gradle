@@ -1,9 +1,11 @@
 plugins {
     id 'java-gradle-plugin'
     id 'maven-publish'
+    id 'com.gradle.plugin-publish' version '0.15.0'
 }
 
 group = 'com.github.tw'
+archivesBaseName = 'fusheng'
 version = 'v1'
 
 repositories {
@@ -33,10 +35,20 @@ gradlePlugin {
     plugins {
         fusheng {
             id = 'com.github.tw.fusheng'
+            displayName = 'SBE livingDoc plugin'
+            description = 'A plugin that helps you test your code with SBE by annotation and from website as living doc'
             implementationClass = 'com.thoughtworks.fusheng.FushengPlugin'
         }
     }
 }
+
+
+pluginBundle {
+    website = 'https://github.com/vincentx/fusheng'
+    vcsUrl = 'https://github.com/vincentx/fusheng'
+    tags = ['livingDoc', 'test framework', 'SBE', 'fusheng']
+}
+
 
 sourceSets {
     functionalTest {
