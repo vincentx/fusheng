@@ -4,9 +4,10 @@ plugins {
     id 'com.gradle.plugin-publish' version '0.15.0'
 }
 
-group = 'com.github.tw'
+group = 'com.fusheng.gradle.plugins'
+version = '1.0.0'
+sourceCompatibility = '11'
 archivesBaseName = 'fusheng'
-version = 'v1'
 
 repositories {
     mavenCentral()
@@ -34,7 +35,7 @@ gradlePlugin {
     // Define the plugin
     plugins {
         fusheng {
-            id = 'com.github.tw.fusheng'
+            id = 'com.fusheng.gradle.plugins'
             displayName = 'SBE livingDoc plugin'
             description = 'A plugin that helps you test your code with SBE by annotation and from website as living doc'
             implementationClass = 'com.thoughtworks.fusheng.FushengPlugin'
@@ -44,8 +45,8 @@ gradlePlugin {
 
 
 pluginBundle {
-    website = 'https://github.com/vincentx/fusheng'
-    vcsUrl = 'https://github.com/vincentx/fusheng'
+    website = 'https://github.com/vincentx/fusheng/tree/main/plugin'
+    vcsUrl = 'https://github.com/vincentx/fusheng/tree/main/plugin'
     tags = ['livingDoc', 'test framework', 'SBE', 'fusheng']
 }
 
@@ -82,6 +83,7 @@ jar {
                 .runtimeClasspath
                 .collect {
                     if (it.name.equalsIgnoreCase("spring-web-5.3.9.jar")
+                            || it.name.equalsIgnoreCase("spring-core-5.3.9.jar")
                             || it.name.equalsIgnoreCase("commons-lang3-3.12.0.jar")
                             || it.name.equalsIgnoreCase("commons-io-1.3.2.jar")
                             || it.name.equalsIgnoreCase("runner.jar")
