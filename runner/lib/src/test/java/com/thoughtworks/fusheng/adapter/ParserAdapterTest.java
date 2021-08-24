@@ -41,7 +41,7 @@ class ParserAdapterTest {
         try (MockedStatic<StdLib> utilities = mockStatic(StdLib.class)) {
             utilities.when(StdLib::uuid).thenReturn("mock_uuid");
 
-            ParserAdapter parserAdapter = ParserAdapter.getInstance();
+            ParserAdapter parserAdapter = new ParserAdapter("javascript");
             parserAdapter.getExecutor().setSymbol("fixture", new MockedFixture());
 
             Map<String, String> jsCode = parserAdapter.getJsCode(document);

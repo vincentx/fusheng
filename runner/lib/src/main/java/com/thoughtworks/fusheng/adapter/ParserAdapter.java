@@ -16,13 +16,7 @@ public class ParserAdapter {
 
     private final Executor executor;
 
-    private static final ParserAdapter instance = new ParserAdapter("javascript");
-
-    public static ParserAdapter getInstance(){
-        return instance;
-    }
-
-    private ParserAdapter(String scripting) {
+    public ParserAdapter(String scripting) {
         String scriptPath = "";
         try {
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream("parser.cjs.js");

@@ -40,7 +40,7 @@ public class RunnerFacadeImpl implements RunnerFacade {
 
         document = getDocumentDom(spec);
 
-        ParserAdapter parserAdapter = ParserAdapter.getInstance();
+        ParserAdapter parserAdapter = new ParserAdapter("javascript");
 
         Map<String, String> jsCode = parserAdapter.getJsCode(document);
         runnerResource = new RunnerResource(jsCode);
