@@ -1,10 +1,10 @@
 import * as React from "react";
 import { hot } from "react-hot-loader/root";
-import { FC } from "react";
+import { FC, useState } from "react";
 import "./style.scss";
 import { Mode } from "../report";
-import { Edit, PlayArrow } from "@material-ui/icons";
-
+import { Edit, PlayArrow, ArrowDropDown, ArrowLeft } from "@material-ui/icons";
+import { MenuItem, Menu } from "@material-ui/core";
 interface ToolBarProps {
   mode: Mode;
   toViewMode: () => unknown;
@@ -22,12 +22,33 @@ const ToolBar: FC<ToolBarProps> = ({
   experiments,
   specName,
 }) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selected, setSelected] = useState(undefined);
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const openExpSelection = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const onSelect = (event) => {
+    const experiment = event.target.textContent;
+    setSelected(experiment);
+    onGoToViewExp(experiment, specName);
+    setAnchorEl(null);
+  };
+
   const modeConfig = {
     VIEW: {
       actionButton: {
         displayText: "Experiment",
         icon: <Edit className="icon" />,
-        onClick: toExperimentMode,
+        onClick: () => {
+          setSelected(undefined);
+          toExperimentMode();
+        },
       },
     },
     EXPERIMENT: {
@@ -39,13 +60,21 @@ const ToolBar: FC<ToolBarProps> = ({
     },
     VIEW_EXP: {
       actionButton: {
-        displayText: "Experiment",
-        icon: <Edit className="icon" />,
-        onClick: toExperimentMode,
+        displayText: "View Original",
+        icon: <ArrowLeft />,
+        onClick: () => {
+          setSelected(undefined);
+          toViewMode();
+        },
       },
     },
   };
+
   const { actionButton } = modeConfig[mode];
+  const showExpSelection =
+    experiments.length &&
+    experiments.length === 1 &&
+    experiments[0] !== selected;
 
   return (
     <>
@@ -61,22 +90,36 @@ const ToolBar: FC<ToolBarProps> = ({
           </div>
         </button>
 
-        {!!experiments.length && (
-          <span className="toolbar-item">
-            <div className="button-wrapper">
-              {actionButton.icon}
-              <select
-                className="dropdown"
-                onChange={(event) => {
-                  onGoToViewExp(event.target.value, specName);
-                }}
-              >
-                {experiments.map((exp) => (
-                  <option key={exp}>{exp}</option>
-                ))}
-              </select>
-            </div>
-          </span>
+        {showExpSelection && (
+          <>
+            <button
+              className="toolbar-item"
+              onClick={openExpSelection}
+              data-testid={`actionButton-select-experiments`}
+            >
+              <div className="button-wrapper">
+                <ArrowDropDown />
+                <span>{selected || "Finished Experiments"}</span>
+              </div>
+            </button>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={!!anchorEl}
+              onClose={() => setAnchorEl(null)}
+            >
+              {experiments.map((exp) => (
+                <MenuItem
+                  key={exp}
+                  onClick={onSelect}
+                  selected={selected === exp}
+                >
+                  {exp}
+                </MenuItem>
+              ))}
+            </Menu>
+          </>
         )}
       </div>
     </>

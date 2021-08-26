@@ -1,11 +1,11 @@
 {
     "request": {
         "method": "GET",
-        "url": "/specs/demo/experiments/exp1"
+        "url": "/experiments/exp1"
     },
     "response": {
         "status": 200,
-        "bodyFileName" : "reports/experiments/{{request.pathSegments.[3]}}.html",
+        "bodyFileName" : "reports/experiments/exp.html",
         "headers": {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin" : "*",
