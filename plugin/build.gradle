@@ -4,7 +4,7 @@ plugins {
     id 'com.gradle.plugin-publish' version '0.15.0'
 }
 
-group = 'com.fusheng.gradle.plugins'
+group = 'com.github.vincentx'
 version = '1.0.0'
 sourceCompatibility = '11'
 archivesBaseName = 'fusheng'
@@ -35,7 +35,7 @@ gradlePlugin {
     // Define the plugin
     plugins {
         fusheng {
-            id = 'com.fusheng.gradle.plugins'
+            id = 'com.github.vincentx.fusheng'
             displayName = 'SBE livingDoc plugin'
             description = 'A plugin that helps you test your code with SBE by annotation and from website as living doc'
             implementationClass = 'com.thoughtworks.fusheng.FushengPlugin'
