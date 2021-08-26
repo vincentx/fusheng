@@ -7,8 +7,8 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "clean": "rm dist/fusheng.js && rm ../plugin/src/main/resources/index/fusheng-combined.html",
-    "build": "webpack --mode production && ./node_modules/.bin/inline-script-tags dist/index.html ../plugin/src/main/resources/index/fusheng-combined.html",
+    "clean": "rm dist/fusheng.js && rm ../plugin/src/main/resources/fusheng-combined.html",
+    "build": "webpack --mode production && ./node_modules/.bin/inline-script-tags dist/index.html ../plugin/src/main/resources/fusheng-combined.html",
     "mockserver": "cd mock && ./launch.sh",
     "start": "webpack serve --hot --mode development",
     "test": "jest",
