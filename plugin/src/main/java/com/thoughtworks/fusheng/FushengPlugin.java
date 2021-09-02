@@ -13,6 +13,8 @@ import java.util.Objects;
 public class FushengPlugin implements Plugin<Project> {
 
     public void apply(Project project) {
+        project.getPluginManager().apply("org.gradle.java");
+
         JavaPluginConvention javaPluginConvention = project
                 .getConvention()
                 .findPlugin(JavaPluginConvention.class);
