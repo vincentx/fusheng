@@ -24,7 +24,6 @@ export const useReports = () => {
         const reports = (res.data.split(", ") as string[]).map((it) => ({
           name: it,
         }));
-        reports.sort((a, b) => a.name.localeCompare(b.name));
         setReports(reports);
       })
       .catch((err) => {
